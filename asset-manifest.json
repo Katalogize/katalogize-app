@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/katalogize-app/static/css/main.a0cbd863.css",
+    "main.js": "/katalogize-app/static/js/main.d998c01d.js",
+    "static/js/787.828b911b.chunk.js": "/katalogize-app/static/js/787.828b911b.chunk.js",
+    "static/media/logo.svg": "/katalogize-app/static/media/logo.de5c49ecb9964e64e9abab7bc92de809.svg",
+    "index.html": "/katalogize-app/index.html",
+    "main.a0cbd863.css.map": "/katalogize-app/static/css/main.a0cbd863.css.map",
+    "main.d998c01d.js.map": "/katalogize-app/static/js/main.d998c01d.js.map",
+    "787.828b911b.chunk.js.map": "/katalogize-app/static/js/787.828b911b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a0cbd863.css",
+    "static/js/main.d998c01d.js"
+  ]
+}
