@@ -4,6 +4,7 @@ import ReactGA from "react-ga4";
 
 function App() {
   ReactGA.initialize("G-YGXLTYRGCV");
+  // ReactGA.initialize("G-YGXLTYRGCV", {debug: true});
   // ReactGA.send({hitType: "pageview"});
   ReactGA.send({ hitType: "pageview", page: "/in-development", title:"In Development" });
 
