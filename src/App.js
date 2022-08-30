@@ -1,6 +1,47 @@
 import logo from './assets/img/logo.svg';
+import logo_k from './assets/img/logo_k.svg';
 import './App.scss';
 import ReactGA from "react-ga4";
+import { useQuery, gql } from '@apollo/client';
+
+const GET_CATALOGS = gql`
+  query {
+    getAllCatalogs {
+        id,
+        name,
+        description,
+        templates {
+            id,
+            name,
+            templateFields {
+                name
+            }
+        }
+        user {
+            id,
+            firstName
+        }
+    }
+  }
+`;
+
+function DisplayCatalogs() {
+  const { loading, error, data } = useQuery(GET_CATALOGS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  return data.getAllCatalogs.map(({ id, name, description }) => (
+    <div key={id} className="catalog">
+      <img width="100" height="100" alt="location-reference" src={logo_k} />
+      <div>
+        <b>{name}</b>
+        <br />
+        <p>{description}</p>
+      </div>
+    </div>
+  ));
+}
 
 function App() {
   ReactGA.initialize("G-YGXLTYRGCV");
@@ -20,12 +61,13 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <div className="App-body">
         <span onClick={() => sendInfo()}><img src={logo} className="App-logo" alt="logo"/></span>
         <p>
           Application in development. Please come back later.
         </p>
-      </header>
+        <DisplayCatalogs></DisplayCatalogs>
+      </div>
     </div>
   );
 }
