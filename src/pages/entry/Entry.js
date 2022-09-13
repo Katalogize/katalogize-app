@@ -1,8 +1,8 @@
 import "./Entry.scss";
 import { useQuery, gql } from '@apollo/client';
-import logo_k from '../../assets/img/logo/logo_k.svg';
 import ReactGA from "react-ga4";
 import logo from '../../assets/img/logo/logo_medium.svg';
+import Catalog from "../../components/catalog/Catalog";
 // import { GOOGLE_AUTH_URL } from "../constants/constants";
 const GET_CATALOGS = gql`
   query {
@@ -32,14 +32,7 @@ function DisplayCatalogs() {
   if (error) return <p>Error :(</p>;
 
   return data.getAllCatalogs.map(({ id, name, description }) => (
-    <div key={id} className="entry-catalog">
-      <img width="100" height="100" alt="location-reference" src={logo_k} />
-      <div>
-        <b>{name}</b>
-        <br />
-        <p>{description}</p>
-      </div>
-    </div>
+    <Catalog key={id} catalogData={{name, description}}></Catalog>
   ));
 }
 
@@ -57,7 +50,7 @@ function Entry() {
     <div>
       <span onClick={() => sendInfo()}><img src={logo} className="entry-logo" alt="logo"/></span>
         <p>
-          Application in development. Please come back later.
+          Catalog anything you need, however you want!
         </p>
         <div className="entry-catalog-list">
           <DisplayCatalogs></DisplayCatalogs>

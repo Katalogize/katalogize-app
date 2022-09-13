@@ -6,16 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 // DEV config
-// const client = new ApolloClient({
-//   uri: 'http://localhost:8080/graphql',
-//   cache: new InMemoryCache(),
-// });
-
-// PROD Config
 const client = new ApolloClient({
-  uri: 'https://api.katalogize.com/graphql',
+  uri: 'http://localhost:8080/graphql',
   cache: new InMemoryCache(),
 });
+
+// PROD Config
+// const client = new ApolloClient({
+//   uri: 'https://api.katalogize.com/graphql',
+//   cache: new InMemoryCache(),
+// });
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

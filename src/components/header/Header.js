@@ -7,7 +7,8 @@ function Header() {
     <div className="header">
       <Link to="/"><img src={logo} className="header-logo" alt="logo"/></Link>
       <div className="header-container-left">
-        <Link to="login" className="header-button">Sign In</Link>
+        <Link to="/login" className="header-button">Sign In</Link>
+        <Link to="/register" className="header-button">Sign Up</Link>
       </div>
     </div>
   );

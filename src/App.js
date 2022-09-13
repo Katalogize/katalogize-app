@@ -1,8 +1,10 @@
 import './App.scss';
 import ReactGA from "react-ga4";
 import Header from './components/header/Header';
-import Login from './pages/login/Login';
 import Entry from './pages/entry/Entry';
+import SignIn from './pages/signin/SignIn';
+import SignUp from './pages/signup/SignUp';
+import Home from './pages/home/Home';
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,7 +24,9 @@ function App() {
         <div className="App-body">
           <Routes>
               <Route path='/' element={<Entry />}/>
-              <Route path='/login' element={<Login />}/>
+              <Route path='/login' element={<SignIn />}/>
+              <Route path='/register' element={<SignUp />}/>
+              <Route path='/home' element={<Home />}/>
           </Routes>
         </div>
         </Router>
