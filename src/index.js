@@ -21,15 +21,22 @@ const REFRESH_TOKEN = gql`
   }
 `;
 
-// DEV config
-const httpLink = createHttpLink({
-  uri: 'http://localhost:8080/graphql',
-});
+const LOG_OUT = gql`
+  mutation LogOut($userId: String!) {
+    logOut (userId: $userId)
+  }
+`;
 
-//PROD config
-// const httpLink = createHttpLink({
-//   uri: 'https://api.katalogize.com/graphql',
-// });
+//LOCAL URL
+const url = 'http://localhost:8080/graphql';
+
+//PROD URL
+// const url = 'http://api.katalogize.com/graphql';
+
+
+const httpLink = createHttpLink({
+  uri: url,
+});
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('accessToken');
@@ -81,13 +88,17 @@ function refreshAuthToken () {
   .then(response => {
     localStorage.setItem("accessToken", response.data.refreshToken.accessToken);
     localStorage.setItem("refreshToken", response.data.refreshToken.refreshToken);
+    localStorage.setItem("userId", response.data.refreshToken.userId);
     return true;
   })
   .catch(error => {
-    console.log(error)
+    const userId = localStorage.getItem('userId');
+    client.mutate({
+      mutation: LOG_OUT,
+      variables: { userId }
+    })
     localStorage.clear();
-    //Redirect to login page
-    // window.location.reload();
+    window.location.replace(window.location.origin + '/login');
     return false;
   })
 }

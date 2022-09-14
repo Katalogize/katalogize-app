@@ -5,6 +5,7 @@ import Catalog from "../../components/catalog/Catalog";
 const USER_CATALOGS = gql`
   query GetAllCatalogsByLoggedUser {
     getAllCatalogsByLoggedUser{
+      id,
       name,
       description,
       user {
@@ -18,6 +19,7 @@ const USER_CATALOGS = gql`
 const PUBLIC_CATALOGS = gql`
   query GetAllCatalogs {
     getAllCatalogs {
+      id,
       name,
       description,
       user {

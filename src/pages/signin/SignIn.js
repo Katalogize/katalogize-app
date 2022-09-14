@@ -32,6 +32,7 @@ function SignIn() {
       onCompleted(data) {
         localStorage.setItem("accessToken", data.signIn.accessToken);
         localStorage.setItem("refreshToken", data.signIn.refreshToken);
+        localStorage.setItem("userId", data.signIn.userId);
         navigate("/home");
       },
       onError(error) {
