@@ -31,8 +31,8 @@ function DisplayCatalogs() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.getAllCatalogs.map(({ id, name, description }) => (
-    <Catalog key={id} catalogData={{name, description}}></Catalog>
+  return data.getAllCatalogs.map(({ id, name, description, user }) => (
+    <Catalog key={id} catalogData={{name, description, user}}></Catalog>
   ));
 }
 

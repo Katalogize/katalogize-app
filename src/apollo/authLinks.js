@@ -28,6 +28,8 @@ const LOG_OUT = gql`
   }
 `;
 
+localStorage.setItem('isLocked', 0);
+
 export const httpLink = createHttpLink({
   uri: url,
 });
@@ -50,21 +52,23 @@ export const errorLink = onError(
           case 'UNAUTHORIZED':
             //Refresh Token
             return new Observable(observer => {
-            refreshAuthToken().then(() => {
-              const token = localStorage.getItem('accessToken');
-              operation.setContext(({ headers = {} }) => ({
-                headers: {
-                  ...headers,
-                  authorization: token ? `Bearer ${token}` : "",
-                }
-              }));
-              const subscriber = {
-                next: observer.next.bind(observer),
-                error: observer.error.bind(observer),
-                complete: observer.complete.bind(observer),
-              };
-              return forward(operation).subscribe(subscriber);
-            })});
+              refreshAuthToken().then(() => {
+                const token = localStorage.getItem('accessToken');
+                operation.setContext(({ headers = {} }) => ({
+                  headers: {
+                    ...headers,
+                    authorization: token ? `Bearer ${token}` : "",
+                  }
+                }));
+                const subscriber = {
+                  next: observer.next.bind(observer),
+                  error: observer.error.bind(observer),
+                  complete: observer.complete.bind(observer),
+                };
+                return forward(operation).subscribe(subscriber);
+              });
+            });
+            // break;
           default:
             console.log("Default error");
         }
@@ -73,7 +77,25 @@ export const errorLink = onError(
   }
 )
 
+function waitLock(resolve) {
+  setTimeout(() => {
+    // eslint-disable-next-line
+    if(localStorage.getItem('isLocked') == 1) {
+      waitLock(resolve)
+    }else{
+      resolve(true);
+    }
+  },100);
+}
+
 function refreshAuthToken () {
+  // eslint-disable-next-line
+  if (localStorage.getItem('isLocked') == 1) {
+    return new Promise((resolve) => {
+      waitLock(resolve);
+    });
+  }
+  localStorage.setItem('isLocked', 1);
   const refreshToken = localStorage.getItem('refreshToken');
   return client.mutate({
     mutation: REFRESH_TOKEN,
@@ -83,16 +105,22 @@ function refreshAuthToken () {
     localStorage.setItem("accessToken", response.data.refreshToken.accessToken);
     localStorage.setItem("refreshToken", response.data.refreshToken.refreshToken);
     localStorage.setItem("userId", response.data.refreshToken.userId);
+    localStorage.setItem('isLocked', 0);
     return true;
   })
   .catch(error => {
+    localStorage.setItem('isLocked', 0);
     const userId = localStorage.getItem('userId');
-    client.mutate({
-      mutation: LOG_OUT,
-      variables: { userId }
-    })
+    if (userId) {
+      client.mutate({
+        mutation: LOG_OUT,
+        variables: { userId }
+      })
+    }
     localStorage.clear();
-    window.location.replace(window.location.origin + '/login');
+    if (window.location.pathname !== "/" && window.location.pathname !== "/login" && window.location.pathname !== "/register") {
+      window.location.replace(window.location.origin + '/login');
+    }
     return false;
   })
   

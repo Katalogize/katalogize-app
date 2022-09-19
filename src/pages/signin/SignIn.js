@@ -4,6 +4,8 @@ import { useState } from 'react';
 import logo from '../../assets/img/logo/logo_medium.svg';
 import { gql, useMutation } from '@apollo/client';
 // import { GOOGLE_AUTH_URL } from "../constants/constants";
+import { useDispatch } from "react-redux";
+import { logIn } from "../../store/userSlice";
 
 const SIGN_IN = gql`
   mutation SignIn($username: String!,$password: String!) {
@@ -24,6 +26,7 @@ function SignIn() {
   const [errorMessage, setErrorMessage] = useState('');
   const [signIn] = useMutation(SIGN_IN);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -33,6 +36,7 @@ function SignIn() {
         localStorage.setItem("accessToken", data.signIn.accessToken);
         localStorage.setItem("refreshToken", data.signIn.refreshToken);
         localStorage.setItem("userId", data.signIn.userId);
+        dispatch(logIn());
         navigate("/home");
       },
       onError(error) {

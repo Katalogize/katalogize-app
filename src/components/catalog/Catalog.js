@@ -10,7 +10,9 @@ function Catalog(props) {
       <div>
         <b>{catalogData.name}</b>
         <br />
-        <p>{catalogData.description}</p>
+        <span>{catalogData.description}</span>
+        <br />
+        <span><b>Owner:</b> {catalogData.user.firstName} {catalogData.user.lastName}</span>
       </div>
     </div>
   );
