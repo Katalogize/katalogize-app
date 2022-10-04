@@ -1,0 +1,21 @@
+.profile-picture-container {
+    display: flex;
+    justify-content: center;
+}
+
+.profile-picture-background {
+    background-color: #bab8b842;
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    place-content: center;
+    display: flex;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    align-self: center;
+    filter: grayscale(1);
+    opacity: 0.8;
+}

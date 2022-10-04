@@ -9,6 +9,7 @@ const USER_CATALOGS = gql`
       id,
       name,
       description,
+      isPrivate,
       user {
         id,
         firstName,
@@ -24,6 +25,7 @@ const PUBLIC_CATALOGS = gql`
       id,
       name,
       description,
+      isPrivate,
       user {
         id,
         firstName,
@@ -40,8 +42,8 @@ function UserCatalogs() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.getAllCatalogsByLoggedUser.map(({ id, name, description, user }) => (
-    <Catalog key={id} catalogData={{name, description, user}}></Catalog>
+  return data.getAllCatalogsByLoggedUser.map(({ id, name, description, user, isPrivate }) => (
+    <Catalog key={id} catalogData={{name, description, user, isPrivate}}></Catalog>
   ));
 }
 
@@ -51,8 +53,8 @@ function PublicCatalogs() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.getAllCatalogs.map(({ id, name, description, user }) => (
-    <Catalog key={id} catalogData={{name, description, user}}></Catalog>
+  return data.getAllCatalogs.map(({ id, name, description, user, isPrivate }) => (
+    <Catalog key={id} catalogData={{name, description, user, isPrivate}}></Catalog>
   ));
 }
 
@@ -64,11 +66,11 @@ function Home() {
     <div>
       <h1>Welcome {firstName} {lastName}</h1>
       <h1>Your Katalogs</h1>
-      <div className="home-catalogs-list">
+      <div className="catalogs-list">
         <UserCatalogs></UserCatalogs>
       </div>
       <h1>Public Katalogs</h1>
-      <div className="home-catalogs-list">
+      <div className="catalogs-list">
         <PublicCatalogs></PublicCatalogs>
       </div>
     </div>

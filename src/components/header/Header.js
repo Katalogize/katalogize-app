@@ -15,6 +15,7 @@ function Header() {
 
   const firstName = useSelector(state => state.user.firstName);
   const lastName = useSelector(state => state.user.lastName);
+  const username = useSelector(state => state.user.username);
   const userId = useSelector(state => state.user.userId);
 
   const [logOutUser] = useMutation(LOG_OUT);
@@ -41,8 +42,10 @@ function Header() {
     <Link to="/"><img src={logo} className="header-logo" alt="logo"/></Link>;
   
   const loginOptions = firstName ?
-    <span><span className="header-button">{firstName} {lastName}</span>
-    <span className="header-button" onClick={() => handleLogOut()}>Log Out</span></span>  
+    <span>
+      <Link to={`/${username}`} className="header-button">{firstName} {lastName}</Link>
+      <span className="header-button" onClick={() => handleLogOut()}>Log Out</span>
+    </span>  
     :
     <span><Link to="/login" className="header-button">Sign In</Link>
     <Link to="/register" className="header-button">Sign Up</Link></span>;

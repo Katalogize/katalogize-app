@@ -6,4 +6,30 @@
     color: #83918f;
     display: flex;
     max-width: 300px;
+    cursor: pointer;
+
+    @media (max-width: 900px) {
+        display: block;
+        padding: 15px;
+        margin: 15px;
+    }
+ }
+
+ .catalog-info {
+    text-align: left;
+    margin-left: 15px;
+ }
+
+ .catalog-lock {
+    float: right;
+ }
+
+ .catalog-image {
+    width: 100px;
+    height: 100px;
+
+    @media (max-width: 900px) {
+        width: 50px;
+        height: 50px;
+    }
  }

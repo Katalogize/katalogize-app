@@ -5,6 +5,7 @@ import Entry from './pages/entry/Entry';
 import SignIn from './pages/signin/SignIn';
 import SignUp from './pages/signup/SignUp';
 import Home from './pages/home/Home';
+import Profile from './pages/profile/Profile';
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "./store/userSlice";
 import {
@@ -14,6 +15,7 @@ import {
 } from "react-router-dom";
 import { useLazyQuery, gql } from '@apollo/client';
 import { useState } from 'react';
+import NotFound from './pages/notfound/NotFound';
 
 const GET_USERINFO = gql`
   query {
@@ -82,6 +84,8 @@ function App() {
               <Route path='/login' element={<SignIn />}/>
               <Route path='/register' element={<SignUp />}/>
               <Route path='/home' element={<Home />}/>
+              <Route path='/:username' element={<Profile />}/>
+              <Route path='/notfound' element={<NotFound />}/>
           </Routes>
         </div>
         </Router>
