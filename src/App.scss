@@ -17,8 +17,8 @@
   // font-size: calc(10px + 2vmin);
   font-size: 24px;
   padding-top: 100px;
-  padding-left: 25px;
-  padding-right: 25px;
+  padding-left: 5%;
+  padding-right: 5%;
 
   @media (max-width: 600px) {
     font-size: 14px;
@@ -46,5 +46,32 @@
   }
   @media (max-width: 900px) {
     grid-template-columns: auto auto;
+  }
+}
+
+.breadcrumbs{
+  color: #262626;
+  text-align: left;
+  font-size: 20px;
+  
+  a {
+    color: #262626;
+  }
+}
+
+.title {
+  text-align: left;
+  color: #034E78;
+}
+
+.info-tags{
+  display: flex;
+  align-items: center;
+  margin-right: 25px;
+  color: black;
+
+  .info-tags-icon {
+    height: 24px;
+    padding: 5px;
   }
 }
