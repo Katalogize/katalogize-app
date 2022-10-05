@@ -1,6 +1,6 @@
 import "./Home.scss";
 import { useQuery, gql } from '@apollo/client';
-import Catalog from "../../components/catalog/Catalog";
+import CatalogCard from "../../components/catalogcard/CatalogCard";
 import { useSelector } from "react-redux";
 
 const USER_CATALOGS = gql`
@@ -13,7 +13,8 @@ const USER_CATALOGS = gql`
       user {
         id,
         firstName,
-        lastName
+        lastName,
+        username
       }
     }
   }
@@ -29,7 +30,8 @@ const PUBLIC_CATALOGS = gql`
       user {
         id,
         firstName,
-        lastName
+        lastName,
+        username
       }
     }
   }
@@ -43,7 +45,7 @@ function UserCatalogs() {
   if (error) return <p>Error :(</p>;
 
   return data.getAllCatalogsByLoggedUser.map(({ id, name, description, user, isPrivate }) => (
-    <Catalog key={id} catalogData={{name, description, user, isPrivate}}></Catalog>
+    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
   ));
 }
 
@@ -54,7 +56,7 @@ function PublicCatalogs() {
   if (error) return <p>Error :(</p>;
 
   return data.getAllCatalogs.map(({ id, name, description, user, isPrivate }) => (
-    <Catalog key={id} catalogData={{name, description, user, isPrivate}}></Catalog>
+    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
   ));
 }
 

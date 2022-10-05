@@ -16,6 +16,7 @@ import {
 import { useLazyQuery, gql } from '@apollo/client';
 import { useState } from 'react';
 import NotFound from './pages/notfound/NotFound';
+import Catalog from './pages/catalog/Catalog';
 
 const GET_USERINFO = gql`
   query {
@@ -85,6 +86,7 @@ function App() {
               <Route path='/register' element={<SignUp />}/>
               <Route path='/home' element={<Home />}/>
               <Route path='/:username' element={<Profile />}/>
+              <Route path='/:username/:catalogname' element={<Catalog />}/>
               <Route path='/notfound' element={<NotFound />}/>
           </Routes>
         </div>

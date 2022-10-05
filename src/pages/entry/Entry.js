@@ -2,7 +2,7 @@ import "./Entry.scss";
 import { useQuery, gql } from '@apollo/client';
 import ReactGA from "react-ga4";
 import logo from '../../assets/img/logo/logo_medium.svg';
-import Catalog from "../../components/catalog/Catalog";
+import CatalogCard from "../../components/catalogcard/CatalogCard";
 // import { GOOGLE_AUTH_URL } from "../constants/constants";
 const GET_CATALOGS = gql`
   query {
@@ -19,7 +19,8 @@ const GET_CATALOGS = gql`
         }
         user {
             id,
-            firstName
+            firstName,
+            username
         }
     }
   }
@@ -32,7 +33,7 @@ function DisplayCatalogs() {
   if (error) return <p>Error :(</p>;
 
   return data.getAllCatalogs.map(({ id, name, description, user }) => (
-    <Catalog key={id} catalogData={{name, description, user}}></Catalog>
+    <CatalogCard key={id} catalogData={{name, description, user}}></CatalogCard>
   ));
 }
 

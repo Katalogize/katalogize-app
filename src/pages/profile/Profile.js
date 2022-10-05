@@ -1,9 +1,10 @@
 import "./Profile.scss";
 import { useQuery, gql } from '@apollo/client';
-import Catalog from "../../components/catalog/Catalog";
+import CatalogCard from "../../components/catalogcard/CatalogCard";
 import { useSelector } from "react-redux";
 import {useParams} from "react-router-dom";
 import logo from '../../assets/img/logo/logo_k.svg';
+import { FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const USER_CATALOGS = gql`
@@ -52,7 +53,7 @@ function UserCatalogs() {
   }
 
   return data.getCatalogsByUsername.map(({ id, name, description, user, isPrivate }) => (
-    <Catalog key={id} catalogData={{name, description, user, isPrivate}}></Catalog>
+    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
   ));
 }
 
@@ -65,7 +66,8 @@ function Profile() {
     <div>
       <div className="profile-picture-container">
         <div className="profile-picture-background">
-          <img src={logo} className="profile-picture" alt="user"/>
+          {/* <img src={logo} className="profile-picture" alt="user"/> */}
+          <FaUserAlt className="profile-picture"></FaUserAlt>
         </div>
       </div>
       <h1>{username}</h1>

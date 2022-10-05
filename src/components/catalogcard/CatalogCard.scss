@@ -1,4 +1,4 @@
-.catalog {
+.catalogcard {
     background-color: #10887b42;
     border-radius: 20px;
     padding: 25px;
@@ -6,6 +6,7 @@
     color: #83918f;
     display: flex;
     max-width: 300px;
+    text-decoration: none;
     cursor: pointer;
 
     @media (max-width: 900px) {
@@ -15,16 +16,16 @@
     }
  }
 
- .catalog-info {
+ .catalogcard-info {
     text-align: left;
     margin-left: 15px;
  }
 
- .catalog-lock {
+ .catalogcard-lock {
     float: right;
  }
 
- .catalog-image {
+ .catalogcard-image {
     width: 100px;
     height: 100px;
 
