@@ -1,6 +1,6 @@
 import "./Home.scss";
 import { useQuery, gql } from '@apollo/client';
-import CatalogCard from "../../components/catalogcard/CatalogCard";
+import CatalogCard from "../../components/CatalogCard/CatalogCard";
 import { useSelector } from "react-redux";
 
 const USER_CATALOGS = gql`

@@ -1,11 +1,11 @@
 import './App.scss';
 import ReactGA from "react-ga4";
-import Header from './components/header/Header';
-import Entry from './pages/entry/Entry';
-import SignIn from './pages/signin/SignIn';
-import SignUp from './pages/signup/SignUp';
-import Home from './pages/home/Home';
-import Profile from './pages/profile/Profile';
+import Header from './components/Header/Header';
+import Entry from './pages/Entry/Entry';
+import SignIn from './pages/SignIn/SignIn';
+import SignUp from './pages/SignUp/SignUp';
+import Home from './pages/Home/Home';
+import Profile from './pages/Profile/Profile';
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "./store/userSlice";
 import {
@@ -15,9 +15,9 @@ import {
 } from "react-router-dom";
 import { useLazyQuery, gql } from '@apollo/client';
 import { useState } from 'react';
-import NotFound from './pages/notfound/NotFound';
-import Catalog from './pages/catalog/Catalog';
-import CatalogItem from './pages/catalogitem/CatalogItem';
+import NotFound from './pages/NotFound/NotFound';
+import Catalog from './pages/Catalog/Catalog';
+import CatalogItem from './pages/CatalogItem/CatalogItem';
 
 const GET_USERINFO = gql`
   query {

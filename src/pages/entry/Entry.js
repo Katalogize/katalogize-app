@@ -2,7 +2,7 @@ import "./Entry.scss";
 import { useQuery, gql } from '@apollo/client';
 import ReactGA from "react-ga4";
 import logo from '../../assets/img/logo/logo_medium.svg';
-import CatalogCard from "../../components/catalogcard/CatalogCard";
+import CatalogCard from "../../components/CatalogCard/CatalogCard";
 // import { GOOGLE_AUTH_URL } from "../constants/constants";
 const GET_CATALOGS = gql`
   query {

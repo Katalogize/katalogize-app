@@ -18,6 +18,10 @@
         border-left: 1px solid black;
         border-right: 1px solid black;
         cursor: pointer;
+
+        tr:hover {
+            background-color: #edebeb;
+        }
     }
 
     td, th{

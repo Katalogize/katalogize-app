@@ -4,6 +4,8 @@ import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo_k from '../../assets/img/logo/logo_k.svg';
 import { AiOutlineUser } from "react-icons/ai";
+import DescriptionValue from "../../components/templates/DescriptionValue/DescriptionValue";
+import NumberValue from "../../components/templates/NumberValue/NumberValue";
 
 const CATALOG_ITEM = gql`
   query GetCatalogItem ($username: String!, $catalogName: String!, $itemName: String!){
@@ -31,6 +33,23 @@ const CATALOG_ITEM = gql`
   }
 `;
 
+function ItemValues (props) {
+  const value = (value) => {
+    switch (value.templateType) {
+      case "ItemFieldString":
+        return(<DescriptionValue key={value.name} data={value}></DescriptionValue>);
+      case "ItemFieldInt":
+        return(<NumberValue key={value.name} data={value}></NumberValue>);
+      default:
+        break;
+    }
+  }
+
+  return props.itemValues.map(field => (
+    value(field)
+  ));
+}
+
 function CatalogItem() {
   const navigate = useNavigate();
   const {username} = useParams();
@@ -38,7 +57,7 @@ function CatalogItem() {
   const {itemname} = useParams();
   const { loading, error, data } = useQuery(CATALOG_ITEM, {
     variables: {username: username, catalogName: catalogname, itemName: itemname}
-  }, 
+  },
   {fetchPolicy: 'network-only'});
 
   if (loading) return <span>Loading...</span>;
@@ -66,6 +85,7 @@ function CatalogItem() {
           <span>{catalogname}</span>
         </Link>
       </div>
+      <ItemValues itemValues={data.getCatalogItem.fields}></ItemValues>
     </div>
   );
 }

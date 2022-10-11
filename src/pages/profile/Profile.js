@@ -1,9 +1,7 @@
 import "./Profile.scss";
 import { useQuery, gql } from '@apollo/client';
-import CatalogCard from "../../components/catalogcard/CatalogCard";
-import { useSelector } from "react-redux";
+import CatalogCard from "../../components/CatalogCard/CatalogCard";
 import {useParams} from "react-router-dom";
-import logo from '../../assets/img/logo/logo_k.svg';
 import { FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
@@ -24,16 +22,16 @@ const USER_CATALOGS = gql`
   }
 `;
 
-const USER = gql`
-  query GetUserByUsername {
-    getUserByUsername {
-      id,
-      firstName,
-      lastName,
-      username
-    }
-  }
-`;
+// const USER = gql`
+//   query GetUserByUsername {
+//     getUserByUsername {
+//       id,
+//       firstName,
+//       lastName,
+//       username
+//     }
+//   }
+// `;
 
 
 
@@ -44,7 +42,7 @@ function UserCatalogs() {
     variables: {username: username}
   }, 
   {fetchPolicy: 'network-only'});
-  const { userLoading, userError, userData } = useQuery(USER, {fetchPolicy: 'network-only'});
+  // const { userLoading, userError, userData } = useQuery(USER, {fetchPolicy: 'network-only'});
 
   if (loading) return <p>Loading...</p>;
   if (error) {
@@ -58,8 +56,8 @@ function UserCatalogs() {
 }
 
 function Profile() {
-  const firstName = useSelector(state => state.user.firstName);
-  const lastName = useSelector(state => state.user.lastName);
+  // const firstName = useSelector(state => state.user.firstName);
+  // const lastName = useSelector(state => state.user.lastName);
   const {username} = useParams();
 
   return (
