@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 .App {
+  font-family: 'Inter', sans-serif;
   text-align: center;
   height: 100vh;
   background-color: #fafafa;
@@ -40,12 +42,13 @@
 
 .catalogs-list {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  // grid-template-columns: auto auto auto auto;
+  grid-template-columns: repeat(4, 1fr);
   @media (max-width: 1400px) {
-    grid-template-columns: auto auto auto;
+    grid-template-columns: repeat(3, 1fr);
   }
   @media (max-width: 900px) {
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

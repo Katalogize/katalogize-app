@@ -6,6 +6,7 @@ import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import Home from './pages/Home/Home';
 import Profile from './pages/Profile/Profile';
+import CreateCatalog from './pages/CreateCatalog/CreateCatalog';
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "./store/userSlice";
 import {
@@ -86,6 +87,7 @@ function App() {
               <Route path='/login' element={<SignIn />}/>
               <Route path='/register' element={<SignUp />}/>
               <Route path='/home' element={<Home />}/>
+              <Route path='/create-katalog' element={<CreateCatalog />}/>
               <Route path='/:username' element={<Profile />}/>
               <Route path='/:username/:catalogname' element={<Catalog />}/>
               <Route path='/:username/:catalogname/:itemname' element={<CatalogItem />}/>

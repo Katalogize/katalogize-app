@@ -2,7 +2,7 @@ import "./Catalog.scss";
 import { useQuery, gql } from '@apollo/client';
 import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { AiOutlineUser } from "react-icons/ai";
+import { RiUser3Fill } from "react-icons/ri";
 
 const CATALOG = gql`
   query GetCatalogByUsernameAndCatalogName ($username: String!, $catalogName: String!){
@@ -68,7 +68,7 @@ function Catalog() {
       </div>
       <div className="info-tags">
         <Link to={`/${username}`} className="info-tags">
-          <AiOutlineUser className="info-tags-icon" />
+          <RiUser3Fill className="info-tags-icon" alt="user"/>
           <span>{username}</span>
         </Link>
       </div>

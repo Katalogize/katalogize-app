@@ -2,6 +2,7 @@ import "./Home.scss";
 import { useQuery, gql } from '@apollo/client';
 import CatalogCard from "../../components/CatalogCard/CatalogCard";
 import { useSelector } from "react-redux";
+import {Link} from "react-router-dom";
 
 const USER_CATALOGS = gql`
   query GetAllCatalogsByLoggedUser {
@@ -65,13 +66,18 @@ function Home() {
   const lastName = useSelector(state => state.user.lastName);
 
   return (
-    <div>
-      <h1>Welcome {firstName} {lastName}</h1>
-      <h1>Your Katalogs</h1>
+    <div className="home-body">
+      <h1 className="title welcome-title home-title">Welcome, {firstName} {lastName}</h1>
+      <h1 className="title home-title">Your Katalogs</h1>
       <div className="catalogs-list">
+        <div className="catalogcard-container">
+          <Link to="/create-katalog" className="catalogcard catalogcard-create">
+            <span>+ New Katalog</span>
+          </Link>
+        </div>
         <UserCatalogs></UserCatalogs>
       </div>
-      <h1>Public Katalogs</h1>
+      <h1 className="title home-title">Public Katalogs</h1>
       <div className="catalogs-list">
         <PublicCatalogs></PublicCatalogs>
       </div>

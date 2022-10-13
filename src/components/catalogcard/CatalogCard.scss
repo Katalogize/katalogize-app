@@ -1,3 +1,7 @@
+.catalogcard-container {
+   display: flex;
+}
+
 .catalogcard {
     background-color: #10887b42;
     border-radius: 20px;
@@ -8,13 +12,31 @@
     max-width: 300px;
     text-decoration: none;
     cursor: pointer;
+    width: 100%;
 
     @media (max-width: 900px) {
         display: block;
         padding: 15px;
         margin: 15px;
     }
- }
+
+}
+   
+.catalogcard-create {
+   background-color: #cac8c842;
+   color: #9d9c9c;
+   display: flex;
+   align-items: center;
+   place-content: center;
+   font-size: 28px;
+   border-radius: 20px;
+   border: 2px solid #d3cece;
+   border-style: dashed;
+
+   @media (max-width: 600px) {
+      font-size: 18px;
+  }
+}
 
  .catalogcard-info {
     text-align: left;
@@ -33,4 +55,25 @@
         width: 50px;
         height: 50px;
     }
+ }
+
+ .catalogcard-description {
+   font-size: 20px;
+   margin-top: 5px;
+   margin-bottom: 5px;
+
+   @media (max-width: 600px) {
+      font-size: 14px;
+  }
+ }
+
+ .catalogcard-owner {
+   font-size: 14px;
+
+   .catalogcard-owner-icon {
+      font-size: 20px;
+      vertical-align: middle;
+      margin-bottom: 5px;
+      margin-right: 5px;
+   }
  }

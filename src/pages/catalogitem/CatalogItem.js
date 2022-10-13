@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client';
 import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo_k from '../../assets/img/logo/logo_k.svg';
-import { AiOutlineUser } from "react-icons/ai";
+import { RiUser3Fill } from "react-icons/ri";
 import DescriptionValue from "../../components/templates/DescriptionValue/DescriptionValue";
 import NumberValue from "../../components/templates/NumberValue/NumberValue";
 
@@ -77,7 +77,7 @@ function CatalogItem() {
       <h1 className="title">{itemname}</h1>
       <div className="info-tags">
         <Link to={`/${username}`} className="info-tags">
-          <AiOutlineUser className="info-tags-icon" alt="user"/>
+          <RiUser3Fill className="info-tags-icon" alt="user"/>
           <span>{username}</span>
         </Link>
         <Link to={`/${username}/${catalogname}`} className="info-tags">
