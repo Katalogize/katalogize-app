@@ -67,8 +67,8 @@ function Home() {
 
   return (
     <div className="home-body">
-      <h1 className="title welcome-title home-title">Welcome, {firstName} {lastName}</h1>
-      <h1 className="title home-title">Your Katalogs</h1>
+      <h1 className="title welcome-title title-list">Welcome, {firstName} {lastName}</h1>
+      <h1 className="title title-list">Your Katalogs</h1>
       <div className="catalogs-list">
         <div className="catalogcard-container">
           <Link to="/create-katalog" className="catalogcard catalogcard-create">
@@ -77,7 +77,7 @@ function Home() {
         </div>
         <UserCatalogs></UserCatalogs>
       </div>
-      <h1 className="title home-title">Public Katalogs</h1>
+      <h1 className="title title-list">Public Katalogs</h1>
       <div className="catalogs-list">
         <PublicCatalogs></PublicCatalogs>
       </div>

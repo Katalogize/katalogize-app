@@ -67,6 +67,14 @@
   color: #034E78;
 }
 
+.title-list {
+  margin-left: 25px;
+
+  @media (max-width: 900px) {
+      margin-left: 15px;
+  }
+}
+
 .info-tags{
   display: flex;
   align-items: center;

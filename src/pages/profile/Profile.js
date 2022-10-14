@@ -4,6 +4,8 @@ import CatalogCard from "../../components/CatalogCard/CatalogCard";
 import {useParams} from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const USER_CATALOGS = gql`
   query GetCatalogsByUsername($username: String!) {
@@ -38,6 +40,7 @@ const USER_CATALOGS = gql`
 function UserCatalogs() {
   const navigate = useNavigate();
   const {username} = useParams();
+  const loggedUsername = useSelector(state => state.user.username);
   const { loading, error, data } = useQuery(USER_CATALOGS, {
     variables: {username: username}
   }, 
@@ -50,9 +53,36 @@ function UserCatalogs() {
     return <p>Error :(</p>; 
   }
 
-  return data.getCatalogsByUsername.map(({ id, name, description, user, isPrivate }) => (
-    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
-  ));
+  return <div>
+    <h2 className="title title-list">{data.getCatalogsByUsername.length>0 ? 'Katalogs' : ''}</h2>
+    {data.getCatalogsByUsername.length===0 ? 
+      <div>
+      <span>No Katalogs created yet!</span>
+      {username === loggedUsername ? 
+        <div className="catalogcard-container">
+          <Link to="/create-katalog" className="catalogcard catalogcard-create">
+            <span>+ New Katalog</span>
+          </Link>
+        </div>
+        : <span></span>
+      }
+      </div>
+      :
+      <div className="catalogs-list">
+        {username === loggedUsername ? 
+          <div className="catalogcard-container">
+            <Link to="/create-katalog" className="catalogcard catalogcard-create">
+              <span>+ New Katalog</span>
+            </Link>
+          </div>
+          : <span style={{display: 'none'}}></span>
+        }
+        {data.getCatalogsByUsername.map(({ id, name, description, user, isPrivate }) => (
+          <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
+        ))}
+      </div>
+    }
+  </div>
 }
 
 function Profile() {
@@ -68,11 +98,8 @@ function Profile() {
           <FaUserAlt className="profile-picture"></FaUserAlt>
         </div>
       </div>
-      <h1>{username}</h1>
-      <h1>Katalogs</h1>
-      <div className="catalogs-list">
-        <UserCatalogs></UserCatalogs>
-      </div>
+      <h1 className="title profile-username">{username}</h1>
+      <UserCatalogs></UserCatalogs>
     </div>
   );
 }
