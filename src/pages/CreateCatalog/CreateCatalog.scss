@@ -50,7 +50,7 @@
 
 .template-options {
     margin-top: 25px;
-    margin-bottom: 200px;
+    margin-bottom: 50px;
     background-color: #F4FBFB;
     border: 1px solid #327DA7;
     border-radius: 10px;
@@ -84,6 +84,22 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+}
+
+.template-error-message {
+    color: red;
+    font-size: 14px;
+    text-align: right;
+    margin-bottom: 15px;
+}
+
+.template-create-button {
+    text-align: right;
+    margin-bottom: 150px;
+
+    .create-button {
+        padding: 15px
     }
 }
 

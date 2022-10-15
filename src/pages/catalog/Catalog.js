@@ -82,6 +82,7 @@ function Catalog() {
           </thead>
           <tbody>
             <Items items={data.getCatalogByUsernameAndCatalogName?.items}></Items>
+            {data.getCatalogByUsernameAndCatalogName?.items.length === 0 ? <tr><td>No items created yet.</td><td></td></tr> : <span></span>}
           </tbody>
         </table>
       </div>
