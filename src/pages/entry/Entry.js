@@ -30,7 +30,7 @@ function DisplayCatalogs() {
   const { loading, error, data } = useQuery(GET_CATALOGS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Could not load Katalogs, please come back later.</p>;
 
   return data.getAllCatalogs.map(({ id, name, description, user }) => (
     <CatalogCard key={id} catalogData={{name, description, user}}></CatalogCard>

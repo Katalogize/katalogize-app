@@ -1,0 +1,33 @@
+.template-actions{
+    margin-top: 25px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #969393;
+
+    .template-order-number{
+        font-size: 20px;
+        margin-right: 50px;
+        cursor: default;
+    }
+
+    .template-order-icons {
+        text-align: center;
+    }
+
+    .template-actions-icons{
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 32px;
+        cursor: pointer;
+
+        &:hover {
+            color: #327DA7;
+        }
+    }
+
+    .template-actions-delete {
+        margin-left: 35px;
+    }
+}

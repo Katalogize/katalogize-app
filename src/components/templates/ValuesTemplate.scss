@@ -1,13 +1,45 @@
 .template-container {
-    // background-color: #F4FBFB;
-    // background-color: #cceded;
     background-color:#d6eeee;
     border-radius: 10px;
     text-align: left;
-    padding: 25px;
+    padding: 35px;
     margin-top: 50px;
+}
+
+.template-header {
+    display: flex;
+
+    .template-required {
+        width: 20%;
+        font-size: 18px;
+
+        @media(max-width: 700px) {
+            font-size: 14px;
+            width: 40%;
+        }
+    }
+}
+
+// [type=checkbox] {
+//     -webkit-appearance: none;
+//     background-color: green;
+// }
+
+.template-checkbox {
+    display: flex;
+    justify-content: right;
 }
 
 .template-title {
     margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #262626;
+    width: 80%;
+    margin-right: 20px;
+
+    @media(max-width: 700px) {
+        font-size: 18px;
+        width: 60%;
+    }
 }
