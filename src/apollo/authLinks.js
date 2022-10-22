@@ -17,7 +17,7 @@ const REFRESH_TOKEN = gql`
       userId,
       username,
       email,
-      roles
+      isAdmin
     }
   }
 `;

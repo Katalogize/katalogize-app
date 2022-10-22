@@ -44,7 +44,7 @@ const CREATE_CATALOG_AND_TEMPLATE = gql`
       }
       user {
         id,
-        firstName,
+        displayName,
         username
       }
     }

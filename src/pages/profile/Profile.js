@@ -16,24 +16,22 @@ const USER_CATALOGS = gql`
       isPrivate,
       user {
         id,
-        firstName,
-        lastName,
+        displayName
         username
       }
     }
   }
 `;
 
-// const USER = gql`
-//   query GetUserByUsername {
-//     getUserByUsername {
-//       id,
-//       firstName,
-//       lastName,
-//       username
-//     }
-//   }
-// `;
+const USER = gql`
+  query GetUserByUsername($username: String!){
+    getUserByUsername (username: $username) {
+      id,
+      displayName
+      username
+    }
+  }
+`;
 
 
 
@@ -86,10 +84,16 @@ function UserCatalogs() {
 }
 
 function Profile() {
-  // const firstName = useSelector(state => state.user.firstName);
-  // const lastName = useSelector(state => state.user.lastName);
   const {username} = useParams();
+  const { loading, error, data } = useQuery(USER, {
+    variables: {username: username}
+  }, 
+  {fetchPolicy: 'network-only'});
 
+  const navigate = useNavigate();
+
+  if (loading) return <span>Loading...</span>
+  if (error) navigate("/notfound");
   return (
     <div>
       <div className="profile-picture-container">
@@ -98,7 +102,8 @@ function Profile() {
           <FaUserAlt className="profile-picture"></FaUserAlt>
         </div>
       </div>
-      <h1 className="title profile-username">{username}</h1>
+      <h1 className="title profile-username">{data.getUserByUsername?.displayName}</h1>
+      <h4>@{data.getUserByUsername?.username}</h4>
       <UserCatalogs></UserCatalogs>
     </div>
   );

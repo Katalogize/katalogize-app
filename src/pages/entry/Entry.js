@@ -19,7 +19,7 @@ const GET_CATALOGS = gql`
         }
         user {
             id,
-            firstName,
+            displayName,
             username
         }
     }

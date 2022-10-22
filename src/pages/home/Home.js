@@ -13,8 +13,7 @@ const USER_CATALOGS = gql`
       isPrivate,
       user {
         id,
-        firstName,
-        lastName,
+        displayName,
         username
       }
     }
@@ -30,8 +29,7 @@ const PUBLIC_CATALOGS = gql`
       isPrivate,
       user {
         id,
-        firstName,
-        lastName,
+        displayName,
         username
       }
     }
@@ -62,12 +60,11 @@ function PublicCatalogs() {
 }
 
 function Home() {
-  const firstName = useSelector(state => state.user.firstName);
-  const lastName = useSelector(state => state.user.lastName);
+  const displayName = useSelector(state => state.user.displayName);
 
   return (
     <div className="home-body">
-      <h1 className="title welcome-title title-list">Welcome, {firstName} {lastName}</h1>
+      <h1 className="title welcome-title title-list">Welcome, {displayName}</h1>
       <h1 className="title title-list">Your Katalogs</h1>
       <div className="catalogs-list">
         <div className="catalogcard-container">

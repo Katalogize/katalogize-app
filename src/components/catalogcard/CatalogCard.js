@@ -23,7 +23,7 @@ function CatalogCard(props) {
           <div className="catalogcard-owner">
             {/* <span className="catalogcard-owner"> */}
               <span className="catalogcard-owner-icon"><RiUser3Fill /></span>
-              {catalogData.user?.firstName} {catalogData.user?.lastName}
+              {catalogData.user?.displayName}
             {/* </span> */}
           </div>
         </div>

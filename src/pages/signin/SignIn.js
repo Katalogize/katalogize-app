@@ -15,7 +15,7 @@ const SIGN_IN = gql`
       userId,
       username,
       email,
-      roles
+      isAdmin
     }
   }
 `;

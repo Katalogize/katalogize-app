@@ -13,8 +13,7 @@ const LOG_OUT = gql`
 
 function Header() {
 
-  const firstName = useSelector(state => state.user.firstName);
-  const lastName = useSelector(state => state.user.lastName);
+  const displayName = useSelector(state => state.user.displayName);
   const username = useSelector(state => state.user.username);
   const userId = useSelector(state => state.user.userId);
 
@@ -37,13 +36,13 @@ function Header() {
     navigate("/");
   }
 
-  const logoLink = firstName ? 
+  const logoLink = displayName ? 
     <Link to="/home"><img src={logo} className="header-logo" alt="logo"/></Link> :
     <Link to="/"><img src={logo} className="header-logo" alt="logo"/></Link>;
   
-  const loginOptions = firstName ?
+  const loginOptions = displayName ?
     <span>
-      <Link to={`/${username}`} className="header-button">{firstName} {lastName}</Link>
+      <Link to={`/${username}`} className="header-button">{displayName}</Link>
       <span className="header-button" onClick={() => handleLogOut()}>Log Out</span>
     </span>  
     :

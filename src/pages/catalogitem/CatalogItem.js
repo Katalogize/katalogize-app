@@ -4,8 +4,8 @@ import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo_k from '../../assets/img/logo/logo_k.svg';
 import { RiUser3Fill } from "react-icons/ri";
-import DescriptionValue from "../../components/templates/DescriptionTemplate/DescriptionTemplate";
-import NumberValue from "../../components/templates/NumberTemplate/NumberTemplate";
+import DescriptionTemplate from "../../components/templates/DescriptionTemplate/DescriptionTemplate";
+import NumberTemplate from "../../components/templates/NumberTemplate/NumberTemplate";
 import { TemplateModels, TemplateTypeName } from "../../components/templates/TemplateModels";
 
 const CATALOG_ITEM = gql`
@@ -38,9 +38,9 @@ function ItemValues (props) {
   const value = (value) => {
     switch (value.templateType) {
       case TemplateTypeName.Description:
-        return(<DescriptionValue key={value.name} data={value} model={TemplateModels.Value}></DescriptionValue>);
+        return(<DescriptionTemplate key={value.name} data={value} model={TemplateModels.Value} />);
       case TemplateTypeName.Number:
-        return(<NumberValue key={value.name} data={value} model={TemplateModels.Value}></NumberValue>);
+        return(<NumberTemplate key={value.name} data={value} model={TemplateModels.Value} />);
       default:
         break;
     }

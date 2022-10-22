@@ -24,9 +24,9 @@ const GET_USERINFO = gql`
   query {
     getLoggedUser {
         id,
-        firstName,
-        lastName,
-        username
+        displayName,
+        username,
+        isAdmin
     }
   }
 `;
@@ -48,7 +48,7 @@ function App() {
       console.log("Loaded user info");
       const userInfo = data.getLoggedUser;
       setIsLogged(true);
-      dispatch(update({firstName: userInfo.firstName, lastName: userInfo.lastName, userId: userInfo.id, username: userInfo.username, isLogged: true}));
+      dispatch(update({displayName: userInfo.displayName, userId: userInfo.id, username: userInfo.username, isAdmin: userInfo.isAdmin, isLogged: true}));
       if (window.location.pathname === "/") {
         window.location.replace(window.location.origin + '/home');
       }
