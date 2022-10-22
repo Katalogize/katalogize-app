@@ -1,0 +1,44 @@
+.popup-background {
+    position: fixed;
+    background-color: #00000079;
+    width: 100%;
+    height: 150%;
+    // transform: scale(1.5, 1.5);
+    transform: translate(-5%, -25%);
+}
+
+.popup-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    place-content: center;
+}
+
+.popup {
+    width: 26%;
+    min-width: 250px;
+    background-color: white;
+    padding: 25px;
+    text-align: left;
+}
+
+.popup-action {
+    float: right;
+}
+
+.popup-critical-action {
+    background-color: #E44848;
+}
+
+.popup-close-button {
+    float: right;
+    background-color: transparent;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.popup-message {
+    text-align: right;
+}

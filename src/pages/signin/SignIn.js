@@ -24,11 +24,13 @@ function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [signIn] = useMutation(SIGN_IN);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = async(event) => {
+    setIsLoading(true);
     event.preventDefault();
     signIn({ 
       variables: { username: username, password: password },
@@ -36,10 +38,12 @@ function SignIn() {
         localStorage.setItem("accessToken", data.signIn.accessToken);
         localStorage.setItem("refreshToken", data.signIn.refreshToken);
         localStorage.setItem("userId", data.signIn.userId);
+        setIsLoading(false);
         dispatch(logIn());
         navigate("/home");
       },
       onError(error) {
+        setIsLoading(false);
         setErrorMessage(error.message);
       }
     });
@@ -49,8 +53,8 @@ function SignIn() {
     <div className="signin-container">
       <img src={logo} alt="logo"/>
       <h1 className="signin-title">Log in to your acount</h1>
-      <label>{errorMessage}</label>
-      <form onSubmit={handleSubmit}>
+      <label className="signin-error">{errorMessage}</label>
+      <form className="signin-form" onSubmit={handleSubmit}>
         <label>Username: 
           <input 
             type="text" 
@@ -70,7 +74,7 @@ function SignIn() {
           </input>
         </label>
         <br /><br />
-        <button type="submit" value="Sign In">Sign In</button>
+        {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In">Sign In</button>}
         <br /><br />
       </form>
       {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
