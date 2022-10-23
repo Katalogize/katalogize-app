@@ -106,10 +106,10 @@ function Catalog() {
         <span>{catalogname}</span>
       </div> */}
       <div className="catalog-header">
-        <h1 className="title">{catalogname}</h1>
+        <h1 className="title catalog-name">{catalogname}</h1>
         <div className="catalog-actions-container">
           <div className="catalog-actions">
-            <BiAddToQueue className="catalog-actions-item" title="Create new item"></BiAddToQueue>
+            <BiAddToQueue className="catalog-actions-item" title="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}}></BiAddToQueue>
             <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}}></BsShare>
             <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil>
             <BsRecycle className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)}></BsRecycle>
@@ -135,7 +135,7 @@ function Catalog() {
           </thead>
           <tbody>
             <Items items={data.getCatalogByUsernameAndCatalogName?.items}></Items>
-            {data.getCatalogByUsernameAndCatalogName?.items.length === 0 ? <tr><td>No items created yet.</td><td></td></tr> : <span></span>}
+            {data.getCatalogByUsernameAndCatalogName?.items.length === 0 ? <tr><td>No items created yet.</td><td></td></tr> : null}
           </tbody>
         </table>
       </div>

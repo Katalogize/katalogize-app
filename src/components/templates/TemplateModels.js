@@ -13,3 +13,8 @@ export const TemplateTypeName = {
 	Description: "ItemFieldString",
 	Number: "ItemFieldInt"
 }
+
+export const TemplateTypeEnum = {
+	Description: 1,
+	Number: 2
+}

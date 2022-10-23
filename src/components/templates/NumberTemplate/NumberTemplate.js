@@ -10,12 +10,10 @@ function NumberTemplate(props) {
   return (
     <div className="template-container">
       {
-        props.model === TemplateModels.Value ?
+        props.model === TemplateModels.Value || props.model === TemplateModels.EditValue ?
           <div className="template-title">
             <span><strong>{props.data.name}</strong></span>
           </div>
-        : props.model === TemplateModels.EditValue ?
-          <span>EditValue</span>
         :
         <TemplateHeader data={props.data} 
           changeFieldName={props.changeFieldName} changeIsRequired={props.changeIsRequired} />
@@ -25,7 +23,8 @@ function NumberTemplate(props) {
           props.model === TemplateModels.Value ?
             <span>{props.data.intValue}</span>
           : props.model === TemplateModels.EditValue ?
-            <span>EditValue</span>
+            <input type="number" className="template-edit-data template-edit-number line-input" placeholder="Text data" 
+              onChange={event => {props.changeFieldData(event.target.value, props.data.order)}}/>
           :
             <div className="template-locked-value">
               <span>Number data <VscLock className="template-locked-icon"></VscLock></span>

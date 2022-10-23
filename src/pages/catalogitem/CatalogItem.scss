@@ -1,0 +1,14 @@
+.catalogitem-header {
+    display: flex;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+.catalogitem-save-container {
+    display: flex;
+    /* justify-content: right; */
+    flex-direction: column;
+    width: fit-content;
+    float: right;
+    margin-bottom: 150px;
+}

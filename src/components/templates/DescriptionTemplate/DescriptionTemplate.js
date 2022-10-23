@@ -10,12 +10,10 @@ function DescriptionTemplate(props) {
   return (
     <div className="template-container">
       {
-        props.model === TemplateModels.Value ?
+        props.model === TemplateModels.Value || props.model === TemplateModels.EditValue ?
           <div className="template-title">
             <span><strong>{props.data.name}</strong></span>
           </div>
-        : props.model === TemplateModels.EditValue ?
-          <span>EditValue</span>
         :
           <TemplateHeader data={props.data} 
             changeFieldName={props.changeFieldName} changeIsRequired={props.changeIsRequired} />
@@ -25,7 +23,8 @@ function DescriptionTemplate(props) {
           props.model === TemplateModels.Value ?
             <span>{props.data.stringValue}</span>
           : props.model === TemplateModels.EditValue ?
-            <span>EditValue</span>
+            <input type="text" className="template-edit-data line-input" placeholder="Text data" 
+              onChange={event => {props.changeFieldData(event.target.value, props.data.order)}}/>
           :
             <div className="template-locked-value">
               <span>Text data <VscLock className="template-locked-icon"></VscLock></span>
