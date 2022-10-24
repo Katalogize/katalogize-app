@@ -35,8 +35,14 @@
     text-align: left;
     color: #757575;
     border-bottom: 1px dashed;
-    margin-bottom: 0px;
+    margin: 0px;
     cursor: not-allowed;
+}
+
+.createcatalog-locked-field-order {
+    margin-bottom: 0px;
+    color: #757575;
+    text-align: center;
 }
 
 .createcatalog-data {

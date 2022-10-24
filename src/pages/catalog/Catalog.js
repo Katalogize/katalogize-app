@@ -4,8 +4,9 @@ import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { RiUser3Fill } from "react-icons/ri";
 import { HiOutlinePencil } from "react-icons/hi";
-import { BsRecycle, BsShare } from "react-icons/bs";
+import { BsShare } from "react-icons/bs";
 import { BiAddToQueue } from "react-icons/bi"
+import { AiOutlineDelete } from "react-icons/ai"
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { useState } from "react";
 
@@ -22,7 +23,8 @@ const CATALOG = gql`
       }
       items{
           id,
-          name
+          name,
+          creationDate
       }
     }
   }
@@ -45,10 +47,14 @@ function Items(props) {
     navigate(`/${username}/${catalogname}/${name}`);
   } 
 
-  return props.items.map(({ id, name }) => (
+  return props.items.map(({ id, name, creationDate }) => (
     <tr key={id} onClick={()=> handleRowClick(name)}>
         <td>{name}</td>
-        <td>{id}</td>
+        <td className="catalog-table-last">
+          {new Date(creationDate).getUTCFullYear()+'/'+new Date(creationDate).getUTCMonth()+'/'+new Date(creationDate).getUTCDate()+
+            ' - ' + new Date(creationDate).getUTCHours() +':'+new Date(creationDate).getUTCMinutes() +' UTC'}
+        </td>
+        {/* <td>{id}</td> */}
     </tr>
   ));
 }
@@ -65,8 +71,7 @@ function Catalog() {
   
   const { loading, error, data } = useQuery(CATALOG, {
     variables: {username: username, catalogName: catalogname}
-  }, 
-  {fetchPolicy: 'network-only'});
+  });
 
   if (loading) return <span key="loading">Loading...</span>;
   if (error) navigate("/notfound");
@@ -112,7 +117,7 @@ function Catalog() {
             <BiAddToQueue className="catalog-actions-item" title="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}}></BiAddToQueue>
             <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}}></BsShare>
             <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil>
-            <BsRecycle className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)}></BsRecycle>
+            <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)}></AiOutlineDelete>
           </div>
         </div>
       </div>
@@ -130,7 +135,7 @@ function Catalog() {
           <thead>
             <tr>
               <th className="catalog-table-name">Name</th>
-              <th className="catalog-table-id">ID</th>
+              <th className="catalog-table-date">Created At</th>
             </tr>
           </thead>
           <tbody>

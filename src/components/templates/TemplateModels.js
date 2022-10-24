@@ -1,7 +1,8 @@
 export const TemplateModels = {
 	Template: 0,
-	EditValue: 1,
-	Value: 2,
+	CreateValue: 1,
+	EditValue: 2,
+	Value: 3,
 }
 
 export const TemplateType = {

@@ -128,5 +128,11 @@ function refreshAuthToken () {
 
 export const client = new ApolloClient({
     link: ApolloLink.from([errorLink, authLink, httpLink]),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    defaultOptions: {
+      query: {
+          fetchPolicy: 'network-only'
+      },
+      watchQuery: { fetchPolicy: "no-cache" },
+    }
   });

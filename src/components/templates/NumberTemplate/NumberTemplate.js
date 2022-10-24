@@ -4,13 +4,14 @@ import "../ValuesTemplate.scss";
 import { VscLock } from "react-icons/vsc";
 import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
+import { useState } from "react";
 
 function NumberTemplate(props) {
-
+  const [value, setValue] = useState(props.defaultValue ? props.defaultValue : "");
   return (
     <div className="template-container">
       {
-        props.model === TemplateModels.Value || props.model === TemplateModels.EditValue ?
+        props.model === TemplateModels.Value || props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue ?
           <div className="template-title">
             <span><strong>{props.data.name}</strong></span>
           </div>
@@ -22,9 +23,9 @@ function NumberTemplate(props) {
         {
           props.model === TemplateModels.Value ?
             <span>{props.data.intValue}</span>
-          : props.model === TemplateModels.EditValue ?
+          : props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue ?
             <input type="number" className="template-edit-data template-edit-number line-input" placeholder="Text data" 
-              onChange={event => {props.changeFieldData(event.target.value, props.data.order)}}/>
+              value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>
           :
             <div className="template-locked-value">
               <span>Number data <VscLock className="template-locked-icon"></VscLock></span>

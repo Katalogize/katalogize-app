@@ -146,7 +146,10 @@ function CreateCatalog() {
         <input className="title createcatalog-name line-input" placeholder="Katalog Name" onChange={event => setCatalogName(event.target.value)}/>
         <textarea type="text" className="createcatalog-description" placeholder="Katalog Description" onChange={event => setCatalogDescription(event.target.value)}></textarea>
         <h3 className="title createcatalog-data" onClick={() => printFields(1)}>Katalog Template</h3>
-        <h4 className="createcatalog-locked-field">Katalog Item Name &nbsp;<VscLock></VscLock></h4>
+        <div className="template-container">
+          <h4 className="createcatalog-locked-field">Item Name &nbsp;<VscLock></VscLock></h4>
+          <p className="createcatalog-locked-field-order"><VscLock></VscLock> &nbsp; #0 </p>
+        </div>
         <TemplateFields fields={catalogFields} updateFields={handleUpdateFields}></TemplateFields>
         <span className="title template-data-selection-title">Select data type</span>
         <div className="template-options">

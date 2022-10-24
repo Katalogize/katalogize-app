@@ -86,9 +86,14 @@
 }
 
 .catalog-table-name {
-    width: 80%;
+    // width: 80%;
 }
 
-.catalog-table-id {
-    width: 20%;
+.catalog-table-date {
+    // width: 30%;
+    text-align: right;
+}
+
+.catalog-table-last {
+    text-align: right;
 }

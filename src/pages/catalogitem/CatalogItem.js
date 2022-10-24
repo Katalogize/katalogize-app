@@ -8,6 +8,10 @@ import DescriptionTemplate from "../../components/templates/DescriptionTemplate/
 import NumberTemplate from "../../components/templates/NumberTemplate/NumberTemplate";
 import { TemplateModels, TemplateTypeEnum, TemplateTypeName } from "../../components/templates/TemplateModels";
 import { useState } from "react";
+import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
+import { HiOutlinePencil } from "react-icons/hi";
+import { BsShare } from "react-icons/bs";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const CATALOG_ITEM = gql`
   query GetCatalogItem ($username: String!, $catalogName: String!, $itemName: String!){
@@ -16,6 +20,7 @@ const CATALOG_ITEM = gql`
       name,
       catalogId,
       template {
+        id,
         name
       },
       fields {
@@ -61,44 +66,24 @@ const SAVE_ITEM = gql`
   }
 `;
 
+const DELETE_ITEM = gql`
+  mutation DeleteCatalogItem($id: ID!) {
+    deleteCatalogItem (id: $id) {
+      id
+    }
+  }
+`;
+
 function ItemTemplates (props) {
-  // let itemData = {};
-  // itemData = {
-  //   integerFields: [],
-  //   stringFields: []
-  // }
 
-  // props.itemTemplates.forEach(field => {
-  //   if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateTypeEnum.Description) {
-  //     itemData.stringFields.push({name: "", order: field.order, value: field.stringValue});
-  //   }
-  //   else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateTypeEnum.Number) {
-  //     itemData.integerFields.push({name: "", order: field.order, value: field.intValue});
-  //   }
-  // });
-
-  // const updateFieldDataDescription = (value, order) => {
-  //   let itemIndex = itemData.stringFields.findIndex(x => x.order == order);
-  //   if (itemIndex > -1) {
-  //     itemData.stringFields[itemIndex].value = value;
-  //     props.updateData(itemData);
-  //   }
-  // };
-
-  // const updateFieldDataNumber = (value, order) => {
-  //   let itemIndex = itemData.integerFields.findIndex(x => x.order == order);
-  //   if (itemIndex > -1) {
-  //     itemData.integerFields[itemIndex].value = value;
-  //     props.updateData(itemData);
-  //   }
-  // };
+  // console.log(props);
 
   const value = (value) => {
     if (value.fieldType===TemplateTypeName.Description || value.fieldType === TemplateTypeEnum.Description) {
-      return(<DescriptionTemplate key={value.name} data={value} model={props.model} changeFieldData={props.updateFieldDataDescription} />);
+      return(<DescriptionTemplate key={value.name} data={value} model={props.model} changeFieldData={props.updateFieldDataDescription} defaultValue={value.stringValue}/>);
       
     } else if (value.fieldType===TemplateTypeName.Number || value.fieldType === TemplateTypeEnum.Number) {
-        return(<NumberTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber}/>);
+        return(<NumberTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.intValue}/>);
     }
   }
 
@@ -112,34 +97,46 @@ function CatalogItem() {
   const {username} = useParams();
   const {catalogname} = useParams();
   const {itemname} = useParams();
-  const [viewMode] = useState(itemname === "create-item" ? TemplateModels.EditValue : TemplateModels.Value);
+
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
+  const [deleteItem] = useMutation(DELETE_ITEM);
+
+  const [viewMode, setViewMode] = useState(itemname === "create-item" ? TemplateModels.CreateValue : TemplateModels.Value);
   const [itemData, setItemData] = useState({
     stringFields: [],
     integerFields: []
   });
-  const [itemName, setItemName] = useState("");
+  // let itemData = {stringFields: [], integerFields: []}
+  // const [itemName, setItemName] = useState("");
+  let itemName = itemname === "create-item" ? "" : itemname;
   const [saveError, setSaveError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [saveItem] = useMutation(SAVE_ITEM);
   const { loading, error, data } = 
-    useQuery(viewMode === TemplateModels.Value ? CATALOG_ITEM : CATALOG_TEMPLATE,
-      {variables: viewMode === TemplateModels.Value
+    useQuery(viewMode === TemplateModels.Value || viewMode === TemplateModels.EditValue ? CATALOG_ITEM : CATALOG_TEMPLATE,
+      {variables: viewMode === TemplateModels.Value || viewMode === TemplateModels.EditValue
         ? {username: username, catalogName: catalogname, itemName: itemname}
         : {username: username, catalogName: catalogname}
-      },{fetchPolicy: 'network-only'
       }
     );
 
   const handleSaveItem = async() => {
-    itemData.catalogId = data.getCatalogByUsernameAndCatalogName.id;
-    itemData.templateId = data.getCatalogByUsernameAndCatalogName.templates[0].id;
+    if (viewMode === TemplateModels.CreateValue) {
+      itemData.catalogId = data.getCatalogByUsernameAndCatalogName.id;
+      itemData.templateId = data.getCatalogByUsernameAndCatalogName.templates[0].id;
+      itemData.id = "id";
+    } else {
+      itemData.catalogId = data.getCatalogItem.catalogId;
+      itemData.templateId = data.getCatalogItem.template.id;
+    }
     itemData.name = itemName;
     console.log(itemData);
     setIsSaving(true);
     saveItem({ 
       variables: { catalogItem: itemData },
       onCompleted(data) {
-        console.log(data);
         setIsSaving(false);
         navigate(`/${username}/${catalogname}/${data.createCatalogItem.name}`);
         window.location.reload();
@@ -151,16 +148,37 @@ function CatalogItem() {
     });
   }
 
+  const handleDeleteItem = async() => {
+    setIsDeleteLoading(true);
+    deleteItem({ 
+      variables: { id: data.getCatalogItem.id },
+      onCompleted(data) {
+        setIsDeleteLoading(false);
+        setShowDeletePopUp(false);
+        navigate(`/${username}/${catalogname}`);
+      },
+      onError(error) {
+        setIsDeleteLoading(false);
+        setDeleteError(error.message);
+      }
+    });
+  };
+
   const updateData = (itemData) => {
-    setItemData(itemData);
+    this.itemData = itemData;
   }
 
   if (loading) return <span>Loading...</span>;
   if (error) navigate("/notfound");
 
-  if ((itemData.stringFields.length == 0 || itemData.integerFields == 0) && viewMode === TemplateModels.EditValue ) {
-    console.log(itemData);
-    data.getCatalogByUsernameAndCatalogName.templates[0].templateFields.forEach(field => {
+  // console.log(data);
+  console.log(itemData);
+  if ((!itemData.catalogId) && viewMode === TemplateModels.EditValue) {
+    console.log("Edit");
+    itemData.id = data.getCatalogItem.id;
+    itemData.catalogId = data.getCatalogItem.catalogId;
+    data.getCatalogItem?.fields.forEach(field => {
+      console.log(field);
       if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateTypeEnum.Description) {
         itemData.stringFields.push({name: "", order: field.order, value: field.stringValue});
       }
@@ -168,12 +186,28 @@ function CatalogItem() {
         itemData.integerFields.push({name: "", order: field.order, value: field.intValue});
       }
     });
-    console.log(itemData);
+    itemName = data.getCatalogItem.name;
+    setItemData(itemData);
+    console.log(itemName);
+  }
+
+  if ((!itemData.catalogId) &&  viewMode === TemplateModels.CreateValue ) {
+    console.log("Create");
+    itemData.catalogId = data.getCatalogByUsernameAndCatalogName.id;
+    data.getCatalogByUsernameAndCatalogName.templates[0].templateFields.forEach(field => {
+      if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateTypeEnum.Description) {
+        itemData.stringFields.push({name: "", order: field.order});
+      }
+      else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateTypeEnum.Number) {
+        itemData.integerFields.push({name: "", order: field.order});
+      }
+    });
     setItemData(itemData);
   }
 
   const updateFieldDataDescription = (value, order) => {
-    let itemIndex = itemData.stringFields.findIndex(x => x.order == order);
+    console.log(value);
+    let itemIndex = itemData.stringFields.findIndex(x => x.order === order);
     if (itemIndex > -1) {
       itemData.stringFields[itemIndex].value = value;
       setItemData(itemData);
@@ -182,7 +216,7 @@ function CatalogItem() {
   };
 
   const updateFieldDataNumber = (value, order) => {
-    let itemIndex = itemData.integerFields.findIndex(x => x.order == order);
+    let itemIndex = itemData.integerFields.findIndex(x => x.order === order);
     if (itemIndex > -1) {
       itemData.integerFields[itemIndex].value = value;
       setItemData(itemData);
@@ -191,21 +225,30 @@ function CatalogItem() {
 
   return (
     <div className="catalog">
-      {/* <div className="breadcrumbs">
-        <Link to={`/`}>Home</Link>
-        <span>{' > '}</span>
-        <Link to={`/${username}`}>{username}</Link>
-        <span>{' > '}</span>
-        <Link to={`/${username}/${catalogname}`}>{catalogname}</Link>
-        <span>{' > '}</span>
-        <span>{itemname}</span>
-      </div> */}
-      {viewMode === TemplateModels.EditValue ?
+      <ConfirmationPopUp 
+        title="Delete Item" 
+        text="This item will be lost forever. Are you sure you want to delete this item? " 
+        isLoading={isDeleteLoading}
+        errorMessage={deleteError}
+        action="Delete Item" isCriticalAction={true} showPopUp={showDeletePopUp}
+        confirmed={() => {handleDeleteItem()}}
+        close={() => {setShowDeletePopUp(false); setDeleteError("")}} />
+
+      {viewMode === TemplateModels.EditValue || viewMode === TemplateModels.CreateValue ?
         <div className="catalogitem-header">
-          <input className="title createcatalog-name line-input" placeholder="Item Name" onChange={event => { setItemName(event.target.value)}} />
+          <input className="title createcatalog-name line-input" placeholder="Item Name" defaultValue={itemName} onChange={event => { itemName = event.target.value}} />
         </div>
         : viewMode === TemplateModels.Value ?
-        <h1 className="title">{itemname}</h1>
+        <div className="catalog-header">
+        <h1 className="title catalog-name">{itemname}</h1>
+        <div className="catalog-actions-container">
+          <div className="catalog-actions">
+            <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}}></BsShare>
+            <HiOutlinePencil className="catalog-actions-item" title="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}}></HiOutlinePencil>
+            <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)}></AiOutlineDelete>
+          </div>
+        </div>
+      </div>
         : null
       }
       <div className="info-tags">
@@ -218,10 +261,12 @@ function CatalogItem() {
           <span>{catalogname}</span>
         </Link>
       </div>
-      {viewMode === TemplateModels.EditValue ?
+      {viewMode === TemplateModels.CreateValue || viewMode === TemplateModels.EditValue ?
         <div>
           <ItemTemplates 
-            itemTemplates={data?.getCatalogByUsernameAndCatalogName.templates[0].templateFields} 
+            itemTemplates={viewMode === TemplateModels.CreateValue 
+              ? data?.getCatalogByUsernameAndCatalogName.templates[0].templateFields
+              : data?.getCatalogItem?.fields} 
             model={viewMode} 
             updateData={updateData}
             updateFieldDataDescription={updateFieldDataDescription}

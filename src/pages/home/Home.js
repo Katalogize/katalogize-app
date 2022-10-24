@@ -38,7 +38,7 @@ const PUBLIC_CATALOGS = gql`
 
 
 function UserCatalogs() {
-  const { loading, error, data } = useQuery(USER_CATALOGS, {fetchPolicy: 'network-only'});
+  const { loading, error, data } = useQuery(USER_CATALOGS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -49,7 +49,7 @@ function UserCatalogs() {
 }
 
 function PublicCatalogs() {
-  const { loading, error, data } = useQuery(PUBLIC_CATALOGS, {fetchPolicy: 'network-only'});
+  const { loading, error, data } = useQuery(PUBLIC_CATALOGS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
