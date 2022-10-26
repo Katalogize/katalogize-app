@@ -9,9 +9,9 @@ import { VscLock } from "react-icons/vsc";
 import { gql, useMutation } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
 
-const CREATE_CATALOG_AND_TEMPLATE = gql`
-  mutation CreateCatalogAndTemplate($catalog: CatalogInput, $catalogTemplate: CatalogTemplateInput) {
-    createCatalogAndTemplate(catalog: $catalog, catalogTemplate: $catalogTemplate){
+const SAVE_CATALOG_AND_TEMPLATE = gql`
+  mutation SaveCatalogAndTemplate($catalog: CatalogInput, $catalogTemplate: CatalogTemplateInput) {
+    saveCatalogAndTemplate(catalog: $catalog, catalogTemplate: $catalogTemplate){
       id
       name
       description
@@ -92,7 +92,7 @@ function CreateCatalog() {
   const [catalogDescription, setCatalogDescription] = useState('');
   const [error, setError] = useState('');
   const [catalogFields, setCatalogFields] = useState([]);
-  const [createCatalog] = useMutation(CREATE_CATALOG_AND_TEMPLATE);
+  const [saveCatalog] = useMutation(SAVE_CATALOG_AND_TEMPLATE);
   const navigate = useNavigate();
 
   const handleAddField = (option) => {
@@ -128,10 +128,10 @@ function CreateCatalog() {
     }
     console.log(catalog);
     console.log(catalogTemplate);
-    createCatalog({ 
+    saveCatalog({ 
       variables: { catalog: catalog, catalogTemplate: catalogTemplate },
       onCompleted(data) {
-        navigate(`/${data.createCatalogAndTemplate.user.username}/${name}`);
+        navigate(`/${data.saveCatalogAndTemplate.user.username}/${name}`);
       },
       onError(error) {
         setError(error.message);

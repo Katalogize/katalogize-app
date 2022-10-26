@@ -58,8 +58,8 @@ const CATALOG_TEMPLATE = gql`
 `;
 
 const SAVE_ITEM = gql`
-  mutation CreateCatalogItem($catalogItem: CatalogItemInput) {
-    createCatalogItem(catalogItem: $catalogItem) {
+  mutation SaveCatalogItem($catalogItem: CatalogItemInput) {
+    saveCatalogItem(catalogItem: $catalogItem) {
       id,
       name
     }
@@ -75,9 +75,6 @@ const DELETE_ITEM = gql`
 `;
 
 function ItemTemplates (props) {
-
-  // console.log(props);
-
   const value = (value) => {
     if (value.fieldType===TemplateTypeName.Description || value.fieldType === TemplateTypeEnum.Description) {
       return(<DescriptionTemplate key={value.name} data={value} model={props.model} changeFieldData={props.updateFieldDataDescription} defaultValue={value.stringValue}/>);
@@ -108,37 +105,28 @@ function CatalogItem() {
     stringFields: [],
     integerFields: []
   });
-  // let itemData = {stringFields: [], integerFields: []}
-  // const [itemName, setItemName] = useState("");
   let itemName = itemname === "create-item" ? "" : itemname;
+
   const [saveError, setSaveError] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [saveItem] = useMutation(SAVE_ITEM);
+
   const { loading, error, data } = 
     useQuery(viewMode === TemplateModels.Value || viewMode === TemplateModels.EditValue ? CATALOG_ITEM : CATALOG_TEMPLATE,
       {variables: viewMode === TemplateModels.Value || viewMode === TemplateModels.EditValue
         ? {username: username, catalogName: catalogname, itemName: itemname}
         : {username: username, catalogName: catalogname}
       }
-    );
+    );  
 
   const handleSaveItem = async() => {
-    if (viewMode === TemplateModels.CreateValue) {
-      itemData.catalogId = data.getCatalogByUsernameAndCatalogName.id;
-      itemData.templateId = data.getCatalogByUsernameAndCatalogName.templates[0].id;
-      itemData.id = "id";
-    } else {
-      itemData.catalogId = data.getCatalogItem.catalogId;
-      itemData.templateId = data.getCatalogItem.template.id;
-    }
     itemData.name = itemName;
-    console.log(itemData);
     setIsSaving(true);
     saveItem({ 
       variables: { catalogItem: itemData },
       onCompleted(data) {
         setIsSaving(false);
-        navigate(`/${username}/${catalogname}/${data.createCatalogItem.name}`);
+        navigate(`/${username}/${catalogname}/${data.saveCatalogItem.name}`);
         window.location.reload();
       },
       onError(error) {
@@ -171,14 +159,10 @@ function CatalogItem() {
   if (loading) return <span>Loading...</span>;
   if (error) navigate("/notfound");
 
-  // console.log(data);
-  console.log(itemData);
-  if ((!itemData.catalogId) && viewMode === TemplateModels.EditValue) {
-    console.log("Edit");
-    itemData.id = data.getCatalogItem.id;
-    itemData.catalogId = data.getCatalogItem.catalogId;
-    data.getCatalogItem?.fields.forEach(field => {
-      console.log(field);
+  const startCatalogItemObject = (data, catalogId, fields, templateId) => {
+    itemData.catalogId = catalogId;
+    itemData.templateId = templateId;
+    fields.forEach(field => {
       if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateTypeEnum.Description) {
         itemData.stringFields.push({name: "", order: field.order, value: field.stringValue});
       }
@@ -186,41 +170,32 @@ function CatalogItem() {
         itemData.integerFields.push({name: "", order: field.order, value: field.intValue});
       }
     });
-    itemName = data.getCatalogItem.name;
+    itemName = data.name;
     setItemData(itemData);
-    console.log(itemName);
+  };
+
+  if ((!itemData.catalogId) && viewMode === TemplateModels.EditValue) {
+    itemData.id = data.getCatalogItem.id;
+    startCatalogItemObject(data.getCatalogItem, data.getCatalogItem.catalogId, data.getCatalogItem?.fields, data.getCatalogItem.template.id);
+  } else if ((!itemData.catalogId) &&  viewMode === TemplateModels.CreateValue ) {
+    itemData.id = "id";
+    startCatalogItemObject(data.getCatalogByUsernameAndCatalogName,data.getCatalogByUsernameAndCatalogName.id, data.getCatalogByUsernameAndCatalogName.templates[0].templateFields, data.getCatalogByUsernameAndCatalogName.templates[0].id);
   }
 
-  if ((!itemData.catalogId) &&  viewMode === TemplateModels.CreateValue ) {
-    console.log("Create");
-    itemData.catalogId = data.getCatalogByUsernameAndCatalogName.id;
-    data.getCatalogByUsernameAndCatalogName.templates[0].templateFields.forEach(field => {
-      if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateTypeEnum.Description) {
-        itemData.stringFields.push({name: "", order: field.order});
-      }
-      else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateTypeEnum.Number) {
-        itemData.integerFields.push({name: "", order: field.order});
-      }
-    });
-    setItemData(itemData);
+  const updateField = (fields, order, value) => {
+    let itemIndex = fields.findIndex(x => x.order === order);
+    if (itemIndex > -1) {
+      fields[itemIndex].value = value;
+      setItemData(itemData);
+    }
   }
 
   const updateFieldDataDescription = (value, order) => {
-    console.log(value);
-    let itemIndex = itemData.stringFields.findIndex(x => x.order === order);
-    if (itemIndex > -1) {
-      itemData.stringFields[itemIndex].value = value;
-      setItemData(itemData);
-      console.log(itemData);
-    }
+    updateField (itemData.stringFields, order, value);
   };
 
   const updateFieldDataNumber = (value, order) => {
-    let itemIndex = itemData.integerFields.findIndex(x => x.order === order);
-    if (itemIndex > -1) {
-      itemData.integerFields[itemIndex].value = value;
-      setItemData(itemData);
-    }
+    updateField(itemData.integerFields, order, value);
   };
 
   return (
