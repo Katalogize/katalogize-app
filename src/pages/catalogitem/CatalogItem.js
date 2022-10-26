@@ -25,10 +25,10 @@ const CATALOG_ITEM = gql`
       },
       fields {
         fieldType: __typename
-        ... on ItemFieldInt {
+        ... on ItemFieldNumber {
           order,
           name,
-          intValue: value
+          numberValue: value
         }
         ... on ItemFieldString {
           order,
@@ -80,7 +80,7 @@ function ItemTemplates (props) {
       return(<DescriptionTemplate key={value.name} data={value} model={props.model} changeFieldData={props.updateFieldDataDescription} defaultValue={value.stringValue}/>);
       
     } else if (value.fieldType===TemplateTypeName.Number || value.fieldType === TemplateTypeEnum.Number) {
-        return(<NumberTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.intValue}/>);
+        return(<NumberTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.numberValue}/>);
     }
   }
 
@@ -103,7 +103,7 @@ function CatalogItem() {
   const [viewMode, setViewMode] = useState(itemname === "create-item" ? TemplateModels.CreateValue : TemplateModels.Value);
   const [itemData, setItemData] = useState({
     stringFields: [],
-    integerFields: []
+    numberFields: []
   });
   let itemName = itemname === "create-item" ? "" : itemname;
 
@@ -167,7 +167,7 @@ function CatalogItem() {
         itemData.stringFields.push({name: "", order: field.order, value: field.stringValue});
       }
       else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateTypeEnum.Number) {
-        itemData.integerFields.push({name: "", order: field.order, value: field.intValue});
+        itemData.numberFields.push({name: "", order: field.order, value: field.numberValue});
       }
     });
     itemName = data.name;
@@ -195,7 +195,7 @@ function CatalogItem() {
   };
 
   const updateFieldDataNumber = (value, order) => {
-    updateField(itemData.integerFields, order, value);
+    updateField(itemData.numberFields, order, value);
   };
 
   return (

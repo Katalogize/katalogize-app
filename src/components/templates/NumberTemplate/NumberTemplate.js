@@ -22,7 +22,7 @@ function NumberTemplate(props) {
       <div>
         {
           props.model === TemplateModels.Value ?
-            <span>{props.data.intValue}</span>
+            <span>{props.data.numberValue}</span>
           : props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue ?
             <input type="number" className="template-edit-data template-edit-number line-input" placeholder="Text data" 
               value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>

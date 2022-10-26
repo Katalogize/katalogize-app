@@ -30,10 +30,10 @@ const SAVE_CATALOG_AND_TEMPLATE = gql`
           templateId,
           fields {
             templateType: __typename
-            ... on ItemFieldInt {
+            ... on ItemFieldNumber {
                 order
                 name
-                intValue: value
+                numberValue: value
             }
             ... on ItemFieldString {
                 order
