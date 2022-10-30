@@ -10,8 +10,10 @@ import { TemplateModels, TemplateTypeEnum, TemplateTypeName } from "../../compon
 import { useState } from "react";
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { HiOutlinePencil } from "react-icons/hi";
-import { BsShare } from "react-icons/bs";
+// import { BsShare } from "react-icons/bs";
+import { MdContentCopy } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const CATALOG_ITEM = gql`
   query GetCatalogItem ($username: String!, $catalogName: String!, $itemName: String!){
@@ -46,7 +48,8 @@ const CATALOG_TEMPLATE = gql`
       id,
       name,
       templates {
-        id
+        id,
+        name
         templateFields {
           name,
           order,
@@ -90,6 +93,7 @@ function ItemTemplates (props) {
 }
 
 function CatalogItem() {
+  const loggedUsername = useSelector(state => state.user.username);
   const navigate = useNavigate();
   const {username} = useParams();
   const {catalogname} = useParams();
@@ -218,9 +222,10 @@ function CatalogItem() {
         <h1 className="title catalog-name">{itemname}</h1>
         <div className="catalog-actions-container">
           <div className="catalog-actions">
-            <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}}></BsShare>
-            <HiOutlinePencil className="catalog-actions-item" title="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}}></HiOutlinePencil>
-            <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)}></AiOutlineDelete>
+            {loggedUsername === username ? <HiOutlinePencil className="catalog-actions-item" title="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}} /> : null}
+            <MdContentCopy className="catalog-actions-item" title="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
+            {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
+            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)} /> : null}
           </div>
         </div>
       </div>

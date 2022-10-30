@@ -3,12 +3,14 @@ import { useQuery, useMutation, gql } from '@apollo/client';
 import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { RiUser3Fill } from "react-icons/ri";
-import { HiOutlinePencil } from "react-icons/hi";
-import { BsShare } from "react-icons/bs";
+// import { HiOutlinePencil } from "react-icons/hi";
+// import { BsShare } from "react-icons/bs";
+import { MdContentCopy } from "react-icons/md";
 import { BiAddToQueue } from "react-icons/bi"
 import { AiOutlineDelete } from "react-icons/ai"
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const CATALOG = gql`
   query GetCatalogByUsernameAndCatalogName ($username: String!, $catalogName: String!){
@@ -60,6 +62,7 @@ function Items(props) {
 }
 
 function Catalog() {
+  const loggedUsername = useSelector(state => state.user.username);
   const navigate = useNavigate();
   const {username} = useParams();
   const {catalogname} = useParams();
@@ -114,10 +117,11 @@ function Catalog() {
         <h1 className="title catalog-name">{catalogname}</h1>
         <div className="catalog-actions-container">
           <div className="catalog-actions">
-            <BiAddToQueue className="catalog-actions-item" title="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}}></BiAddToQueue>
-            <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}}></BsShare>
-            <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil>
-            <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)}></AiOutlineDelete>
+            {loggedUsername === username ? <BiAddToQueue className="catalog-actions-item" title="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
+            <MdContentCopy className="catalog-actions-item" title="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
+            {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
+            {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}
+            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)} /> : null}
           </div>
         </div>
       </div>
