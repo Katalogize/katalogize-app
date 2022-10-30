@@ -3,7 +3,6 @@ import {Link, useNavigate} from "react-router-dom";
 import { useState } from 'react';
 import logo from '../../assets/img/logo/logo_medium.svg';
 import { gql, useMutation } from '@apollo/client';
-import { useDispatch } from "react-redux";
 
 const SIGN_UP = gql`
   mutation SignUp($user: UserInput) {
@@ -20,7 +19,6 @@ function SignUp() {
   const [isLoading, setIsLoading] = useState(false);
   const [signUp] = useMutation(SIGN_UP);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleSubmit = async(event) => {
     setIsLoading(true);
