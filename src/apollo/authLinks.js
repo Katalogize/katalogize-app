@@ -4,10 +4,10 @@ import { gql } from '@apollo/client';
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink, Observable } from '@apollo/client';
 
 //LOCAL URL
-const url = 'http://localhost:8080/graphql';
+// const url = 'http://localhost:8080/graphql';
 
 //PROD URL
-// const url = 'http://api.katalogize.com/graphql';
+const url = 'http://api.katalogize.com/graphql';
 
 const REFRESH_TOKEN = gql`
   mutation RefreshToken($refreshToken: String!) {
