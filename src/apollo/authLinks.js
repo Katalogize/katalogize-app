@@ -7,7 +7,7 @@ import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink, Observable } f
 // const url = 'http://localhost:8080/graphql';
 
 //PROD URL
-const url = 'http://api.katalogize.com/graphql';
+const url = 'https://api.katalogize.com/graphql';
 
 const REFRESH_TOKEN = gql`
   mutation RefreshToken($refreshToken: String!) {
