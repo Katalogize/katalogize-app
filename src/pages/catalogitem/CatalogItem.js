@@ -6,7 +6,7 @@ import logo_k from '../../assets/img/logo/logo_k.svg';
 import { RiUser3Fill } from "react-icons/ri";
 import DescriptionTemplate from "../../components/templates/DescriptionTemplate/DescriptionTemplate";
 import NumberTemplate from "../../components/templates/NumberTemplate/NumberTemplate";
-import { TemplateModels, TemplateTypeEnum, TemplateTypeName } from "../../components/templates/TemplateModels";
+import { TemplateModels, TemplateType, TemplateTypeName } from "../../components/templates/TemplateModels";
 import { useState } from "react";
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { HiOutlinePencil } from "react-icons/hi";
@@ -14,6 +14,7 @@ import { HiOutlinePencil } from "react-icons/hi";
 import { MdContentCopy } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
 
 const CATALOG_ITEM = gql`
   query GetCatalogItem ($username: String!, $catalogName: String!, $itemName: String!){
@@ -79,11 +80,12 @@ const DELETE_ITEM = gql`
 
 function ItemTemplates (props) {
   const value = (value) => {
-    if (value.fieldType===TemplateTypeName.Description || value.fieldType === TemplateTypeEnum.Description) {
+    if (value.fieldType===TemplateTypeName.Description || value.fieldType === TemplateType.Description) {
       return(<DescriptionTemplate key={value.name} data={value} model={props.model} changeFieldData={props.updateFieldDataDescription} defaultValue={value.stringValue}/>);
-      
-    } else if (value.fieldType===TemplateTypeName.Number || value.fieldType === TemplateTypeEnum.Number) {
+    } else if (value.fieldType===TemplateTypeName.Number || value.fieldType === TemplateType.Number) {
         return(<NumberTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.numberValue}/>);
+    } else if (value.fieldType===TemplateTypeName.Image || value.fieldType === TemplateType.Image) {
+      return(<ImageTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.numberValue}/>);
     }
   }
 
@@ -167,10 +169,10 @@ function CatalogItem() {
     itemData.catalogId = catalogId;
     itemData.templateId = templateId;
     fields.forEach(field => {
-      if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateTypeEnum.Description) {
+      if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateType.Description) {
         itemData.stringFields.push({name: "", order: field.order, value: field.stringValue});
       }
-      else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateTypeEnum.Number) {
+      else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateType.Number) {
         itemData.numberFields.push({name: "", order: field.order, value: field.numberValue});
       }
     });

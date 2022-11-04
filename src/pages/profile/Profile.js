@@ -122,11 +122,9 @@ function Profile() {
     let fileUrl = URL.createObjectURL(event.target.files[0]);
     console.log(fileUrl);
     getImageUrlData(fileUrl, function(dataUrl) {
-      console.log(dataUrl)
       uploadPicture({ 
         variables: { encodedFile: dataUrl},
         onCompleted(data) {
-          console.log(data);
           setPicture(data.addUserPicture?.picture);
         },
         onError(error) {
@@ -161,7 +159,6 @@ function Profile() {
     xhr.responseType = 'blob';
     xhr.send();
   }
-  // const { userLoading, userError, userData } = useQuery(USER, {fetchPolicy: 'network-only'});
 
   if (loading) return <span>Loading...</span>
   if (error) navigate("/notfound");
@@ -185,7 +182,7 @@ function Profile() {
         <div className="profile-picture-background">
           {loggedUsername === data.getUserByUsername?.username 
           ?<div className="profile-picture-actions">
-            <input type="file" name="file" ref={inputFile} style={{display: 'none'}} onChange={changePicture} />
+            <input type="file" name="file" ref={inputFile} style={{display: 'none'}} onChange={changePicture} accept=".png" />
             <button className="profile-picture-action" onClick={() => inputFile.current.click()}>Change Picture</button>
             <HiOutlinePencil title="Edit"></HiOutlinePencil>
             <button className="profile-picture-action" onClick={removePicture}>Remove Picture</button>

@@ -1,0 +1,45 @@
+.template-locked-value {
+    color: #969393;
+    border-bottom: 1px dashed #969393;
+    cursor: not-allowed;
+
+    .template-locked-icon {
+        font-size: 18px;
+    }
+}
+
+.imagetemplate-imagelist {
+    display: grid;
+    // grid-template-columns: auto auto auto auto;
+    grid-template-columns: repeat(3, 1fr);
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+.imagetemplate-image {
+    width: 90%;
+    height: 280px;
+    margin-top: 20px;
+    margin-right: 10px;
+    border-radius: 10px;
+    background-color: #aed4d4;
+    object-fit: cover;
+
+    @media (max-width: 900px) {
+        height: 200px;
+    }
+    @media (max-width: 500px) {
+        height: 100px;
+    }
+}
+
+.imagetemplate-delete {
+    position: absolute;
+    margin-top: 35px;
+    margin-left: 22px;
+    color: white;
+    filter: drop-shadow( 3px 3px 2px rgba(0, 0, 0, .7));
+    cursor: pointer;
+}

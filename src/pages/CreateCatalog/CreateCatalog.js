@@ -2,12 +2,14 @@ import "./CreateCatalog.scss";
 import {useState} from 'react';
 import { GrTextAlignLeft } from "react-icons/gr";
 import { TbNumbers } from "react-icons/tb";
+import { IoImagesOutline } from "react-icons/io5";
 import DescriptionTemplate from "../../components/templates/DescriptionTemplate/DescriptionTemplate";
-import NumberValue from "../../components/templates/NumberTemplate/NumberTemplate";
+import NumberTemplate from "../../components/templates/NumberTemplate/NumberTemplate";
 import { TemplateModels, TemplateType } from "../../components/templates/TemplateModels";
 import { VscLock } from "react-icons/vsc";
 import { gql, useMutation } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
+import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
 
 const SAVE_CATALOG_AND_TEMPLATE = gql`
   mutation SaveCatalogAndTemplate($catalog: CatalogInput, $catalogTemplate: CatalogTemplateInput) {
@@ -70,12 +72,16 @@ function TemplateFields (props) {
   };
   
   const value = (value) => {
+    console.log(value);
     switch (value.fieldType) {
       case TemplateType.Description:
         return(<DescriptionTemplate key={`${value.fieldType}-${value.order}`} model={TemplateModels.Template} 
                   changeFieldName={updateFieldName} deleteField={deleteField} reorderField={reorderField} data={value} />);
       case TemplateType.Number:
-        return(<NumberValue key={`${value.fieldType}-${value.order}`} model={TemplateModels.Template}
+        return(<NumberTemplate key={`${value.fieldType}-${value.order}`} model={TemplateModels.Template}
+                  changeFieldName={updateFieldName} deleteField={deleteField} reorderField={reorderField} data={value} />);
+      case TemplateType.Image:
+        return(<ImageTemplate key={`${value.fieldType}-${value.order}`} model={TemplateModels.Template}
                   changeFieldName={updateFieldName} deleteField={deleteField} reorderField={reorderField} data={value} />);
       default:
         break;
@@ -155,15 +161,21 @@ function CreateCatalog() {
         <div className="template-options">
           <div className="template-option" onClick={() => handleAddField(1)}>
             <div className="template-option-icon">
-              <GrTextAlignLeft></GrTextAlignLeft>
+              <GrTextAlignLeft />
             </div>
             Add Text
           </div>
           <div className="template-option" onClick={() => handleAddField(2)}>
             <div className="template-option-icon">
-              <TbNumbers></TbNumbers>
+              <TbNumbers />
             </div>
             Add Number
+          </div>
+          <div className="template-option" onClick={() => handleAddField(3)}>
+            <div className="template-option-icon">
+              <IoImagesOutline />
+            </div>
+            Add Image
           </div>
         </div>
         <span className="template-error-message">{error}</span>
