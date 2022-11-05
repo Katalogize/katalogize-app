@@ -3,6 +3,8 @@ import { useQuery, gql } from '@apollo/client';
 import ReactGA from "react-ga4";
 import logo from '../../assets/img/logo/logo_medium.svg';
 import CatalogCard from "../../components/CatalogCard/CatalogCard";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 // import { GOOGLE_AUTH_URL } from "../constants/constants";
 const GET_CATALOGS = gql`
   query {
@@ -28,6 +30,15 @@ const GET_CATALOGS = gql`
 
 function DisplayCatalogs() {
   const { loading, error, data } = useQuery(GET_CATALOGS);
+  const isLogged = useSelector(state => state.user.isLogged);
+  const navigate = useNavigate();
+
+  if (isLogged) {
+    console.log("Logged! Redirecting...");
+    setTimeout(() => {
+      navigate("/home");
+    }, 200);
+  }
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Could not load Katalogs, please come back later.</p>;

@@ -49,9 +49,9 @@ function App() {
       const userInfo = data.getLoggedUser;
       setIsLogged(true);
       dispatch(update({displayName: userInfo.displayName, userId: userInfo.id, username: userInfo.username, isAdmin: userInfo.isAdmin, isLogged: true}));
-      if (window.location.pathname === "/") {
-        window.location.replace(window.location.origin + '/home');
-      }
+      // if (window.location.pathname === "/") {
+      //   window.location.replace(window.location.origin + '/home');
+      // }
     }
   });
 
