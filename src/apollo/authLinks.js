@@ -2,12 +2,10 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
 import { gql } from '@apollo/client';
 import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink, Observable } from '@apollo/client';
+import { API_BASE_URL } from '../utils/constants';
 
-//LOCAL URL
-// const url = 'http://localhost:8080/graphql';
 
-//PROD URL
-const url = 'https://api.katalogize.com/graphql';
+const url = API_BASE_URL;
 
 const REFRESH_TOKEN = gql`
   mutation RefreshToken($refreshToken: String!) {

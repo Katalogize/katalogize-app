@@ -6,14 +6,22 @@ import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { AiFillDelete } from "react-icons/ai";
 import { useState, useRef } from "react";
+import { GCS_API } from "../../../utils/constants";
 
 function ImageTemplate(props) {
   const [value, setValue] = useState(props.defaultValue ? props.defaultValue : []);
   const inputFile = useRef(null);
   // const [imagePaths, setImagePaths] = useState([]);
 
+  function updateData (data) {
+    let updatedData = [];
+    data.forEach((el) => {
+      updatedData.push({data: el.data ? el.data : null, path: el.path ? el.path : null});
+    });
+    props.changeFieldData(updatedData, props.data.order);
+  }
+
   function addImage (event) {
-    console.log(event);
     if (event.target.files.length === 0) return;
     let fileUrl = URL.createObjectURL(event.target.files[0]);
     // if (event.target.files[0].size > 512000) { //500KB
@@ -24,19 +32,10 @@ function ImageTemplate(props) {
     }
     event.target.value = null;
     getImageUrlData(fileUrl, function(dataUrl) {
-      value.push({path: fileUrl, data: dataUrl});
+      value.push({localPath: fileUrl, data: dataUrl});
       let imageData = [...value];
       setValue(imageData);
-      // console.log(value);
-      // uploadPicture({ 
-      //   variables: { encodedFile: dataUrl},
-      //   onCompleted(data) {
-      //     setPicture(data.addUserPicture?.picture);
-      //   },
-      //   onError(error) {
-      //     console.log(error);
-      //   }
-      // });
+      updateData([...imageData]);
     })
   };
 
@@ -44,6 +43,7 @@ function ImageTemplate(props) {
     let imageData = [...value];
     imageData.splice(index, 1);
     setValue(imageData);
+    props.changeFieldData(imageData, props.data.order);
   };
 
   function getImageUrlData(url, callback) {
@@ -60,12 +60,14 @@ function ImageTemplate(props) {
     xhr.send();
   }
 
-  function images(value) {
-    console.log(value);
+  function images(model) {
     return value.map((image, index) => (
-      <div key={`${image.path}`}>
-        <AiFillDelete className="imagetemplate-delete" onClick={() => deleteImage(index)}/>
-        <img src={image.path} alt="Item File" className="imagetemplate-image" />
+      <div key={`${image.localPath ? image.localPath : image.path}`}>
+        { model === TemplateModels.CreateValue 
+          ? <AiFillDelete className="imagetemplate-delete" onClick={() => deleteImage(index)}/> 
+          : null
+        }
+        <img src={image.localPath ? image.localPath : GCS_API + image.path} alt="Item File" className="imagetemplate-image" />
       </div>
     ));
   }
@@ -84,7 +86,9 @@ function ImageTemplate(props) {
       <div>
         {
           props.model === TemplateModels.Value ?
-            <span>{props.data.stringValue}</span>
+          <div className="imagetemplate-imagelist">
+            {images(TemplateModels.Value)}
+          </div>
           : (props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue) ?
             // <input type="text" className="template-edit-data line-input" placeholder="Text data" 
             //   value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>
@@ -94,7 +98,7 @@ function ImageTemplate(props) {
                 <button onClick={() => inputFile.current.click()}>Add Image</button>
               </div>
               <div className="imagetemplate-imagelist">
-                {images(value)}
+                {images(TemplateModels.CreateValue)}
               </div>
             </div>
           :

@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlinePencil } from "react-icons/hi";
 import { useRef, useState } from "react";
+import { GCS_API } from "../../utils/constants";
 
 const USER_CATALOGS = gql`
   query GetCatalogsByUsername($username: String!) {
@@ -118,6 +119,18 @@ function Profile() {
   const [profilePicture, setProfilePicture] = useState(null);
   const [isUserLoaded, setIsUserLoaded] = useState(false);
 
+  const removePicture = () => {
+    deletePicture({
+      onCompleted(data) {
+        console.log(data);
+        setPicture(null);
+      },
+      onError(error) {
+        console.log(error);
+      }
+    });
+  };
+
   const changePicture = (event) => {
     let fileUrl = URL.createObjectURL(event.target.files[0]);
     console.log(fileUrl);
@@ -132,18 +145,6 @@ function Profile() {
         }
       });
     })
-  };
-
-  const removePicture = () => {
-    deletePicture({
-      onCompleted(data) {
-        console.log(data);
-        setPicture(null);
-      },
-      onError(error) {
-        console.log(error);
-      }
-    });
   };
 
   function getImageUrlData(url, callback) {
@@ -166,7 +167,7 @@ function Profile() {
   function setPicture(relativePath) {
     console.log(relativePath);
     if (relativePath) {
-      setProfilePicture("https://storage.googleapis.com/katalogize-files/" + relativePath);
+      setProfilePicture(GCS_API + relativePath);
     } else {
       setProfilePicture(null);
     }

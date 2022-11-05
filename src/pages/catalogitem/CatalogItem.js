@@ -38,6 +38,13 @@ const CATALOG_ITEM = gql`
           name,
           stringValue: value
         }
+        ... on ItemFieldImage {
+          order,
+          name,
+          imageValue: value {
+            path
+          }
+        }
       }
     }
   }
@@ -83,9 +90,9 @@ function ItemTemplates (props) {
     if (value.fieldType===TemplateTypeName.Description || value.fieldType === TemplateType.Description) {
       return(<DescriptionTemplate key={value.name} data={value} model={props.model} changeFieldData={props.updateFieldDataDescription} defaultValue={value.stringValue}/>);
     } else if (value.fieldType===TemplateTypeName.Number || value.fieldType === TemplateType.Number) {
-        return(<NumberTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.numberValue}/>);
+      return(<NumberTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.numberValue}/>);
     } else if (value.fieldType===TemplateTypeName.Image || value.fieldType === TemplateType.Image) {
-      return(<ImageTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataNumber} defaultValue={value.numberValue}/>);
+      return(<ImageTemplate key={value.name} data={value} model={props.model}  changeFieldData={props.updateFieldDataImage} defaultValue={value.imageValue}/>);
     }
   }
 
@@ -109,7 +116,8 @@ function CatalogItem() {
   const [viewMode, setViewMode] = useState(itemname === "create-item" ? TemplateModels.CreateValue : TemplateModels.Value);
   const [itemData, setItemData] = useState({
     stringFields: [],
-    numberFields: []
+    numberFields: [],
+    imageFields: []
   });
   let itemName = itemname === "create-item" ? "" : itemname;
 
@@ -171,9 +179,11 @@ function CatalogItem() {
     fields.forEach(field => {
       if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateType.Description) {
         itemData.stringFields.push({name: "", order: field.order, value: field.stringValue});
-      }
-      else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateType.Number) {
+      } else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateType.Number) {
         itemData.numberFields.push({name: "", order: field.order, value: field.numberValue});
+      } else if (field.fieldType===TemplateTypeName.Image || field.fieldType === TemplateType.Image) {
+        field.imageValue?.forEach(el => {delete el['__typename']});
+        itemData.imageFields.push({name: "", order: field.order, value: field.imageValue});
       }
     });
     itemName = data.name;
@@ -202,6 +212,10 @@ function CatalogItem() {
 
   const updateFieldDataNumber = (value, order) => {
     updateField(itemData.numberFields, order, value);
+  };
+
+  const updateFieldDataImage = (value, order) => {
+    updateField(itemData.imageFields, order, value);
   };
 
   return (
@@ -252,7 +266,8 @@ function CatalogItem() {
             model={viewMode} 
             updateData={updateData}
             updateFieldDataDescription={updateFieldDataDescription}
-            updateFieldDataNumber={updateFieldDataNumber} />
+            updateFieldDataNumber={updateFieldDataNumber}
+            updateFieldDataImage={updateFieldDataImage} />
           <div className="catalogitem-save-container">
             <p className="critical-color">{saveError}</p>
             {isSaving ? 
