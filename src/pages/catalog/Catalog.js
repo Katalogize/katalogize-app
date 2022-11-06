@@ -3,7 +3,6 @@ import { useQuery, useMutation, gql } from '@apollo/client';
 import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { RiUser3Fill } from "react-icons/ri";
-// import { HiOutlinePencil } from "react-icons/hi";
 // import { BsShare } from "react-icons/bs";
 import { MdContentCopy } from "react-icons/md";
 import { BiAddToQueue } from "react-icons/bi"
@@ -11,6 +10,8 @@ import { AiOutlineDelete } from "react-icons/ai"
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { GCS_API } from "../../utils/constants";
+import logo_k from '../../assets/img/logo/logo_k.svg';
 
 const CATALOG = gql`
   query GetCatalogByUsernameAndCatalogName ($username: String!, $catalogName: String!){
@@ -26,7 +27,14 @@ const CATALOG = gql`
       items{
           id,
           name,
-          creationDate
+          creationDate,
+          fields {
+            ... on ItemFieldImage {
+              imageValue: value {
+                path
+              }
+            }
+          }
       }
     }
   }
@@ -49,9 +57,15 @@ function Items(props) {
     navigate(`/${username}/${catalogname}/${name}`);
   } 
 
-  return props.items.map(({ id, name, creationDate }) => (
+  return props.items.map(({ id, name, creationDate, fields }) => (
     <tr key={id} onClick={()=> handleRowClick(name)}>
-        <td>{name}</td>
+        {fields[0]?.imageValue 
+          ? fields[0]?.imageValue [0]
+            ? <td><img src={GCS_API + fields[0].imageValue[0].path} alt="Item File" className="catalog-table-image" /></td> 
+            : <td><div className="catalog-table-image catalog-table-default"><img className="catalog-table-image-default" alt="logo" src={logo_k} /></div></td>
+          : null 
+        }
+        <td colSpan={2}>{name}</td>
         <td className="catalog-table-last">
           {new Date(creationDate).getUTCFullYear()+'/'+new Date(creationDate).getUTCMonth()+'/'+new Date(creationDate).getUTCDate()+
             ' - ' + new Date(creationDate).getUTCHours() +':'+new Date(creationDate).getUTCMinutes() +' UTC'}
@@ -138,8 +152,9 @@ function Catalog() {
         <table className="catalog-table">
           <thead>
             <tr>
-              <th className="catalog-table-name">Name</th>
-              <th className="catalog-table-date">Created At</th>
+              {data.getCatalogByUsernameAndCatalogName?.items[0]?.fields[0]?.imageValue ? <th>Image</th> : null}
+              <th colSpan={2} className="catalog-table-name">Name</th>
+              <th className="catalog-table-date">Last Modified At</th>
             </tr>
           </thead>
           <tbody>

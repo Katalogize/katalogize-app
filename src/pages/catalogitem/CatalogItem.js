@@ -140,9 +140,11 @@ function CatalogItem() {
       variables: { catalogItem: itemData },
       onCompleted(data) {
         setIsSaving(false);
-        navigate(`/${username}/${catalogname}/${data.saveCatalogItem.name}`);
+        navigate(`/${username}/${catalogname}`);
+        setTimeout(() => {
+          navigate(`/${username}/${catalogname}/${data.saveCatalogItem.name}`);
+        }, 10);
         // window.location.reload();
-        navigate(0);
       },
       onError(error) {
         setSaveError(error.message);
