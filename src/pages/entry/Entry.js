@@ -33,12 +33,17 @@ function DisplayCatalogs() {
   const isLogged = useSelector(state => state.user.isLogged);
   const navigate = useNavigate();
 
-  if (isLogged) {
+  console.log(window.location);
+  if (window.location.search !== "") {
+    console.log("Redirecting to " + window.location.search);
+    setTimeout(() => {
+      navigate(window.location.search.split("?/")[1]);
+    }, 100);
+  } else if (isLogged) {
     console.log("Logged! Redirecting...");
-    console.log(window.location);
-    // setTimeout(() => {
-    //   navigate("/home");
-    // }, 200);
+    setTimeout(() => {
+      navigate("/home");
+    }, 200);
   }
 
   if (loading) return <p>Loading...</p>;
