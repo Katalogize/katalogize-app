@@ -1,7 +1,7 @@
 import "./NumberTemplate.scss";
 import { TemplateModels } from "../TemplateModels";
 import "../ValuesTemplate.scss";
-import { VscLock } from "react-icons/vsc";
+import { TbNumbers } from "react-icons/tb";
 import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { useState } from "react";
@@ -27,8 +27,8 @@ function NumberTemplate(props) {
             <input type="number" className="template-edit-data template-edit-number line-input" placeholder="Text data" 
               value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>
           :
-            <div className="template-locked-value">
-              <span>Number data <VscLock className="template-locked-icon"></VscLock></span>
+            <div className="template-locked-value" title="This will be an available field for all items in this Katalog">
+              <span>Number field &nbsp; <TbNumbers className="template-locked-icon" /></span>
             </div>
         }
       </div>

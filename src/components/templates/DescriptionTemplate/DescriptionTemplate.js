@@ -5,6 +5,7 @@ import { VscLock } from "react-icons/vsc";
 import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { useState } from "react";
+import { GrTextAlignLeft } from "react-icons/gr";
 
 function DescriptionTemplate(props) {
   const [value, setValue] = useState(props.defaultValue ? props.defaultValue : "");
@@ -28,8 +29,8 @@ function DescriptionTemplate(props) {
             <input type="text" className="template-edit-data line-input" placeholder="Text data" 
               value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>
           :
-            <div className="template-locked-value">
-              <span>Text data <VscLock className="template-locked-icon"></VscLock></span>
+            <div className="template-locked-value" title="This will be an available field for all items in this Katalog">
+              <span>Text field &nbsp; <GrTextAlignLeft className="template-locked-icon" /></span>
             </div>
         }
       </div>

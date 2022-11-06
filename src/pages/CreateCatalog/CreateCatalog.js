@@ -151,13 +151,14 @@ function CreateCatalog() {
         <h3 className="title">Create new Katalog</h3>
         <input className="title createcatalog-name line-input" placeholder="Katalog Name" onChange={event => setCatalogName(event.target.value)}/>
         <textarea type="text" className="createcatalog-description" placeholder="Katalog Description" onChange={event => setCatalogDescription(event.target.value)}></textarea>
-        <h3 className="title createcatalog-data" onClick={() => printFields(1)}>Katalog Template</h3>
-        <div className="template-container">
-          <h4 className="createcatalog-locked-field">Item Name &nbsp;<VscLock></VscLock></h4>
+        <h3 className="title createcatalog-data createcatalog-template-title" onClick={() => printFields(1)}>Katalog Template</h3>
+        <span className="createcatalog-tips">Select the fields that will be available in all items for this Katalog. Name is a required field for all items.</span>
+        <div className="template-container" title="Name is a required field for all items">
+          <h4 className="createcatalog-locked-field">Name &nbsp;<VscLock></VscLock></h4>
           <p className="createcatalog-locked-field-order"><VscLock></VscLock> &nbsp; #0 </p>
         </div>
         <TemplateFields fields={catalogFields} updateFields={handleUpdateFields}></TemplateFields>
-        <span className="title template-data-selection-title">Select data type</span>
+        <span className="title template-data-selection-title">Add Template Fields</span>
         <div className="template-options">
           <div className="template-option" onClick={() => handleAddField(1)}>
             <div className="template-option-icon">

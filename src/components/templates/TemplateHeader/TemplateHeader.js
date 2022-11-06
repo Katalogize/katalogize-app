@@ -13,6 +13,9 @@ function TemplateHeader(props) {
     case 2:
       namePlaceholder = "Number Field Name";
       break;
+    case 3:
+      namePlaceholder = "Image Field Name";
+      break;
     default:
       break;
   }

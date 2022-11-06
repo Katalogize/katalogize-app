@@ -141,7 +141,8 @@ function CatalogItem() {
       onCompleted(data) {
         setIsSaving(false);
         navigate(`/${username}/${catalogname}/${data.saveCatalogItem.name}`);
-        window.location.reload();
+        // window.location.reload();
+        navigate(0);
       },
       onError(error) {
         setSaveError(error.message);

@@ -1,12 +1,13 @@
 import { TemplateModels } from "../TemplateModels";
 import "../ValuesTemplate.scss";
 import "./ImageTemplate.scss";
-import { VscLock } from "react-icons/vsc";
+import { IoImagesOutline } from "react-icons/io5";
 import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { AiFillDelete } from "react-icons/ai";
 import { useState, useRef } from "react";
 import { GCS_API } from "../../../utils/constants";
+
 
 function ImageTemplate(props) {
   const [value, setValue] = useState(props.defaultValue ? props.defaultValue : []);
@@ -102,8 +103,8 @@ function ImageTemplate(props) {
               </div>
             </div>
           :
-            <div className="template-locked-value">
-              <span>Image data <VscLock className="template-locked-icon"></VscLock></span>
+            <div className="template-locked-value" title="This will be an available field for all items in this Katalog">
+              <span>Image field &nbsp; <IoImagesOutline className="template-locked-icon" /></span>
             </div>
         }
       </div>
