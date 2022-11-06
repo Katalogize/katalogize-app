@@ -35,9 +35,10 @@ function DisplayCatalogs() {
 
   if (isLogged) {
     console.log("Logged! Redirecting...");
-    setTimeout(() => {
-      navigate("/home");
-    }, 200);
+    console.log(window.location);
+    // setTimeout(() => {
+    //   navigate("/home");
+    // }, 200);
   }
 
   if (loading) return <p>Loading...</p>;

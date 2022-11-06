@@ -30,4 +30,21 @@
     text-decoration: none;
     color: #035672;
     font-weight: bold;
+    white-space: nowrap;
+    
+    @media (max-width: 600px) {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.header-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: #035672;
+}
+
+.header-options {
+    display: flex;
+    justify-content: right;
 }

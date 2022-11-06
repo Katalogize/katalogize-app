@@ -41,10 +41,10 @@ function Header() {
     <Link to="/"><img src={logo} className="header-logo" alt="logo"/></Link>;
   
   const loginOptions = displayName ?
-    <span>
-      <Link to={`/${username}`} className="header-button">{displayName}</Link>
-      <span className="header-button" onClick={() => handleLogOut()}>Log Out</span>
-    </span>  
+    <div className="header-options">
+      <Link to={`/${username}`} className="header-link"><div className="header-button">{displayName}</div></Link>
+      <div className="header-button" onClick={() => handleLogOut()}>Log Out</div>
+    </div>  
     :
     <span><Link to="/login" className="header-button">Sign In</Link>
     <Link to="/register" className="header-button">Sign Up</Link></span>;

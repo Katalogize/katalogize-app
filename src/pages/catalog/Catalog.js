@@ -57,11 +57,14 @@ function Items(props) {
     navigate(`/${username}/${catalogname}/${name}`);
   } 
 
-  return props.items.map(({ id, name, creationDate, fields }) => (
-    <tr key={id} onClick={()=> handleRowClick(name)}>
-        {fields[0]?.imageValue 
-          ? fields[0]?.imageValue [0]
-            ? <td><img src={GCS_API + fields[0].imageValue[0].path} alt="Item File" className="catalog-table-image" /></td> 
+
+  return props.items.map(({ id, name, creationDate, fields }) => {
+    let imageValue = fields.find(field => field?.imageValue).imageValue;
+    return(
+      <tr key={id} onClick={()=> handleRowClick(name)}>
+        {imageValue 
+          ? imageValue[0]
+            ? <td><img src={GCS_API + imageValue[0].path} alt="Item File" className="catalog-table-image" /></td> 
             : <td><div className="catalog-table-image catalog-table-default"><img className="catalog-table-image-default" alt="logo" src={logo_k} /></div></td>
           : null 
         }
@@ -72,7 +75,8 @@ function Items(props) {
         </td>
         {/* <td>{id}</td> */}
     </tr>
-  ));
+    )
+  });
 }
 
 function Catalog() {
@@ -152,14 +156,14 @@ function Catalog() {
         <table className="catalog-table">
           <thead>
             <tr>
-              {data.getCatalogByUsernameAndCatalogName?.items[0]?.fields[0]?.imageValue ? <th>Image</th> : null}
+              {data.getCatalogByUsernameAndCatalogName?.items[0]?.fields.find(field => field?.imageValue)?.imageValue ? <th>Image</th> : null}
               <th colSpan={2} className="catalog-table-name">Name</th>
               <th className="catalog-table-date">Last Modified At</th>
             </tr>
           </thead>
           <tbody>
             <Items items={data.getCatalogByUsernameAndCatalogName?.items}></Items>
-            {data.getCatalogByUsernameAndCatalogName?.items.length === 0 ? <tr><td>No items created yet.</td><td></td></tr> : null}
+            {data.getCatalogByUsernameAndCatalogName?.items.length === 0 ? <tr><td colSpan={2}>No items created yet.</td><td></td></tr> : null}
           </tbody>
         </table>
       </div>
