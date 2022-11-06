@@ -1,7 +1,6 @@
 import { TemplateModels } from "../TemplateModels";
 import "../ValuesTemplate.scss";
 import "./DescriptionTemplate.scss";
-import { VscLock } from "react-icons/vsc";
 import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { useState } from "react";
