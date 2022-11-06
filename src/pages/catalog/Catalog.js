@@ -59,7 +59,7 @@ function Items(props) {
 
 
   return props.items.map(({ id, name, creationDate, fields }) => {
-    let imageValue = fields.find(field => field?.imageValue !== null).imageValue;
+    let imageValue = fields.find(field => field?.imageValue !== undefined && field?.imageValue !== null)?.imageValue;
     return(
       <tr key={id} onClick={()=> handleRowClick(name)}>
         {imageValue 

@@ -133,7 +133,6 @@ function Profile() {
 
   const changePicture = (event) => {
     let fileUrl = URL.createObjectURL(event.target.files[0]);
-    console.log(fileUrl);
     getImageUrlData(fileUrl, function(dataUrl) {
       uploadPicture({ 
         variables: { encodedFile: dataUrl},
