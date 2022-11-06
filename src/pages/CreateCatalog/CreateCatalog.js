@@ -10,6 +10,7 @@ import { VscLock } from "react-icons/vsc";
 import { gql, useMutation } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
 import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
+import { useSelector } from "react-redux";
 
 const SAVE_CATALOG_AND_TEMPLATE = gql`
   mutation SaveCatalogAndTemplate($catalog: CatalogInput, $catalogTemplate: CatalogTemplateInput) {
@@ -100,6 +101,13 @@ function CreateCatalog() {
   const [catalogFields, setCatalogFields] = useState([]);
   const [saveCatalog] = useMutation(SAVE_CATALOG_AND_TEMPLATE);
   const navigate = useNavigate();
+  const isLogged = useSelector(state => state.user.isLogged);
+
+  if (isLogged === false) {
+    setTimeout(() => {
+      navigate("/login");
+    }, 100);
+  }
 
   const handleAddField = (option) => {
     let newField = {
