@@ -68,7 +68,9 @@ function ImageTemplate(props) {
           ? <AiFillDelete className="imagetemplate-delete" onClick={() => deleteImage(index)}/> 
           : null
         }
-        <img src={image.localPath ? image.localPath : GCS_API + image.path} alt="Item File" className="imagetemplate-image" />
+        <a href={image.localPath ? image.localPath : GCS_API + image.path} target="_blank" rel="noreferrer" key={index}>
+          <img src={image.localPath ? image.localPath : GCS_API + image.path} alt="Item File" className="imagetemplate-image" />
+        </a>
       </div>
     ));
   }
@@ -95,7 +97,7 @@ function ImageTemplate(props) {
             //   value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>
             <div>
               <div>
-                <input type="file" name="file" onChange={addImage} accept=".png" ref={inputFile} style={{display: 'none'}} />
+                <input type="file" name="file" onChange={addImage} accept=".png, .jpg, .jpeg" ref={inputFile} style={{display: 'none'}} />
                 <button onClick={() => inputFile.current.click()}>Add Image</button>
               </div>
               <div className="imagetemplate-imagelist">

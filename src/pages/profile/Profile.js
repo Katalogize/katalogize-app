@@ -182,7 +182,7 @@ function Profile() {
         <div className="profile-picture-background">
           {loggedUsername === data.getUserByUsername?.username 
           ?<div className="profile-picture-actions">
-            <input type="file" name="file" ref={inputFile} style={{display: 'none'}} onChange={changePicture} accept=".png" />
+            <input type="file" name="file" ref={inputFile} style={{display: 'none'}} onChange={changePicture} accept=".png, .jpg, .jpeg" />
             <button className="profile-picture-action" onClick={() => inputFile.current.click()}>Change Picture</button>
             <HiOutlinePencil title="Edit"></HiOutlinePencil>
             <button className="profile-picture-action" onClick={removePicture}>Remove Picture</button>

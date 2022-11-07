@@ -20,6 +20,22 @@ const USER_CATALOGS = gql`
   }
 `;
 
+const OFFICIAL_CATALOGS = gql`
+  query GetOfficialCatalogs {
+    getOfficialCatalogs {
+      id,
+      name,
+      description,
+      isPrivate,
+      user {
+        id,
+        displayName,
+        username
+      }
+    }
+  }
+`;
+
 const PUBLIC_CATALOGS = gql`
   query GetAllCatalogs {
     getAllCatalogs {
@@ -48,6 +64,17 @@ function UserCatalogs() {
   ));
 }
 
+function OfficialCatalogs() {
+  const { loading, error, data } = useQuery(OFFICIAL_CATALOGS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
+  return data.getOfficialCatalogs.map(({ id, name, description, user, isPrivate }) => (
+    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
+  ));
+}
+
 function PublicCatalogs() {
   const { loading, error, data } = useQuery(PUBLIC_CATALOGS);
 
@@ -61,6 +88,7 @@ function PublicCatalogs() {
 
 function Home() {
   const displayName = useSelector(state => state.user.displayName);
+  const isAdmin = useSelector(state => state.user.isAdmin);
 
   return (
     <div className="home-body">
@@ -74,10 +102,19 @@ function Home() {
         </div>
         <UserCatalogs></UserCatalogs>
       </div>
-      <h1 className="title title-list">Public Katalogs</h1>
+      <h1 className="title title-list">Official Katalogs</h1>
       <div className="catalogs-list">
-        <PublicCatalogs></PublicCatalogs>
+        <OfficialCatalogs></OfficialCatalogs>
       </div>
+      {isAdmin 
+        ?<div>
+          <h1 className="title title-list">Public Katalogs</h1>
+          <div className="catalogs-list">
+            <PublicCatalogs></PublicCatalogs>
+          </div>
+        </div>
+        : null
+      }
     </div>
   );
 }
