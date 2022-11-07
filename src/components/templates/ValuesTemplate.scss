@@ -35,12 +35,12 @@
     font-size: 24px;
     font-weight: bold;
     color: #262626;
-    width: 80%;
+    width: 100%;
     margin-right: 20px;
 
     @media(max-width: 700px) {
         font-size: 18px;
-        width: 60%;
+        // width: 60%;
     }
 }
 
@@ -58,4 +58,9 @@
 .template-edit-number {
     width: 30%;
     min-width: 100px;
+}
+
+.template-type-icon {
+    font-size: 18px;
+    opacity: 0.5;
 }

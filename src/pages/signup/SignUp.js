@@ -85,12 +85,12 @@ function SignUp() {
           </input>
         </label>
         <br /><br />
-        {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In">Sign Up</button>}
+        {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In" className="primary-button">Sign Up</button>}
         <br /><br />
       </form>
       {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
       <p>Already an account?</p>
-      <Link to="/login" className="primary-button">Log in</Link>
+      <Link to="/login">Log in</Link>
     </div>
   );
 }

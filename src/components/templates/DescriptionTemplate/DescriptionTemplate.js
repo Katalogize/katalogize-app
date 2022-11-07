@@ -14,7 +14,7 @@ function DescriptionTemplate(props) {
       {
         (props.model === TemplateModels.Value || props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue) ?
           <div className="template-title">
-            <span><strong>{props.data.name}</strong></span>
+            <span><strong>{props.data.name} &nbsp; <GrTextAlignLeft title="Text Field" className="template-type-icon" /></strong></span>
           </div>
         :
           <TemplateHeader data={props.data} 

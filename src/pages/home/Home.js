@@ -56,8 +56,8 @@ const PUBLIC_CATALOGS = gql`
 function UserCatalogs() {
   const { loading, error, data } = useQuery(USER_CATALOGS);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (loading) return <p style={{alignSelf: 'center'}}>Loading...</p>;
+  if (error) return <p style={{alignSelf: 'center'}}>Could not load Katalogs.</p>;
 
   return data.getAllCatalogsByLoggedUser.map(({ id, name, description, user, isPrivate }) => (
     <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
@@ -68,7 +68,7 @@ function OfficialCatalogs() {
   const { loading, error, data } = useQuery(OFFICIAL_CATALOGS);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p style={{whiteSpace: "nowrap", margin: 20}}>Could not load Katalogs, please come back later.</p>;
 
   return data.getOfficialCatalogs.map(({ id, name, description, user, isPrivate }) => (
     <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
@@ -108,7 +108,8 @@ function Home() {
       </div>
       {isAdmin 
         ?<div>
-          <h1 className="title title-list">Public Katalogs</h1>
+          <h1 className="title title-list" style={{marginBottom: 0}}>All Katalogs</h1>
+          <p className="title title-list" style={{marginTop: 0}}>Admin Only</p>
           <div className="catalogs-list">
             <PublicCatalogs></PublicCatalogs>
           </div>

@@ -7,6 +7,7 @@
     // background: linear-gradient(90deg, rgba(16, 209, 163, 1) 0%, rgba(18,146,218,1) 100%);
     display: flex;
     position: fixed;
+    z-index: 10;
 }
 
 .header-logo {

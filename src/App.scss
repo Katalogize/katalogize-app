@@ -42,6 +42,7 @@
 
 .catalogs-list {
   display: grid;
+  margin-bottom: 25px;
   // grid-template-columns: auto auto auto auto;
   grid-template-columns: repeat(4, 1fr);
   @media (max-width: 1600px) {
@@ -106,7 +107,7 @@
   border-radius: 10px;
   color: white;
   cursor: pointer;
-  margin: 50px;
+  border: none;
   text-decoration: none;
 }
 

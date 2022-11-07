@@ -55,7 +55,7 @@ function SignIn() {
       <h1 className="signin-title">Log in to your acount</h1>
       <label className="signin-error">{errorMessage}</label>
       <form className="signin-form" onSubmit={handleSubmit}>
-        <label>Username: 
+        <label>Username: &nbsp;
           <input 
             type="text" 
             value={username} 
@@ -64,7 +64,7 @@ function SignIn() {
           </input>
         </label>
         <br /><br />
-        <label>Password: 
+        <label>Password: &nbsp;
           <input 
             type="password" 
             value={password} 
@@ -74,12 +74,12 @@ function SignIn() {
           </input>
         </label>
         <br /><br />
-        {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In">Sign In</button>}
+        {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In" className="primary-button">Sign In</button>}
         <br /><br />
       </form>
       {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
       <p>Don't have an account?</p>
-      <Link to="/register" className="primary-button">Register on Katalogize</Link>
+      <Link to="/register">Register on Katalogize</Link>
     </div>
   );
 }

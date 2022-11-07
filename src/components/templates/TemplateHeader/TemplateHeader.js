@@ -25,14 +25,14 @@ function TemplateHeader(props) {
       <input type="text" className="template-title line-input" placeholder={namePlaceholder}
         value={props.data.name} 
         onChange={event => {setFieldName(event.target.value); props.changeFieldName(event.target.value, props.data.order)}}/>
-      <div className="template-required">
-        {/* <label className="template-checkbox">
+      {/* <div className="template-required">
+        <label className="template-checkbox">
           <input type="checkbox" className="template-required-checkbox" 
             checked={props.data.isRequired}
             onChange={event => { setIsRequired(event.target.checked); props.changeIsRequired(event.target.checked, props.data.order)}} />
           <span>Required</span>
-        </label> */}
-      </div>
+        </label>
+      </div> */}
     </div>
   );
 }

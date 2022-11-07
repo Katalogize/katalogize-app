@@ -11,8 +11,9 @@
 .imagetemplate-imagelist {
     display: grid;
     // grid-template-columns: auto auto auto auto;
+    text-align: center;
     grid-template-columns: repeat(3, 1fr);
-    @media (max-width: 900px) {
+    @media (max-width: 1100px) {
       grid-template-columns: repeat(2, 1fr);
     }
     @media (max-width: 500px) {
@@ -34,7 +35,8 @@
         height: 200px;
     }
     @media (max-width: 500px) {
-        height: 100px;
+        height: 150px;
+        margin-right: 0px;
     }
 }
 

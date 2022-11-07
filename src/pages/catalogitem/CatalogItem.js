@@ -276,7 +276,7 @@ function CatalogItem() {
             {isSaving ? 
                 <span style={{float: "right"}}>Saving...</span> :
               <div>
-                <button className="button" onClick={(() => {handleSaveItem()})}>Save Item</button>
+                <button className="button primary-button" onClick={(() => {handleSaveItem()})}>Save Item</button>
               </div>
             }
           </div>

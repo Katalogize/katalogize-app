@@ -30,6 +30,16 @@ const OFFICIAL_CATALOGS = gql`
 
 function DisplayCatalogs() {
   const { loading, error, data } = useQuery(OFFICIAL_CATALOGS);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{whiteSpace: "nowrap", margin: 25}}>Could not load Katalogs, please come back later.</p>;
+
+  return data.getOfficialCatalogs.map(({ id, name, description, user }) => (
+    <CatalogCard key={id} catalogData={{name, description, user}}></CatalogCard>
+  ));
+}
+
+function Entry() {
   const isLogged = useSelector(state => state.user.isLogged);
   const navigate = useNavigate();
 
@@ -45,15 +55,6 @@ function DisplayCatalogs() {
     }, 200);
   }
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Could not load Katalogs, please come back later.</p>;
-
-  return data.getOfficialCatalogs.map(({ id, name, description, user }) => (
-    <CatalogCard key={id} catalogData={{name, description, user}}></CatalogCard>
-  ));
-}
-
-function Entry() {
   function sendInfo () {
     console.log("Sending click logo event");
     ReactGA.event({
@@ -70,7 +71,7 @@ function Entry() {
         <p>
           Catalog anything you need, however you want!
         </p>
-        <div style={{margin: 50}}><Link to="/login" className="primary-button"><span>Get Started</span></Link></div>
+        <div style={{margin: 50}}><Link to="/login" className="primary-button entry-button"><span>Get Started</span></Link></div>
       </div>
       <h2 className="title title-list">Official Katalogs</h2>
       <div className="catalogs-list">
