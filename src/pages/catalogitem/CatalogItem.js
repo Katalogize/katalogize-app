@@ -15,6 +15,7 @@ import { MdContentCopy } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
+import ReactTooltip from "react-tooltip";
 
 const CATALOG_ITEM = gql`
   query GetCatalogItem ($username: String!, $catalogName: String!, $itemName: String!){
@@ -241,10 +242,11 @@ function CatalogItem() {
         <h1 className="title catalog-name">{itemname}</h1>
         <div className="catalog-actions-container">
           <div className="catalog-actions">
-            {loggedUsername === username ? <HiOutlinePencil className="catalog-actions-item" title="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}} /> : null}
-            <MdContentCopy className="catalog-actions-item" title="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
+            {loggedUsername === username ? <HiOutlinePencil className="catalog-actions-item remove-outline" data-tip="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}} /> : null}
+            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
             {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
-            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)} /> : null}
+            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Item" onClick={() => setShowDeletePopUp(true)} /> : null}
+            <ReactTooltip place="bottom" effect="solid" />
           </div>
         </div>
       </div>

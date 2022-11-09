@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { GCS_API } from "../../utils/constants";
 import logo_k from '../../assets/img/logo/logo_k.svg';
+import ReactTooltip from 'react-tooltip';
 
 const CATALOG = gql`
   query GetCatalogByUsernameAndCatalogName ($username: String!, $catalogName: String!){
@@ -135,11 +136,12 @@ function Catalog() {
         <h1 className="title catalog-name">{catalogname}</h1>
         <div className="catalog-actions-container">
           <div className="catalog-actions">
-            {loggedUsername === username ? <BiAddToQueue className="catalog-actions-item" title="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
-            <MdContentCopy className="catalog-actions-item" title="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
+            {loggedUsername === username ? <BiAddToQueue className="catalog-actions-item remove-outline" data-tip="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
+            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
             {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
             {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}
-            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete" title="Delete" onClick={() => setShowDeletePopUp(true)} /> : null}
+            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Katalog" onClick={() => setShowDeletePopUp(true)} /> : null}
+            <ReactTooltip place="bottom" effect="solid" />
           </div>
         </div>
       </div>

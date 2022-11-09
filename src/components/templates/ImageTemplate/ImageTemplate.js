@@ -7,6 +7,7 @@ import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { AiFillDelete } from "react-icons/ai";
 import { useState, useRef } from "react";
 import { GCS_API } from "../../../utils/constants";
+import ReactTooltip from "react-tooltip";
 
 
 function ImageTemplate(props) {
@@ -77,10 +78,16 @@ function ImageTemplate(props) {
   
   return (
     <div className="template-container">
+      <ReactTooltip id="template-image-tooltip" place="right" effect="solid" />
       {
         (props.model === TemplateModels.Value || props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue) ?
           <div className="template-title">
-            <span><strong>{props.data.name} &nbsp; <IoImagesOutline title="Image Field" className="template-type-icon" /></strong></span>
+            <span>
+              <strong>
+                {props.data.name} &nbsp; 
+                <IoImagesOutline data-tip="Image Field" data-for="template-image-tooltip" className="template-type-icon remove-outline" />
+              </strong>
+            </span>
           </div>
         :
           <TemplateHeader data={props.data} 

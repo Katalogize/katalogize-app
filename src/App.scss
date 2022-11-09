@@ -114,3 +114,11 @@
 .critical-color {
   color: #E44848
 }
+
+.remove-outline {
+  &:active, &:focus {
+    outline: 0;
+    border: none;
+    -moz-outline-style: none;
+  }
+}

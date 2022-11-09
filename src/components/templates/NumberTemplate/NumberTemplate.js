@@ -5,15 +5,22 @@ import { TbNumbers } from "react-icons/tb";
 import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { useState } from "react";
+import ReactTooltip from "react-tooltip";
 
 function NumberTemplate(props) {
   const [value, setValue] = useState(props.defaultValue ? props.defaultValue : "");
   return (
     <div className="template-container">
+      <ReactTooltip place="right" id="template-number-tooltip" effect="solid" />
       {
         props.model === TemplateModels.Value || props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue ?
           <div className="template-title">
-            <span><strong>{props.data.name} &nbsp; <TbNumbers title="Number Field" className="template-type-icon" /></strong></span>
+            <span>
+              <strong>
+                {props.data.name} &nbsp; 
+                <TbNumbers data-tip="Number Field" data-for="template-number-tooltip" className="template-type-icon remove-outline" />
+              </strong>
+            </span>
           </div>
         :
         <TemplateHeader data={props.data} 

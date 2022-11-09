@@ -5,16 +5,23 @@ import TemplateActions from "../TemplateActions/TemplateActions"
 import TemplateHeader from "../TemplateHeader/TemplateHeader"
 import { useState } from "react";
 import { GrTextAlignLeft } from "react-icons/gr";
+import ReactTooltip from "react-tooltip";
 
 function DescriptionTemplate(props) {
   const [value, setValue] = useState(props.defaultValue ? props.defaultValue : "");
   
   return (
     <div className="template-container">
+      <ReactTooltip id="template-description-tooltip" place="right" effect="solid" />
       {
         (props.model === TemplateModels.Value || props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue) ?
           <div className="template-title">
-            <span><strong>{props.data.name} &nbsp; <GrTextAlignLeft title="Text Field" className="template-type-icon" /></strong></span>
+            <span>
+              <strong>
+                {props.data.name} &nbsp; 
+                <GrTextAlignLeft data-tip="Text Field" data-for="template-description-tooltip" className="template-type-icon remove-outline" />
+              </strong>
+            </span>
           </div>
         :
           <TemplateHeader data={props.data} 
