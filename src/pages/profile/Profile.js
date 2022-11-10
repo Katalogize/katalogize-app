@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { HiOutlinePencil } from "react-icons/hi";
 import { useRef, useState } from "react";
 import { GCS_API } from "../../utils/constants";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
 
 const USER_CATALOGS = gql`
   query GetCatalogsByUsername($username: String!) {
@@ -120,12 +121,15 @@ function Profile() {
   const [isUserLoaded, setIsUserLoaded] = useState(false);
 
   const removePicture = () => {
+    const id = toastLoading("Removing picture...");
     deletePicture({
       onCompleted(data) {
+        toastUpdateSuccess(id, "Picture removed!");
         console.log(data);
         setPicture(null);
       },
       onError(error) {
+        toastUpdateError(id, "Error on removing picture, please try again.");
         console.log(error);
       }
     });
@@ -133,13 +137,16 @@ function Profile() {
 
   const changePicture = (event) => {
     let fileUrl = URL.createObjectURL(event.target.files[0]);
+    const id = toastLoading("Uploading picture...");
     getImageUrlData(fileUrl, function(dataUrl) {
       uploadPicture({ 
         variables: { encodedFile: dataUrl},
         onCompleted(data) {
+          toastUpdateSuccess(id, "Picture updated!");
           setPicture(data.addUserPicture?.picture);
         },
         onError(error) {
+          toastUpdateError(id, "Error on upload, please try again.");
           console.log(error);
         }
       });

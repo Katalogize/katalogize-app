@@ -11,6 +11,7 @@ import { gql, useMutation } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
 import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
 import ReactTooltip from "react-tooltip";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
 
 const SAVE_CATALOG_AND_TEMPLATE = gql`
   mutation SaveCatalogAndTemplate($catalog: CatalogInput, $catalogTemplate: CatalogTemplateInput) {
@@ -129,12 +130,15 @@ function CreateCatalog() {
       allowNewFields: false,
       templateFields: fields
     }
+    const id = toastLoading("Saving Katalog...");
     saveCatalog({ 
       variables: { catalog: catalog, catalogTemplate: catalogTemplate },
       onCompleted(data) {
+        toastUpdateSuccess(id, "Katalog saved!");
         navigate(`/${data.saveCatalogAndTemplate.user.username}/${name}`);
       },
       onError(error) {
+        toastUpdateError(id, "Error while saving Katalog. " + error.message);
         setError(error.message);
       }
     });

@@ -3,6 +3,7 @@ import {Link, useNavigate} from "react-router-dom";
 import { useState } from 'react';
 import logo from '../../assets/img/logo/logo_medium.svg';
 import { gql, useMutation } from '@apollo/client';
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
 
 const SIGN_UP = gql`
   mutation SignUp($user: UserInput) {
@@ -29,13 +30,16 @@ function SignUp() {
       displayName: displayName,
       username: username
     }
+    const id = toastLoading("Registering user...");
     signUp({ 
       variables: { user: user },
       onCompleted(data) {
+        toastUpdateSuccess(id, "User Registered!");
         setIsLoading(false);
         navigate("/login");
       },
       onError(error) {
+        toastUpdateError(id, "Error while registering user. " + error.message);
         setIsLoading(false);
         setErrorMessage(error.message);
       }

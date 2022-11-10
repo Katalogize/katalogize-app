@@ -16,6 +16,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector } from "react-redux";
 import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
 import ReactTooltip from "react-tooltip";
+import { toastInfo, toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
 
 const CATALOG_ITEM = gql`
   query GetCatalogItem ($username: String!, $catalogName: String!, $itemName: String!){
@@ -137,9 +138,11 @@ function CatalogItem() {
   const handleSaveItem = async() => {
     itemData.name = itemName;
     setIsSaving(true);
+    const id = toastLoading("Saving Item...");
     saveItem({ 
       variables: { catalogItem: itemData },
       onCompleted(data) {
+        toastUpdateSuccess(id, "Item saved!");
         setIsSaving(false);
         navigate(`/${username}/${catalogname}`);
         setTimeout(() => {
@@ -148,6 +151,7 @@ function CatalogItem() {
         // window.location.reload();
       },
       onError(error) {
+        toastUpdateError(id, "Error while saving item. " + error.message);
         setSaveError(error.message);
         setIsSaving(false);
       }
@@ -155,15 +159,18 @@ function CatalogItem() {
   }
 
   const handleDeleteItem = async() => {
+    const id = toastLoading("Deleting Item...");
     setIsDeleteLoading(true);
     deleteItem({ 
       variables: { id: data.getCatalogItem.id },
       onCompleted(data) {
+        toastUpdateSuccess(id, "Item deleted!");
         setIsDeleteLoading(false);
         setShowDeletePopUp(false);
         navigate(`/${username}/${catalogname}`);
       },
       onError(error) {
+        toastUpdateError(id, "Error while deleting item. " + error.message);
         setIsDeleteLoading(false);
         setDeleteError(error.message);
       }
@@ -243,7 +250,7 @@ function CatalogItem() {
         <div className="catalog-actions-container">
           <div className="catalog-actions">
             {loggedUsername === username ? <HiOutlinePencil className="catalog-actions-item remove-outline" data-tip="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}} /> : null}
-            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
+            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toastInfo("Link Copied!")}} />
             {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
             {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Item" onClick={() => setShowDeletePopUp(true)} /> : null}
             <ReactTooltip place="bottom" effect="solid" />

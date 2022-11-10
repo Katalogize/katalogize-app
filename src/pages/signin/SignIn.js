@@ -6,6 +6,7 @@ import { gql, useMutation } from '@apollo/client';
 // import { GOOGLE_AUTH_URL } from "../constants/constants";
 import { useDispatch } from "react-redux";
 import { logIn } from "../../store/userSlice";
+import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
 
 const SIGN_IN = gql`
   mutation SignIn($username: String!,$password: String!) {
@@ -32,9 +33,11 @@ function SignIn() {
   const handleSubmit = async(event) => {
     setIsLoading(true);
     event.preventDefault();
+    const id = toastLoading("Loggin in...");
     signIn({ 
       variables: { username: username, password: password },
       onCompleted(data) {
+        toastUpdateSuccess(id, "Logged Successfully!");
         localStorage.setItem("accessToken", data.signIn.accessToken);
         localStorage.setItem("refreshToken", data.signIn.refreshToken);
         localStorage.setItem("userId", data.signIn.userId);
@@ -43,6 +46,7 @@ function SignIn() {
         navigate("/home");
       },
       onError(error) {
+        toastUpdateError(id, "Error while logging in. " + error.message);
         setIsLoading(false);
         setErrorMessage(error.message);
       }

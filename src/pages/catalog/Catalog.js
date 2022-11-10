@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { GCS_API } from "../../utils/constants";
 import logo_k from '../../assets/img/logo/logo_k.svg';
 import ReactTooltip from 'react-tooltip';
-import { toast } from "react-toastify";
+import { toastInfo, toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
 
 const CATALOG = gql`
   query GetCatalogByUsernameAndCatalogName ($username: String!, $catalogName: String!){
@@ -101,14 +101,17 @@ function Catalog() {
 
   const handleDeleteCatalog = async() => {
     setIsDeleteLoading(true);
+    const id = toastLoading("Deleting Katalog...");
     deleteCatalog({ 
       variables: { id: data.getCatalogByUsernameAndCatalogName.id },
       onCompleted(data) {
+        toastUpdateSuccess(id, "Katalog Deleted!");
         setIsDeleteLoading(false);
         setShowDeletePopUp(false);
         navigate(`/home`);
       },
       onError(error) {
+        toastUpdateError(id, "Error while deleting Katalog. " + error.message);
         setIsDeleteLoading(false);
         setDeleteError(error.message);
       }
@@ -138,7 +141,7 @@ function Catalog() {
         <div className="catalog-actions-container">
           <div className="catalog-actions">
             {loggedUsername === username ? <BiAddToQueue className="catalog-actions-item remove-outline" data-tip="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
-            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toast.info("Link Copied!");}} />
+            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toastInfo("Link Copied!");}} />
             {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
             {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}
             {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Katalog" onClick={() => setShowDeletePopUp(true)} /> : null}
