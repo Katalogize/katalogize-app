@@ -19,6 +19,8 @@ import { useState } from 'react';
 import NotFound from './pages/NotFound/NotFound';
 import Catalog from './pages/Catalog/Catalog';
 import CatalogItem from './pages/CatalogItem/CatalogItem';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, Zoom } from 'react-toastify';
 
 const GET_USERINFO = gql`
   query {
@@ -80,6 +82,19 @@ function App() {
     <div className="App">
       <Router>
         <Header />
+        <ToastContainer 
+          position="bottom-center"
+          autoClose={2000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Zoom}
+          style={{marginTop: 100}}/>
         <div className="App-body">
           <Routes>
               <Route path='/' element={ <Entry />}/>

@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { GCS_API } from "../../utils/constants";
 import logo_k from '../../assets/img/logo/logo_k.svg';
 import ReactTooltip from 'react-tooltip';
+import { toast } from "react-toastify";
 
 const CATALOG = gql`
   query GetCatalogByUsernameAndCatalogName ($username: String!, $catalogName: String!){
@@ -137,7 +138,7 @@ function Catalog() {
         <div className="catalog-actions-container">
           <div className="catalog-actions">
             {loggedUsername === username ? <BiAddToQueue className="catalog-actions-item remove-outline" data-tip="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
-            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location)}} />
+            <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toast.info("Link Copied!");}} />
             {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
             {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}
             {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Katalog" onClick={() => setShowDeletePopUp(true)} /> : null}
