@@ -5,7 +5,8 @@ const initialState = {
     userId: null,
     username: null,
     isLogged: false,
-    isAdmin: false
+    isAdmin: false,
+    picture: null
 }
 
 export const userSlice = createSlice({
@@ -18,6 +19,7 @@ export const userSlice = createSlice({
             state.username = action.payload.username;
             state.isLogged = action.payload.isLogged;
             state.isAdmin = action.payload.isAdmin;
+            state.picture = action.payload.picture;
         },
         logOut: state => {
             state.displayName = null;
@@ -25,13 +27,17 @@ export const userSlice = createSlice({
             state.username = null;
             state.isLogged = false;
             state.isAdmin = false;
+            state.picture = null;
         },
         logIn: state=> {
             state.isLogged = true;
+        },
+        updatePicture(state, action) {
+            state.picture = action.payload.picture;
         }
     }
 })
 
-export const { update, logOut, logIn } = userSlice.actions
+export const { update, logOut, logIn, updatePicture } = userSlice.actions
 
 export default userSlice.reducer

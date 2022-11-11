@@ -4,12 +4,13 @@ import CatalogCard from "../../components/CatalogCard/CatalogCard";
 import {useParams} from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlinePencil } from "react-icons/hi";
 import { useRef, useState } from "react";
 import { GCS_API } from "../../utils/constants";
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
+import { updatePicture } from "../../store/userSlice";
 
 const USER_CATALOGS = gql`
   query GetCatalogsByUsername($username: String!) {
@@ -119,6 +120,7 @@ function Profile() {
   const [deletePicture] = useMutation(DELETE_PICTURE);
   const [profilePicture, setProfilePicture] = useState(null);
   const [isUserLoaded, setIsUserLoaded] = useState(false);
+  const dispatch = useDispatch();
 
   const removePicture = () => {
     const id = toastLoading("Removing picture...");
@@ -172,6 +174,7 @@ function Profile() {
 
   function setPicture(relativePath) {
     console.log(relativePath);
+    dispatch(updatePicture({picture: relativePath}))
     if (relativePath) {
       setProfilePicture(GCS_API + relativePath);
     } else {

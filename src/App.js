@@ -28,7 +28,8 @@ const GET_USERINFO = gql`
         id,
         displayName,
         username,
-        isAdmin
+        isAdmin,
+        picture
     }
   }
 `;
@@ -50,7 +51,7 @@ function App() {
       console.log("Loaded user info");
       const userInfo = data.getLoggedUser;
       setIsLogged(true);
-      dispatch(update({displayName: userInfo.displayName, userId: userInfo.id, username: userInfo.username, isAdmin: userInfo.isAdmin, isLogged: true}));
+      dispatch(update({displayName: userInfo.displayName, userId: userInfo.id, username: userInfo.username, isAdmin: userInfo.isAdmin, isLogged: true, picture: userInfo.picture}));
       // if (window.location.pathname === "/") {
       //   window.location.replace(window.location.origin + '/home');
       // }
@@ -84,7 +85,6 @@ function App() {
         <Header />
         <ToastContainer 
           position="bottom-center"
-          autoClose={2000}
           hideProgressBar={true}
           newestOnTop={false}
           closeOnClick
