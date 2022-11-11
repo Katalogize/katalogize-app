@@ -40,12 +40,16 @@
 
    @media (max-width: 600px) {
       font-size: 18px;
-  }
+   }
 }
 
  .catalogcard-info {
     text-align: left;
     margin-left: 15px;
+
+    @media (max-width: 500px) {
+      margin-left: 0px;
+   }
  }
 
  .catalogcard-lock {
