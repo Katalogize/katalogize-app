@@ -78,12 +78,14 @@ function SignIn() {
           </input>
         </label>
         <br /><br />
+        <Link to="/reset-password" style={{color: "black"}}>Forgot your password?</Link>
+        <br /><br />
         {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In" className="primary-button">Sign In</button>}
         <br /><br />
       </form>
       {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
       <p>Don't have an account?</p>
-      <Link to="/register">Register on Katalogize</Link>
+      <Link to="/register" style={{color: "black"}}>Register on Katalogize</Link>
     </div>
   );
 }

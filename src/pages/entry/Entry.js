@@ -69,7 +69,7 @@ function Entry() {
       <div>
         <span onClick={() => sendInfo()}><img src={logo} className="entry-logo" alt="logo"/></span>
         <p>
-          Catalog anything you need, however you want!
+          Catalog anything you want, however you need!
         </p>
         <div style={{margin: 50}}><Link to="/login" className="primary-button entry-button"><span>Get Started</span></Link></div>
       </div>
