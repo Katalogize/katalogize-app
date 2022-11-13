@@ -6,7 +6,8 @@ import { logOut } from "../../store/userSlice";
 import { gql, useMutation } from '@apollo/client';
 import { FaUserAlt } from "react-icons/fa";
 import { IoExitOutline } from "react-icons/io5";
-import { IoMdHelp } from "react-icons/io";
+// import { IoMdHelp } from "react-icons/io";
+import { MdOutlineComputer } from "react-icons/md";
 import { GCS_API } from "../../utils/constants";
 import { useState } from "react";
 
@@ -70,13 +71,16 @@ function Header() {
             </div>
             <div style={{textAlign: "center"}}>
               <div className="header-user-options-list">
-                <div className="header-user-option">
+                <div>
                   <Link to={`/${username}`} className="header-button header-user-option" onClick={() => {setShowOptions(false)}}><FaUserAlt />&nbsp;My Profile</Link>
                 </div>
-                <div className="header-user-option">
+                {/* <div>
                   <Link to={`/home`} className="header-button header-user-option" onClick={() => {setShowOptions(false)}}><IoMdHelp />&nbsp;Help</Link>
+                </div> */}
+                <div>
+                  <a href="https://api.katalogize.com" target="_blank" rel="noreferrer" className="header-button header-user-option" onClick={() => {setShowOptions(false)}}><MdOutlineComputer />&nbsp;Katalogize API</a>
                 </div>
-                <div className="header-user-option">
+                <div>
                   <Link to={`/`} className="header-button header-user-option" onClick={() => {handleLogOut(); setShowOptions(false)}}><IoExitOutline />&nbsp;Log Out</Link>
                 </div>
               </div>
