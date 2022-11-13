@@ -1,5 +1,5 @@
 import "./Header.scss";
-import logo from '../../assets/img/logo/logo_black_medium.svg';
+import logo from '../../assets/img/logo/logo_header.svg';
 import {Link,  useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/userSlice";
