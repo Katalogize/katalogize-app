@@ -101,6 +101,17 @@
     opacity: .5;
 }
 
+.header-user-options-main-info {
+    text-align: center;
+    cursor: pointer;
+
+    &:hover{
+        .color-blue {
+            color: #01202b;
+        }
+    }
+}
+
 .header-user-options-picture-container {
     width: 100px;
     height: 100px;
@@ -122,6 +133,10 @@
     display: flex;
     align-items: center;
     width: 100%;
+
+    &:hover{
+        color: #01202b;;
+    }
 }
 
 .header-user-options-list {

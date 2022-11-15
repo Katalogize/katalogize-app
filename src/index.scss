@@ -13,3 +13,24 @@
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
       monospace;
 }
+
+.form-container {
+  background: #e8f5f5;
+  font-size: 16px;
+  padding: 50px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  max-width: 450px;
+
+  .form-title {
+    margin-top: 0px;
+  }
+  
+  .form-error {
+    color: red;
+  }
+  
+  .form-data {
+    margin-top: 15px;
+  }
+}

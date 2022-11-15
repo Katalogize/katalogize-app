@@ -47,11 +47,11 @@ function SignUp() {
   };
 
   return (
-    <div className="signin-container">
+    <div className="form-container">
       <img src={logo} alt="logo"/>
-      <h1 className="signin-title">Register an acount</h1>
-      <label className="signin-error">{errorMessage}</label>
-      <form className="signin-form" onSubmit={handleSubmit} style={{textAlign: "right"}}>
+      <h1 className="form-title">Register an acount</h1>
+      <label className="form-error">{errorMessage}</label>
+      <form className="form-data" onSubmit={handleSubmit} style={{textAlign: "right"}}>
         <label>Display Name: 
           <input 
             type="text" 
@@ -94,7 +94,7 @@ function SignUp() {
       </form>
       {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
       <p>Already an account?</p>
-      <Link to="/login">Log in</Link>
+      <Link to="/login" style={{color: "black"}}>Log in</Link>
     </div>
   );
 }

@@ -14,12 +14,24 @@ export const userSlice = createSlice({
     initialState: initialState,
     reducers: {
         update(state, action) {
-            state.displayName = action.payload.displayName;
-            state.userId = action.payload.userId;
-            state.username = action.payload.username;
-            state.isLogged = action.payload.isLogged;
-            state.isAdmin = action.payload.isAdmin;
-            state.picture = action.payload.picture;
+            if (action.payload.displayName != null) {
+                state.displayName = action.payload.displayName;
+            }
+            if (action.payload.userId != null) {
+                state.userId = action.payload.userId;
+            } 
+            if (action.payload.username != null) {
+                state.username = action.payload.username;
+            }
+            if (action.payload.username != null) {
+                state.isLogged = action.payload.isLogged;
+            }
+            if (action.payload.isAdmin != null) {
+                state.isAdmin = action.payload.isAdmin;
+            }
+            if (action.payload.picture != null) {
+                state.picture = action.payload.picture;
+            }
         },
         logOut: state => {
             state.displayName = null;

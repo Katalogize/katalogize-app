@@ -22,6 +22,7 @@ import CatalogItem from './pages/CatalogItem/CatalogItem';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, Zoom } from 'react-toastify';
 import ResetPassword from './pages/ResetPassword/ResetPassword';
+import Settings from './pages/Settings/Settings';
 
 const GET_USERINFO = gql`
   query {
@@ -104,6 +105,7 @@ function App() {
               <Route path='/register' element={<SignUp />}/>
               <Route path='/reset-password' element={<ResetPassword />}/>
               <Route path='/home' element={<Home />}/>
+              <Route path='/settings' element={<Settings />}/>
               <Route path='/create-katalog' element={<CreateCatalog />}/>
               <Route path='/:username' element={<Profile />}/>
               <Route path='/:username/:catalogname' element={<Catalog />}/>

@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../store/userSlice";
 import { gql, useMutation } from '@apollo/client';
 import { FaUserAlt } from "react-icons/fa";
-import { IoExitOutline } from "react-icons/io5";
-// import { IoMdHelp } from "react-icons/io";
+import { IoExitOutline, IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineComputer } from "react-icons/md";
 import { GCS_API } from "../../utils/constants";
 import { useState } from "react";
@@ -57,7 +56,7 @@ function Header() {
         <div className="header-user-options-container">
           <div className="header-user-options-background" onClick={() => {setShowOptions(false)}} />
           <div className="header-user-options">
-            <div style={{textAlign: "center", cursor: "pointer"}} onClick={() => {navigate(`/${username}`); setShowOptions(false)}}>
+            <div className="header-user-options-main-info" onClick={() => {navigate(`/${username}`); setShowOptions(false)}}>
               <div style={{display:"flex", placeContent: "center"}}>
                 <div className="header-user-options-picture-container">
                   {picture !== null 
@@ -74,11 +73,11 @@ function Header() {
                 <div>
                   <Link to={`/${username}`} className="header-button header-user-option" onClick={() => {setShowOptions(false)}}><FaUserAlt />&nbsp;My Profile</Link>
                 </div>
-                {/* <div>
-                  <Link to={`/home`} className="header-button header-user-option" onClick={() => {setShowOptions(false)}}><IoMdHelp />&nbsp;Help</Link>
-                </div> */}
                 <div>
                   <a href="https://api.katalogize.com" target="_blank" rel="noreferrer" className="header-button header-user-option" onClick={() => {setShowOptions(false)}}><MdOutlineComputer />&nbsp;Katalogize API</a>
+                </div>
+                <div>
+                  <Link to={`/settings`} className="header-button header-user-option" onClick={() => {setShowOptions(false)}}><IoSettingsOutline />&nbsp;Settings</Link>
                 </div>
                 <div>
                   <Link to={`/`} className="header-button header-user-option" onClick={() => {handleLogOut(); setShowOptions(false)}}><IoExitOutline />&nbsp;Log Out</Link>

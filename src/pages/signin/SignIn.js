@@ -54,11 +54,11 @@ function SignIn() {
   };
 
   return (
-    <div className="signin-container">
+    <div className="form-container">
       <img src={logo} alt="logo"/>
-      <h1 className="signin-title">Log in to your acount</h1>
-      <label className="signin-error">{errorMessage}</label>
-      <form className="signin-form" onSubmit={handleSubmit}>
+      <h1 className="form-title">Log in to your acount</h1>
+      <label className="form-error">{errorMessage}</label>
+      <form className="form-data" onSubmit={handleSubmit}>
         <label>Username: &nbsp;
           <input 
             type="text" 

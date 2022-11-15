@@ -36,13 +36,13 @@ function ResetPassword() {
   };
 
   return (
-    <div className="signin-container">
+    <div className="form-container">
       <img src={logo} alt="logo"/>
-      <h1 className="signin-title">Reset your password</h1>
+      <h1 className="form-title">Reset your password</h1>
       <label>Type your email and we will send you the instructions on how to recover your password.</label>
       <br />
-      <label className="signin-error">{errorMessage}</label>
-      <form className="signin-form" onSubmit={handleSubmit}>
+      <label className="form-error">{errorMessage}</label>
+      <form className="form-data" onSubmit={handleSubmit}>
         <label>Email: &nbsp;
           <input 
             type="text" 

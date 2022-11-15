@@ -108,7 +108,10 @@ function Profile() {
   const {username} = useParams();
   const loggedUsername = useSelector(state => state.user.username);
   const { loading, error, data } = useQuery(USER, {
-    variables: {username: username}
+    variables: {username: username},
+    onCompleted(data) {
+      setPicture(data.getUserByUsername?.picture);
+    }
   }, 
   {fetchPolicy: 'network-only'});
 
@@ -119,7 +122,6 @@ function Profile() {
   const [uploadPicture] = useMutation(UPLOAD_PICTURE);
   const [deletePicture] = useMutation(DELETE_PICTURE);
   const [profilePicture, setProfilePicture] = useState(null);
-  const [isUserLoaded, setIsUserLoaded] = useState(false);
   const dispatch = useDispatch();
 
   const removePicture = () => {
@@ -174,7 +176,9 @@ function Profile() {
 
   function setPicture(relativePath) {
     console.log(relativePath);
-    dispatch(updatePicture({picture: relativePath}))
+    if (username === loggedUsername) {
+      dispatch(updatePicture({picture: relativePath}));
+    }
     if (relativePath) {
       setProfilePicture(GCS_API + relativePath);
     } else {
@@ -182,10 +186,6 @@ function Profile() {
     }
   }
 
-  if (profilePicture === null && data.getUserByUsername?.picture !== null && isUserLoaded === false) {
-    setIsUserLoaded(true);
-    setPicture(data.getUserByUsername?.picture);
-  }
   return (
     <div>
       <div className="profile-picture-container">
