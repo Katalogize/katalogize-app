@@ -6,11 +6,11 @@ function ConfirmationPopUp(props) {
 
 
   return (
-    <div id="popup-confirmation">
+    <div id="popup">
       {props.showPopUp === true ?
       <div className="popup-background">
         <div className="popup-container">
-          <div className="popup">
+          <div className="popup-info">
             <button className="popup-close-button" title="Close" onClick={() => props.close()}><AiOutlineClose /></button>
             <h1 className="title">{props.title}</h1>
             <p>{props.text}</p>

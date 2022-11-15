@@ -6,12 +6,15 @@ import { IoImagesOutline } from "react-icons/io5";
 import DescriptionTemplate from "../../components/templates/DescriptionTemplate/DescriptionTemplate";
 import NumberTemplate from "../../components/templates/NumberTemplate/NumberTemplate";
 import { TemplateModels, TemplateType } from "../../components/templates/TemplateModels";
+import { BsHouseDoor } from "react-icons/bs";
 import { VscLock } from "react-icons/vsc";
 import { gql, useMutation } from '@apollo/client';
 import { useNavigate} from "react-router-dom";
 import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
 import ReactTooltip from "react-tooltip";
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SAVE_CATALOG_AND_TEMPLATE = gql`
   mutation SaveCatalogAndTemplate($catalog: CatalogInput, $catalogTemplate: CatalogTemplateInput) {
@@ -101,6 +104,7 @@ function CreateCatalog() {
   const [error, setError] = useState('');
   const [catalogFields, setCatalogFields] = useState([]);
   const [saveCatalog] = useMutation(SAVE_CATALOG_AND_TEMPLATE);
+  const username = useSelector(state => state.user.username);
   const navigate = useNavigate();
 
   const handleAddField = (option) => {
@@ -147,6 +151,13 @@ function CreateCatalog() {
   return (
     <div className="createcatalog">
       <ReactTooltip place="bottom" id="createcatalog-locked-field" effect="solid" />
+      <div className="breadcrumbs">
+        <Link to={`/`}><BsHouseDoor /></Link>
+        <span>{' > '}</span>
+        <Link to={`/${username}`}>{username}</Link>
+        <span>{' > '}</span>
+        <span>Create Katalog</span>
+      </div>
       <div className="createcatalog-info">
         <h3 className="title">Create new Katalog</h3>
         <input className="title createcatalog-name line-input" placeholder="Katalog Name" onChange={event => setCatalogName(event.target.value)}/>

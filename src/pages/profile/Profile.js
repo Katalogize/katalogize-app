@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { HiOutlinePencil } from "react-icons/hi";
+// import { BsHouseDoor } from "react-icons/bs";
 import { useRef, useState } from "react";
 import { GCS_API } from "../../utils/constants";
 import { toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
@@ -129,7 +130,6 @@ function Profile() {
     deletePicture({
       onCompleted(data) {
         toastUpdateSuccess(id, "Picture removed!");
-        console.log(data);
         setPicture(null);
       },
       onError(error) {
@@ -175,7 +175,6 @@ function Profile() {
   if (error) navigate("/notfound");
 
   function setPicture(relativePath) {
-    console.log(relativePath);
     if (username === loggedUsername) {
       dispatch(updatePicture({picture: relativePath}));
     }
@@ -188,6 +187,11 @@ function Profile() {
 
   return (
     <div>
+      {/* <div className="breadcrumbs">
+        <Link to={`/`}><BsHouseDoor /></Link>
+        <span>{' > '}</span>
+        <span>{username}</span>
+      </div> */}
       <div className="profile-picture-container">
         <div className="profile-picture-background">
           {loggedUsername === data.getUserByUsername?.username 

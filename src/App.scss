@@ -56,12 +56,68 @@
 .breadcrumbs{
   color: #262626;
   text-align: left;
-  font-size: 20px;
+  font-size: 18px;
+  opacity: .5;
+  cursor: default;
   
   a {
     color: #262626;
   }
+
+  @media (max-width: 900px) {
+    font-size: 12px;
+  }
 }
+
+//Pop ups
+.popup-info {
+  width: 26%;
+  min-width: 250px;
+  background-color: white;
+  padding: 25px;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.popup-action {
+  float: right;
+}
+
+.popup-background {
+  position: fixed;
+  background-color: #00000079;
+  width: 100%;
+  height: 150%;
+  // transform: scale(1.5, 1.5);
+  transform: translate(-5%, -25%);
+  z-index: 10;
+}
+
+.popup-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  place-content: center;
+}
+
+
+.popup-critical-action {
+  background-color: #E44848 !important;
+}
+
+.popup-close-button {
+  float: right;
+  background-color: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.popup-message {
+  text-align: right;
+}
+
 
 .title {
   text-align: left;

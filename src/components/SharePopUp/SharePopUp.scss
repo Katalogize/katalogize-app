@@ -1,0 +1,19 @@
+.share-user {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.share-user-email {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+.share-users-container {
+    max-height: 350px;
+    overflow: auto;
+}

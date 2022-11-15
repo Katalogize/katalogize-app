@@ -3,17 +3,18 @@ import { useQuery, useMutation, gql } from '@apollo/client';
 import {Link, useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { RiUser3Fill } from "react-icons/ri";
-// import { BsShare } from "react-icons/bs";
+import { BsShare } from "react-icons/bs";
 import { MdContentCopy } from "react-icons/md";
+import { BsHouseDoor } from "react-icons/bs";
 import { BiAddToQueue } from "react-icons/bi"
 import { AiOutlineDelete } from "react-icons/ai"
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { GCS_API } from "../../utils/constants";
 import logo_k from '../../assets/img/logo/logo_k.svg';
 import ReactTooltip from 'react-tooltip';
 import { toastInfo, toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
+import SharePopUp from "../../components/SharePopUp/SharePopUp";
 
 const CATALOG = gql`
   query GetCatalogByUsernameAndCatalogName ($username: String!, $catalogName: String!){
@@ -22,6 +23,7 @@ const CATALOG = gql`
       name,
       description,
       isPrivate,
+      userPermission,
       user {
           id,
           username
@@ -82,12 +84,12 @@ function Items(props) {
 }
 
 function Catalog() {
-  const loggedUsername = useSelector(state => state.user.username);
   const navigate = useNavigate();
   const {username} = useParams();
   const {catalogname} = useParams();
 
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
+  const [showSharePopUp, setShowSharePopUp] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const [deleteCatalog] = useMutation(DELETE_CATALOG);
@@ -129,22 +131,23 @@ function Catalog() {
         confirmed={() => {handleDeleteCatalog()}}
         close={() => {setShowDeletePopUp(false); setDeleteError("")}}
       />
-      {/* <div className="breadcrumbs">
-        <Link to={`/`}>Home</Link>
+      <SharePopUp showPopUp={showSharePopUp} close={() => {setShowSharePopUp(false)}}/>
+      <div className="breadcrumbs">
+        <Link to={`/`}><BsHouseDoor /></Link>
         <span>{' > '}</span>
         <Link to={`/${username}`}>{username}</Link>
         <span>{' > '}</span>
         <span>{catalogname}</span>
-      </div> */}
+      </div>
       <div className="catalog-header">
         <h1 className="title catalog-name">{catalogname}</h1>
         <div className="catalog-actions-container">
           <div className="catalog-actions">
-            {loggedUsername === username ? <BiAddToQueue className="catalog-actions-item remove-outline" data-tip="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
+            {data.getCatalogByUsernameAndCatalogName.userPermission >= 2 ? <BiAddToQueue className="catalog-actions-item remove-outline" data-tip="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
             <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toastInfo("Link Copied!");}} />
-            {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
+            {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ?<BsShare className="catalog-actions-item" data-tip="Share Katalog" onClick={() => {setShowSharePopUp(true)}} /> : null}
             {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}
-            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Katalog" onClick={() => setShowDeletePopUp(true)} /> : null}
+            {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Katalog" onClick={() => setShowDeletePopUp(true)} /> : null}
             <ReactTooltip place="bottom" effect="solid" />
           </div>
         </div>

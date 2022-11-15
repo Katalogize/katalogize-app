@@ -10,6 +10,7 @@ import { TemplateModels, TemplateType, TemplateTypeName } from "../../components
 import { useState } from "react";
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { HiOutlinePencil } from "react-icons/hi";
+import { BsHouseDoor } from "react-icons/bs";
 // import { BsShare } from "react-icons/bs";
 import { MdContentCopy } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -238,8 +239,17 @@ function CatalogItem() {
         errorMessage={deleteError}
         action="Delete Item" isCriticalAction={true} showPopUp={showDeletePopUp}
         confirmed={() => {handleDeleteItem()}}
-        close={() => {setShowDeletePopUp(false); setDeleteError("")}} />
-
+        close={() => {setShowDeletePopUp(false); setDeleteError("")}} 
+      />
+      <div className="breadcrumbs">
+        <Link to={`/`}><BsHouseDoor /></Link>
+        <span>{' > '}</span>
+        <Link to={`/${username}`}>{username}</Link>
+        <span>{' > '}</span>
+        <Link to={`/${username}/${catalogname}`}>{catalogname}</Link>
+        <span>{' > '}</span>
+        <span>{itemname==="create-item" ? "Create Item" : itemname}</span>
+      </div>
       {viewMode === TemplateModels.EditValue || viewMode === TemplateModels.CreateValue ?
         <div className="catalogitem-header">
           <input className="title createcatalog-name line-input" placeholder="Item Name" defaultValue={itemName} onChange={event => { itemName = event.target.value}} />
