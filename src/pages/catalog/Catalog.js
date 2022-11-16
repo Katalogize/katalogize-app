@@ -23,6 +23,7 @@ const CATALOG = gql`
       name,
       description,
       isPrivate,
+      generalPermission,
       userPermission,
       user {
           id,
@@ -120,6 +121,10 @@ function Catalog() {
     });
   };
 
+  const updateGeneralPermission = (value) => {
+    data.getCatalogByUsernameAndCatalogName.generalPermission = value;
+  };
+
   return (
     <div className="catalog">
       <ConfirmationPopUp 
@@ -131,7 +136,15 @@ function Catalog() {
         confirmed={() => {handleDeleteCatalog()}}
         close={() => {setShowDeletePopUp(false); setDeleteError("")}}
       />
-      <SharePopUp showPopUp={showSharePopUp} close={() => {setShowSharePopUp(false)}}/>
+      {data.getCatalogByUsernameAndCatalogName.userPermission === 3 
+      ? <SharePopUp 
+          showPopUp={showSharePopUp} 
+          catalogId={data.getCatalogByUsernameAndCatalogName.id} 
+          generalPermission={data.getCatalogByUsernameAndCatalogName.generalPermission}
+          updateGeneralPermission={updateGeneralPermission}
+          close={() => {setShowSharePopUp(false)}}
+        />
+      : null }
       <div className="breadcrumbs">
         <Link to={`/`}><BsHouseDoor /></Link>
         <span>{' > '}</span>
@@ -145,7 +158,7 @@ function Catalog() {
           <div className="catalog-actions">
             {data.getCatalogByUsernameAndCatalogName.userPermission >= 2 ? <BiAddToQueue className="catalog-actions-item remove-outline" data-tip="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
             <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toastInfo("Link Copied!");}} />
-            {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ?<BsShare className="catalog-actions-item" data-tip="Share Katalog" onClick={() => {setShowSharePopUp(true)}} /> : null}
+            {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ?<BsShare className="catalog-actions-item remove-outline" data-tip="Share Katalog" onClick={() => {setShowSharePopUp(true)}} /> : null}
             {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}
             {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Katalog" onClick={() => setShowDeletePopUp(true)} /> : null}
             <ReactTooltip place="bottom" effect="solid" />
