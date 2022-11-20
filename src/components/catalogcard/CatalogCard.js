@@ -15,7 +15,7 @@ function CatalogCard(props) {
         <div className="catalogcard-info">
           <div>
             <b>{catalogData.name}</b>
-            {catalogData.isPrivate ? <VscLock className="catalogcard-lock" /> : <></>}
+            {catalogData.generalPermission === 0 ? <span>&nbsp;<VscLock className="catalogcard-lock" /></span> : null}
           </div>
           <div className="catalogcard-description">
             <span>{catalogData.description.substring(0, 60)}{catalogData.description.length>60 ? '...' : null}</span>

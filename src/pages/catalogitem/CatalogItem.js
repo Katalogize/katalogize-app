@@ -11,10 +11,8 @@ import { useState } from "react";
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { HiOutlinePencil } from "react-icons/hi";
 import { BsHouseDoor } from "react-icons/bs";
-// import { BsShare } from "react-icons/bs";
 import { MdContentCopy } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
-import { useSelector } from "react-redux";
 import ImageTemplate from "../../components/templates/ImageTemplate/ImageTemplate";
 import ReactTooltip from "react-tooltip";
 import { toastInfo, toastLoading, toastUpdateError, toastUpdateSuccess } from "../../utils/ToastService";
@@ -25,6 +23,7 @@ const CATALOG_ITEM = gql`
       id,
       name,
       catalogId,
+      userPermission,
       template {
         id,
         name
@@ -105,7 +104,6 @@ function ItemTemplates (props) {
 }
 
 function CatalogItem() {
-  const loggedUsername = useSelector(state => state.user.username);
   const navigate = useNavigate();
   const {username} = useParams();
   const {catalogname} = useParams();
@@ -259,10 +257,10 @@ function CatalogItem() {
         <h1 className="title catalog-name">{itemname}</h1>
         <div className="catalog-actions-container">
           <div className="catalog-actions">
-            {loggedUsername === username ? <HiOutlinePencil className="catalog-actions-item remove-outline" data-tip="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}} /> : null}
+            {data?.getCatalogItem?.userPermission >= 2 ? <HiOutlinePencil className="catalog-actions-item remove-outline" data-tip="Edit" onClick={() => {setViewMode(TemplateModels.EditValue)}} /> : null}
             <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toastInfo("Link Copied!")}} />
             {/* <BsShare className="catalog-actions-item" title="Share" onClick={() => {navigator.clipboard.writeText(window.location)}} /> */}
-            {loggedUsername === username ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Item" onClick={() => setShowDeletePopUp(true)} /> : null}
+            {data?.getCatalogItem?.userPermission >= 2 ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Item" onClick={() => setShowDeletePopUp(true)} /> : null}
             <ReactTooltip place="bottom" effect="solid" />
           </div>
         </div>

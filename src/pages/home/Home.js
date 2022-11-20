@@ -10,7 +10,23 @@ const USER_CATALOGS = gql`
       id,
       name,
       description,
-      isPrivate,
+      generalPermission,
+      user {
+        id,
+        displayName,
+        username
+      }
+    }
+  }
+`;
+
+const SHARED_CATALOGS = gql`
+  query GetSharedCatalogsByLoggedUser {
+    getSharedCatalogsByLoggedUser{
+      id,
+      name,
+      description,
+      generalPermission,
       user {
         id,
         displayName,
@@ -26,7 +42,7 @@ const OFFICIAL_CATALOGS = gql`
       id,
       name,
       description,
-      isPrivate,
+      generalPermission,
       user {
         id,
         displayName,
@@ -42,7 +58,7 @@ const PUBLIC_CATALOGS = gql`
       id,
       name,
       description,
-      isPrivate,
+      generalPermission,
       user {
         id,
         displayName,
@@ -59,9 +75,28 @@ function UserCatalogs() {
   if (loading) return <p style={{alignSelf: 'center'}}>Loading...</p>;
   if (error) return <p style={{alignSelf: 'center'}}>Could not load Katalogs.</p>;
 
-  return data.getAllCatalogsByLoggedUser.map(({ id, name, description, user, isPrivate }) => (
-    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
+  return data.getAllCatalogsByLoggedUser.map(({ id, name, description, user, generalPermission }) => (
+    <CatalogCard key={id} catalogData={{name, description, user, generalPermission}}></CatalogCard>
   ));
+}
+
+function SharedCatalogs() {
+  const { loading, error, data } = useQuery(SHARED_CATALOGS);
+
+  if (loading) return null;
+  if (error) return <p style={{alignSelf: 'center'}}>Could not load shared Katalogs.</p>;
+  if (data.getSharedCatalogsByLoggedUser.length === 0) return null;
+
+  return (
+    <div>
+      <h1 className="title title-list">Shared with you</h1>
+      <div className="catalogs-list">
+        {data.getSharedCatalogsByLoggedUser.map(({ id, name, description, user, generalPermission }) => (
+          <CatalogCard key={id} catalogData={{name, description, user, generalPermission}}></CatalogCard>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function OfficialCatalogs() {
@@ -70,8 +105,8 @@ function OfficialCatalogs() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p style={{whiteSpace: "nowrap", margin: 20}}>Could not load Katalogs, please come back later.</p>;
 
-  return data.getOfficialCatalogs.map(({ id, name, description, user, isPrivate }) => (
-    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
+  return data.getOfficialCatalogs.map(({ id, name, description, user }) => (
+    <CatalogCard key={id} catalogData={{name, description, user }}></CatalogCard>
   ));
 }
 
@@ -81,8 +116,8 @@ function PublicCatalogs() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  return data.getAllCatalogs.map(({ id, name, description, user, isPrivate }) => (
-    <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
+  return data.getAllCatalogs.map(({ id, name, description, user, generalPermission }) => (
+    <CatalogCard key={id} catalogData={{name, description, user, generalPermission }}></CatalogCard>
   ));
 }
 
@@ -100,18 +135,19 @@ function Home() {
             <span>+ New Katalog</span>
           </Link>
         </div>
-        <UserCatalogs></UserCatalogs>
+        <UserCatalogs />
       </div>
+      <SharedCatalogs />
       <h1 className="title title-list">Official Katalogs</h1>
       <div className="catalogs-list">
-        <OfficialCatalogs></OfficialCatalogs>
+        <OfficialCatalogs />
       </div>
       {isAdmin 
         ?<div>
           <h1 className="title title-list" style={{marginBottom: 0}}>All Katalogs</h1>
           <p className="title title-list" style={{marginTop: 0}}>Admin Only</p>
           <div className="catalogs-list">
-            <PublicCatalogs></PublicCatalogs>
+            <PublicCatalogs />
           </div>
         </div>
         : null

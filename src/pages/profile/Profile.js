@@ -19,7 +19,7 @@ const USER_CATALOGS = gql`
       id,
       name,
       description,
-      isPrivate,
+      generalPermission,
       user {
         id,
         displayName
@@ -97,8 +97,8 @@ function UserCatalogs() {
           </div>
           : <span style={{display: 'none'}}></span>
         }
-        {data.getCatalogsByUsername.map(({ id, name, description, user, isPrivate }) => (
-          <CatalogCard key={id} catalogData={{name, description, user, isPrivate}}></CatalogCard>
+        {data.getCatalogsByUsername.map(({ id, name, description, user, generalPermission }) => (
+          <CatalogCard key={id} catalogData={{name, description, user, generalPermission }}></CatalogCard>
         ))}
       </div>
     }

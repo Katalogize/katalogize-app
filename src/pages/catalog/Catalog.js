@@ -8,6 +8,7 @@ import { MdContentCopy } from "react-icons/md";
 import { BsHouseDoor } from "react-icons/bs";
 import { BiAddToQueue } from "react-icons/bi"
 import { AiOutlineDelete } from "react-icons/ai"
+import { IoPersonRemoveOutline } from "react-icons/io5"
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { useState } from "react";
 import { GCS_API } from "../../utils/constants";
@@ -22,9 +23,9 @@ const CATALOG = gql`
       id,
       name,
       description,
-      isPrivate,
       generalPermission,
       userPermission,
+      isShared,
       user {
           id,
           username
@@ -32,7 +33,7 @@ const CATALOG = gql`
       items{
           id,
           name,
-          creationDate,
+          modifiedDate,
           fields {
             ... on ItemFieldImage {
               imageValue: value {
@@ -53,6 +54,12 @@ const DELETE_CATALOG = gql`
   }
 `;
 
+const LEAVE_CATALOG = gql`
+  mutation LeaveCatalog($catalogId: ID!) {
+    leaveCatalog (catalogId: $catalogId)
+  }
+`;
+
 function Items(props) {
   const navigate = useNavigate();
   const {username} = useParams();
@@ -63,7 +70,7 @@ function Items(props) {
   } 
 
 
-  return props.items.map(({ id, name, creationDate, fields }) => {
+  return props.items.map(({ id, name, modifiedDate, fields }) => {
     let imageValue = fields.find(field => field?.imageValue !== undefined && field?.imageValue !== null)?.imageValue;
     return(
       <tr key={id} onClick={()=> handleRowClick(name)}>
@@ -75,8 +82,8 @@ function Items(props) {
         }
         <td colSpan={2}>{name}</td>
         <td className="catalog-table-last">
-          {new Date(creationDate).getUTCFullYear()+'/'+new Date(creationDate).getUTCMonth()+'/'+new Date(creationDate).getUTCDate()+
-            ' - ' + new Date(creationDate).getUTCHours() +':'+new Date(creationDate).getUTCMinutes() +' UTC'}
+          {new Date(modifiedDate).getUTCFullYear()+'/'+new Date(modifiedDate).getUTCMonth()+'/'+new Date(modifiedDate).getUTCDate()+
+            ' - ' + new Date(modifiedDate).getUTCHours() +':'+new Date(modifiedDate).getUTCMinutes() +' UTC'}
         </td>
         {/* <td>{id}</td> */}
     </tr>
@@ -89,11 +96,17 @@ function Catalog() {
   const {username} = useParams();
   const {catalogname} = useParams();
 
-  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showSharePopUp, setShowSharePopUp] = useState(false);
+
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const [deleteError, setDeleteError] = useState("");
   const [deleteCatalog] = useMutation(DELETE_CATALOG);
+
+  const [showLeavePopUp, setShowLeavePopUp] = useState(false);
+  const [isLeaveLoading, setIsLeaveLoading] = useState(false);
+  const [leaveError, setLeaveError] = useState("");
+  const [leaveCatalog] = useMutation(LEAVE_CATALOG);
   
   const { loading, error, data } = useQuery(CATALOG, {
     variables: {username: username, catalogName: catalogname}
@@ -121,6 +134,25 @@ function Catalog() {
     });
   };
 
+  const handleLeaveCatalog = async() => {
+    setIsLeaveLoading(true);
+    const id = toastLoading("Leaving Katalog...");
+    leaveCatalog({ 
+      variables: { catalogId: data.getCatalogByUsernameAndCatalogName.id },
+      onCompleted(data) {
+        toastUpdateSuccess(id, "Katalog Left!");
+        setIsLeaveLoading(false);
+        setShowLeavePopUp(false);
+        navigate(`/home`);
+      },
+      onError(error) {
+        toastUpdateError(id, "Error while leaving Katalog. " + error.message);
+        setIsLeaveLoading(false);
+        setLeaveError(error.message);
+      }
+    });
+  };
+
   const updateGeneralPermission = (value) => {
     data.getCatalogByUsernameAndCatalogName.generalPermission = value;
   };
@@ -135,6 +167,15 @@ function Catalog() {
         action="Delete Katalog" isCriticalAction={true} showPopUp={showDeletePopUp} 
         confirmed={() => {handleDeleteCatalog()}}
         close={() => {setShowDeletePopUp(false); setDeleteError("")}}
+      />
+      <ConfirmationPopUp 
+        title="Leave Katalog" 
+        text="By leaving this Katalog, you will lose direct access and specific permissions assigned to your user. Are you sure you want to leave this Katalog? " 
+        isLoading={isLeaveLoading}
+        errorMessage={leaveError}
+        action="Leave Katalog" isCriticalAction={true} showPopUp={showLeavePopUp} 
+        confirmed={() => {handleLeaveCatalog()}}
+        close={() => {setShowLeavePopUp(false); setLeaveError("")}}
       />
       {data.getCatalogByUsernameAndCatalogName.userPermission === 3 
       ? <SharePopUp 
@@ -161,6 +202,7 @@ function Catalog() {
             {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ?<BsShare className="catalog-actions-item remove-outline" data-tip="Share Katalog" onClick={() => {setShowSharePopUp(true)}} /> : null}
             {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}
             {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ? <AiOutlineDelete className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Delete Katalog" onClick={() => setShowDeletePopUp(true)} /> : null}
+            {data.getCatalogByUsernameAndCatalogName.isShared === true ? <IoPersonRemoveOutline className="catalog-actions-item catalog-actions-delete remove-outline" data-tip="Leave Katalog" onClick={() => setShowLeavePopUp(true)} /> : null}
             <ReactTooltip place="bottom" effect="solid" />
           </div>
         </div>
@@ -173,6 +215,10 @@ function Catalog() {
           <RiUser3Fill className="info-tags-icon" alt="user"/>
           <span>{username}</span>
         </Link>
+        {data.getCatalogByUsernameAndCatalogName.generalPermission === 2
+          ? <div><RiUser3Fill /> Public View</div>
+          : data.getCatalogByUsernameAndCatalogName.generalPermission === 1
+        }
       </div>
       <div className="catalog-table-container">
         <table className="catalog-table">

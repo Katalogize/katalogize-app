@@ -46,6 +46,7 @@
  .catalogcard-info {
     text-align: left;
     margin-left: 15px;
+    width: 100%;
 
     @media (max-width: 500px) {
       margin-left: 0px;
@@ -53,7 +54,7 @@
  }
 
  .catalogcard-lock {
-    float: right;
+   margin-bottom: -3px;
  }
 
  .catalogcard-image {

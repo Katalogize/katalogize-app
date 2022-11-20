@@ -77,7 +77,6 @@ function TemplateFields (props) {
   };
   
   const value = (value) => {
-    console.log(value);
     switch (value.fieldType) {
       case TemplateType.Description:
         return(<DescriptionTemplate key={`${value.fieldType}-${value.order}`} model={TemplateModels.Template} 
@@ -125,7 +124,6 @@ function CreateCatalog() {
     const catalog = {
       name: name,
       description: description,
-      isPrivate: false,
       userId: 'userId',
       templateIds: ['templateId']
     }
