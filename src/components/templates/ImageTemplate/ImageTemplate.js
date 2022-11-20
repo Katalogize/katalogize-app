@@ -20,7 +20,7 @@ function ImageTemplate(props) {
     data.forEach((el) => {
       updatedData.push({data: el.data ? el.data : null, path: el.path ? el.path : null});
     });
-    props.changeFieldData(updatedData, props.data.order);
+    props.changeFieldData(updatedData, props.data.id ? props.data.id : props.data.templateFieldId);
   }
 
   function addImage (event) {
@@ -45,7 +45,7 @@ function ImageTemplate(props) {
     let imageData = [...value];
     imageData.splice(index, 1);
     setValue(imageData);
-    props.changeFieldData(imageData, props.data.order);
+    props.changeFieldData(imageData, props.data.id ? props.data.id : props.data.templateFieldId);
   };
 
   function getImageUrlData(url, callback) {
@@ -119,7 +119,7 @@ function ImageTemplate(props) {
       </div>
       {props.model === TemplateModels.Template ? 
         <TemplateActions order={props.data.order} 
-          deleteField={props.deleteField} reorderField={props.reorderField}/>
+          deleteField={props.deleteField} reorderField={props.reorderField} isLocked={props.data.id ? true : false}/>
         :
           <span></span>
       }

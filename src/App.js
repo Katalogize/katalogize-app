@@ -109,6 +109,7 @@ function App() {
               <Route path='/create-katalog' element={<CreateCatalog />}/>
               <Route path='/:username' element={<Profile />}/>
               <Route path='/:username/:catalogname' element={<Catalog />}/>
+              <Route path='/:username/:catalogname/edit-katalog' element={<CreateCatalog />}/>
               <Route path='/:username/:catalogname/:itemname' element={<CatalogItem />}/>
               <Route path='/notfound' element={<NotFound />}/>
           </Routes>

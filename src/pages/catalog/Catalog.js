@@ -8,6 +8,7 @@ import { MdContentCopy } from "react-icons/md";
 import { BsHouseDoor } from "react-icons/bs";
 import { BiAddToQueue } from "react-icons/bi"
 import { AiOutlineDelete } from "react-icons/ai"
+import { HiOutlinePencil } from "react-icons/hi"
 import { IoPersonRemoveOutline } from "react-icons/io5"
 import ConfirmationPopUp from "../../components/ConfirmationPopUp/ConfirmationPopUp";
 import { useState } from "react";
@@ -198,6 +199,7 @@ function Catalog() {
         <div className="catalog-actions-container">
           <div className="catalog-actions">
             {data.getCatalogByUsernameAndCatalogName.userPermission >= 2 ? <BiAddToQueue className="catalog-actions-item remove-outline" data-tip="Create new item" onClick={() => {navigate(`/${username}/${catalogname}/create-item`)}} /> : null}
+            {data.getCatalogByUsernameAndCatalogName.userPermission >= 3 ? <HiOutlinePencil className="catalog-actions-item remove-outline" data-tip="Edit Katalog" onClick={() => {navigate(`/${username}/${catalogname}/edit-katalog`)}} /> : null}
             <MdContentCopy className="catalog-actions-item remove-outline" data-tip="Copy Link" onClick={() => {navigator.clipboard.writeText(window.location); toastInfo("Link Copied!");}} />
             {data.getCatalogByUsernameAndCatalogName.userPermission === 3 ?<BsShare className="catalog-actions-item remove-outline" data-tip="Share Katalog" onClick={() => {setShowSharePopUp(true)}} /> : null}
             {/* <HiOutlinePencil className="catalog-actions-item" title="Edit"></HiOutlinePencil> */}

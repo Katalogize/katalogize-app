@@ -47,7 +47,6 @@ function SharePopUp(props) {
   });
 
   function handleChangeGeneralPermission(permission) {
-    console.log(props.catalogId);
     const id = toastLoading("Updating permissions...");
     updateGeneralPermission({ 
       variables: { catalogId: props.catalogId, permission: permission },
@@ -62,7 +61,6 @@ function SharePopUp(props) {
   }
 
   function handleChangePermission(email, permission) {
-    console.log(email + " " + permission);
     const id = toastLoading("Updating permissions...");
     shareCatalog({ 
       variables: { catalogId: props.catalogId, email: email, permission: permission },

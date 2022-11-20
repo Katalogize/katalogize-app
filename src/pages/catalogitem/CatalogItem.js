@@ -31,17 +31,17 @@ const CATALOG_ITEM = gql`
       fields {
         fieldType: __typename
         ... on ItemFieldNumber {
-          order,
+          templateFieldId,
           name,
           numberValue: value
         }
         ... on ItemFieldString {
-          order,
+          templateFieldId,
           name,
           stringValue: value
         }
         ... on ItemFieldImage {
-          order,
+          templateFieldId,
           name,
           imageValue: value {
             path
@@ -61,6 +61,7 @@ const CATALOG_TEMPLATE = gql`
         id,
         name
         templateFields {
+          id,
           name,
           order,
           fieldType
@@ -188,16 +189,15 @@ function CatalogItem() {
     itemData.templateId = templateId;
     fields.forEach(field => {
       if (field.fieldType===TemplateTypeName.Description || field.fieldType === TemplateType.Description) {
-        itemData.stringFields.push({name: "", order: field.order, value: field.stringValue});
+        itemData.stringFields.push({name: "", templateFieldId: field.id ? field.id : field.templateFieldId, value: field.stringValue ? field.stringValue : ""});
       } else if (field.fieldType===TemplateTypeName.Number || field.fieldType === TemplateType.Number) {
-        itemData.numberFields.push({name: "", order: field.order, value: field.numberValue});
+        itemData.numberFields.push({name: "", templateFieldId: field.id ? field.id : field.templateFieldId, value: field.numberValue ? field.numberValue : 0});
       } else if (field.fieldType===TemplateTypeName.Image || field.fieldType === TemplateType.Image) {
         field.imageValue?.forEach(el => {delete el['__typename']});
-        itemData.imageFields.push({name: "", order: field.order, value: field.imageValue});
+        itemData.imageFields.push({name: "", templateFieldId: field.id ? field.id : field.templateFieldId, value: field.imageValue ? field.imageValue : []});
       }
     });
     itemName = data.name;
-    setItemData(itemData);
   };
 
   if ((!itemData.catalogId) && viewMode === TemplateModels.EditValue) {
@@ -208,24 +208,24 @@ function CatalogItem() {
     startCatalogItemObject(data.getCatalogByUsernameAndCatalogName,data.getCatalogByUsernameAndCatalogName.id, data.getCatalogByUsernameAndCatalogName.templates[0].templateFields, data.getCatalogByUsernameAndCatalogName.templates[0].id);
   }
 
-  const updateField = (fields, order, value) => {
-    let itemIndex = fields.findIndex(x => x.order === order);
+  const updateField = (fields, templateFieldId, value) => {
+    let itemIndex = fields.findIndex(x => x.templateFieldId === templateFieldId);
     if (itemIndex > -1) {
       fields[itemIndex].value = value;
       setItemData(itemData);
     }
   }
 
-  const updateFieldDataDescription = (value, order) => {
-    updateField (itemData.stringFields, order, value);
+  const updateFieldDataDescription = (value, templateFieldId) => {
+    updateField (itemData.stringFields, templateFieldId, value);
   };
 
-  const updateFieldDataNumber = (value, order) => {
-    updateField(itemData.numberFields, order, value);
+  const updateFieldDataNumber = (value, templateFieldId) => {
+    updateField(itemData.numberFields, templateFieldId, value ? value : 0);
   };
 
-  const updateFieldDataImage = (value, order) => {
-    updateField(itemData.imageFields, order, value);
+  const updateFieldDataImage = (value, templateFieldId) => {
+    updateField(itemData.imageFields, templateFieldId, value);
   };
 
   return (

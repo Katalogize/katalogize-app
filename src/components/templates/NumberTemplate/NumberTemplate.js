@@ -32,7 +32,7 @@ function NumberTemplate(props) {
             <span>{props.data.numberValue}</span>
           : props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue ?
             <input type="number" className="template-edit-data template-edit-number line-input" placeholder="Text data" 
-              value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>
+              value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.id ? props.data.id : props.data.templateFieldId)}}/>
           :
             <div className="template-locked-value" title="This will be an available field for all items in this Katalog">
               <span>Number field &nbsp; <TbNumbers className="template-locked-icon" /></span>
@@ -40,7 +40,7 @@ function NumberTemplate(props) {
         }
       </div>
       {props.model === TemplateModels.Template ? 
-        <TemplateActions order={props.data.order} deleteField={props.deleteField} reorderField={props.reorderField}/>
+        <TemplateActions order={props.data.order} deleteField={props.deleteField} reorderField={props.reorderField} isLocked={props.data.id ? true : false}/>
         :
           <span></span>
       }

@@ -33,7 +33,7 @@ function DescriptionTemplate(props) {
             <span>{props.data.stringValue}</span>
           : (props.model === TemplateModels.EditValue || props.model === TemplateModels.CreateValue) ?
             <input type="text" className="template-edit-data line-input" placeholder="Text data" 
-              value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.order)}}/>
+              value={value} onChange={event => {setValue(event.target.value); props.changeFieldData(event.target.value, props.data.id ? props.data.id : props.data.templateFieldId)}}/>
           :
             <div className="template-locked-value" title="This will be an available field for all items in this Katalog">
               <span>Text field &nbsp; <GrTextAlignLeft className="template-locked-icon" /></span>
@@ -42,7 +42,7 @@ function DescriptionTemplate(props) {
       </div>
       {props.model === TemplateModels.Template ? 
         <TemplateActions order={props.data.order} 
-          deleteField={props.deleteField} reorderField={props.reorderField}/>
+          deleteField={props.deleteField} reorderField={props.reorderField} isLocked={props.data.id ? true : false}/>
         :
           <span></span>
       }

@@ -6,6 +6,10 @@
 .catalog-header {
     display: flex;
     align-items: center;
+
+    @media (max-width: 900px) {
+        display: block;
+    }
 }
 
 .catalog-name {
@@ -16,22 +20,26 @@
     margin-left: 25px;
     display: flex;
     margin-top: 10px;
-    width: 20%;
-    min-width: 200px;
     text-align-last: right;
     justify-content: right;
 
+    @media (max-width: 900px) {
+        margin-left: 0px;
+        text-align-last: left;
+        justify-content: left;
+        margin-bottom: 30px;
+    }
+
     @media (max-width: 600px) {
-        min-width: 150px;
-        margin-left: 15px;
+        min-width: 182px;
     }
 }
 
 .catalog-actions {
+    display: flex;
     width: fit-content;
     border-radius: 10px;
     padding: 5px;
-    padding-bottom: 1px;
     border: 1px solid #034e78;
     color: #034e78;
 }
