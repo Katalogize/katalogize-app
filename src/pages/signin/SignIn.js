@@ -54,38 +54,40 @@ function SignIn() {
   };
 
   return (
-    <div className="form-container">
-      <img src={logo} alt="logo"/>
-      <h1 className="form-title">Log in to your acount</h1>
-      <label className="form-error">{errorMessage}</label>
-      <form className="form-data" onSubmit={handleSubmit}>
-        <label>Username: &nbsp;
-          <input 
-            type="text" 
-            value={username} 
-            onChange={e => setUsername(e.target.value)} 
-            required>
-          </input>
-        </label>
-        <br /><br />
-        <label>Password: &nbsp;
-          <input 
-            type="password" 
-            value={password} 
-            onChange={e => setPassword(e.target.value)}
-            autoComplete="off"
-            required>
-          </input>
-        </label>
-        <br /><br />
-        <Link to="/reset-password" style={{color: "black"}}>Forgot your password?</Link>
-        <br /><br />
-        {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In" className="primary-button">Sign In</button>}
-        <br /><br />
-      </form>
-      {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
-      <p>Don't have an account?</p>
-      <Link to="/register" style={{color: "black"}}>Register on Katalogize</Link>
+    <div className="form-center">
+      <div className="form-container">
+        <img src={logo} alt="logo"/>
+        <h1 className="form-title">Log in to your acount</h1>
+        <label className="form-error">{errorMessage}</label>
+        <form className="form-data" onSubmit={handleSubmit}>
+          <label>Username: &nbsp;
+            <input 
+              type="text" 
+              value={username} 
+              onChange={e => setUsername(e.target.value)} 
+              required>
+            </input>
+          </label>
+          <br /><br />
+          <label>Password: &nbsp;
+            <input 
+              type="password" 
+              value={password} 
+              onChange={e => setPassword(e.target.value)}
+              autoComplete="off"
+              required>
+            </input>
+          </label>
+          <br /><br />
+          <Link to="/reset-password" style={{color: "black"}}>Forgot your password?</Link>
+          <br /><br />
+          {isLoading ? <span>Signing In...</span> : <button type="submit" value="Sign In" className="primary-button">Sign In</button>}
+          <br /><br />
+        </form>
+        {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
+        <p>Don't have an account?</p>
+        <Link to="/register" style={{color: "black"}}>Register on Katalogize</Link>
+      </div>
     </div>
   );
 }

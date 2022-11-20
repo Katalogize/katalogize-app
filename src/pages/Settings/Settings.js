@@ -127,6 +127,7 @@ function Settings() {
   if (error) navigate("/notfound");
 
   return (
+    <div className="form-center">
     <div className="form-container">
       <h1 className="form-title">User Settings</h1>
       <label className="form-error">{errorMessage}</label>
@@ -185,6 +186,7 @@ function Settings() {
       {/* <a className="btn btn-block social-btn google" href={GOOGLE_AUTH_URL}>Log in with Google</a> */}
       <p>Need help?</p>
       <a href="mailto:katalogize@gmail.com" style={{color: "black"}}>Contact Us</a>
+    </div>
     </div>
   );
 }
