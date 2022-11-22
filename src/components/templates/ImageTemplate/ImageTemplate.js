@@ -119,7 +119,7 @@ function ImageTemplate(props) {
       </div>
       {props.model === TemplateModels.Template ? 
         <TemplateActions order={props.data.order} 
-          deleteField={props.deleteField} reorderField={props.reorderField} isLocked={props.data.id ? true : false}/>
+          deleteField={props.deleteField} reorderField={props.reorderField} isLocked={props.data.id!=='id' ? true : false}/>
         :
           <span></span>
       }

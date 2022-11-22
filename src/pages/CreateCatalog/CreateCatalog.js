@@ -129,6 +129,8 @@ function CreateCatalog() {
   const username = useSelector(state => state.user.username);
   const [templateLoaded, setTemplateLoaded] = useState(false);
   const navigate = useNavigate();
+  const [catalogId, setCatalogId] = useState ('id');
+  const [templateId, setTemplateId] = useState ('id');
 
   const [getCatalogTemplate, {loading}] = useLazyQuery(CATALOG_TEMPLATE, {
     fetchPolicy: 'network-only', 
@@ -136,12 +138,15 @@ function CreateCatalog() {
     onCompleted(data) {
       setCatalogName(data.getCatalogByUsernameAndCatalogName.name);
       setCatalogDescription(data.getCatalogByUsernameAndCatalogName.description);
+      setCatalogId(data.getCatalogByUsernameAndCatalogName.id);
+      setTemplateId(data.getCatalogByUsernameAndCatalogName?.templates[0].id);
       let fields = [];
       data.getCatalogByUsernameAndCatalogName?.templates[0].templateFields.forEach(element => {
         fields.push({order: element.order, name: element.name, fieldType: element.fieldType, id: element.id});
         //TODO: Redirect on error
       });
       handleUpdateFields(fields);
+      
       setTemplateLoaded(true);
     }
   });
@@ -171,14 +176,14 @@ function CreateCatalog() {
 
   const handleCreateCatalog = async(name, description, fields) => {
     const catalog = {
-      id: "id",
+      id: catalogId,
       name: name,
       description: description,
       userId: 'userId',
-      templateIds: ['templateId']
+      templateIds: [templateId]
     }
     const catalogTemplate = {
-      id: "id",
+      id: templateId,
       name: name + " Template",
       allowNewFields: false,
       templateFields: fields
