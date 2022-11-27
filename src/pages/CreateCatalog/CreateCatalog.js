@@ -261,7 +261,7 @@ function CreateCatalog() {
         </div>
         <span className="template-error-message">{error}</span>
         <div className="template-create-button">
-          <button className="button primary-button" onClick={() => handleCreateCatalog(catalogName, catalogDescription, catalogFields)}>Create Katalog</button>
+          <button className="button primary-button" onClick={() => handleCreateCatalog(catalogName, catalogDescription, catalogFields)}>Save Katalog</button>
         </div>
       </div>
     </div>
