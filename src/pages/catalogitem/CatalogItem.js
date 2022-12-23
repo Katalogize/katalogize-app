@@ -197,7 +197,6 @@ function CatalogItem() {
         itemData.imageFields.push({name: "", templateFieldId: field.id ? field.id : field.templateFieldId, value: field.imageValue ? field.imageValue : []});
       }
     });
-    itemName = data.name;
   };
 
   if ((!itemData.catalogId) && viewMode === TemplateModels.EditValue) {
