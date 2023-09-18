@@ -1,3 +1,9 @@
+# Katalogize
+
+Katalogize is an application to catalog anything you want, however you need! This repository contains the frontend made with React + Apollo.
+
+![KatalogizeGif](https://github.com/Katalogize/katalogize-app/assets/28049907/8750ddd6-1983-4d9b-b0e2-c0de0fac9c4e)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
